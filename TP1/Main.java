@@ -1,5 +1,3 @@
-import
-
 public class Main {
 
 }

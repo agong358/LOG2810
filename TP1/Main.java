@@ -35,7 +35,7 @@ public class Main {
                 // System.out.println(userInput);
             } while (userInput > 6);
 
-            System.out.print("Vous avez sélectionner l'option " + userInput + ": ");
+            System.out.print("Vous avez sélectionné l'option " + userInput + ": ");
 
             switch(userInput) {
                 case 1:

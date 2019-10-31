@@ -40,18 +40,11 @@ public class Graphe {
     /** TODO
      * Affiche la représentation du graphe sauvegardé en mémoire
      */
-    private void afficherGraphe(){}
+    private void afficherGraphe(){
 
-    /** TODO
-     * Permet à l’utilisateur de rentrer un nombre d'objets de chaque
-     * type que le robot devra aller chercher.
-     */
-    private void prendreCommande(){}
+    }
 
-    /** TODO
-     * Permet de voir la commande en mémoire.
-     */
-    private void afficherCommande(){}
+
 
     /** TODO
      * Affiche le type de robot utilisé, la liste des noeuds traversés,

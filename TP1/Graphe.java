@@ -1,6 +1,5 @@
+package LOG2810.TP1;
 
-
-import java.util.*;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -66,15 +65,15 @@ public class Graphe {
 
     private void quitter(){}
 
-    private void afficherInterface() {
-        System.out.println("Veuillez sélectionner une option");
-        System.out.println("[] Créer le graphe");
-        System.out.println("[] Afficher le graphe");
-        System.out.println("[] Prendre une commande");
-        System.out.println("[] Afficher la commande");
-        System.out.println("[] Trouver le plus court chemin");
-        System.out.println("[] Quitter");
-    }
+//    private void afficherInterface() {
+//        System.out.println("Veuillez sélectionner une option");
+//        System.out.println("[] Créer le graphe");
+//        System.out.println("[] Afficher le graphe");
+//        System.out.println("[] Prendre une commande");
+//        System.out.println("[] Afficher la commande");
+//        System.out.println("[] Trouver le plus court chemin");
+//        System.out.println("[] Quitter");
+//    }
 
     static class Voisin {
         int noeudVoisin;

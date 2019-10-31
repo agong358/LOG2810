@@ -17,24 +17,37 @@ public class Graphe {
      * que les chemins reliants ces sections entre elles à partir d'un fichier texte.
      */
     public void creerGraphe(String fichier){
-//        File file = new File(fichier);
-//        try {
-//            Scanner scan = new Scanner(file);
-//        }
-//        catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-        Scanner scan = new Scanner("0,0,0,0 \n" +
-                "0,1,1,1");
-        scan.useDelimiter(",");
-        String allo = new String("0,0,0,0 \n 0,0" +
-                "0,1,1,1");
-
-        while(scan.hasNext()) {
-            System.out.println(scan.next());
+        File file = new File("C:\\Users\\nhien\\Documents\\Session Automne 2019\\LOG2810\\TP\\LOG2810\\TP1\\entrepot.txt");
+        String sommetNbObjets = new String("");
+        String voisinDistance = new String("");
+        String pattern = ".*,.*,.*,.*";
+        try {
+            Scanner scan = new Scanner(file);
+            while(scan.hasNext(pattern)) {
+                sommetNbObjets += scan.next() + "\n";
+            }
+            while(scan.hasNextLine()) {
+                voisinDistance += scan.next() + "\n";
+            }
         }
-        //System.out.println(scan.next());
-        System.out.println(allo);
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        //System.out.println(sommetNbObjets + "\n" + voisinDistance);
+
+        String[] arraySommetNbObjets = sommetNbObjets.split("\n");
+        String[] arrayVoisinDistance = voisinDistance.split("\n");
+        for (String s : arraySommetNbObjets) {
+            System.out.println(s);
+        }
+
+//        String test = "allo,bonjour,oui";
+//        String[] a = test.split(",");
+//        for (String s : a) {
+//            System.out.println(s);
+//        }
+
+
 
     }
 

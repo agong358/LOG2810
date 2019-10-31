@@ -6,7 +6,6 @@ import java.util.*;
  */
 private void creerGraphe(){}
 
-
 /** TODO
  * Affiche la représentation du graphe sauvegardé en mémoire
  */

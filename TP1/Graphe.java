@@ -1,6 +1,5 @@
+package LOG2810.TP1;
 
-
-import java.util.*;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -54,18 +53,11 @@ public class Graphe {
     /** TODO
      * Affiche la représentation du graphe sauvegardé en mémoire
      */
-    private void afficherGraphe(){}
+    private void afficherGraphe(){
 
-    /** TODO
-     * Permet à l’utilisateur de rentrer un nombre d'objets de chaque
-     * type que le robot devra aller chercher.
-     */
-    private void prendreCommande(){}
+    }
 
-    /** TODO
-     * Permet de voir la commande en mémoire.
-     */
-    private void afficherCommande(){}
+
 
     /** TODO
      * Affiche le type de robot utilisé, la liste des noeuds traversés,
@@ -79,15 +71,15 @@ public class Graphe {
 
     private void quitter(){}
 
-    private void afficherInterface() {
-        System.out.println("Veuillez sélectionner une option");
-        System.out.println("[] Créer le graphe");
-        System.out.println("[] Afficher le graphe");
-        System.out.println("[] Prendre une commande");
-        System.out.println("[] Afficher la commande");
-        System.out.println("[] Trouver le plus court chemin");
-        System.out.println("[] Quitter");
-    }
+//    private void afficherInterface() {
+//        System.out.println("Veuillez sélectionner une option");
+//        System.out.println("[] Créer le graphe");
+//        System.out.println("[] Afficher le graphe");
+//        System.out.println("[] Prendre une commande");
+//        System.out.println("[] Afficher la commande");
+//        System.out.println("[] Trouver le plus court chemin");
+//        System.out.println("[] Quitter");
+//    }
 
     static class Voisin {
         int noeudVoisin;

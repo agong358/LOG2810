@@ -29,51 +29,5 @@ public class Commande {
         return nbObjetsC_;
     }
 
-    //deplace dans graphe pour simplifier
-    /** TODO
-     * Permet à l’utilisateur de rentrer un nombre d'objets de chaque
-     * type que le robot devra aller chercher.
-     */
-//    public void prendreCommande(){
-//
-//        System.out.println("Entrez le nombre d'objets de type A: ");
-//        Scanner scan = new Scanner(System.in);
-//        while(!scan.hasNextInt()) {
-//                    String input = scan.next();
-//                    System.out.println(input + " n'est pas une option valide!");
-//                    System.out.println("Veuillez saisir le nombre d'objets de type A: ");
-//                    System.out.println("---------------------------------------");
-//        }
-//        nbObjetsA_ = scan.nextInt();
-//
-//        System.out.println("Entrez le nombre d'objets de type B: ");
-//        while(!scan.hasNextInt()) {
-//            String input = scan.next();
-//            System.out.println(input + " n'est pas une option valide!");
-//            System.out.println("Veuillez saisir le nombre d'objets de type B: ");
-//            System.out.println("---------------------------------------");
-//        }
-//        nbObjetsB_ = scan.nextInt();
-//
-//        System.out.println("Entrez le nombre d'objets de type C: ");
-//        while(!scan.hasNextInt()) {
-//            String input = scan.next();
-//            System.out.println(input + " n'est pas une option valide!");
-//            System.out.println("Veuillez saisir le nombre d'objets de type C: ");
-//            System.out.println("---------------------------------------");
-//        }
-//        nbObjetsC_ = scan.nextInt();
-//    }
 
-
-    //deplace dans graphe.java pour simplifier
-    /** TODO
-     * Permet de voir la commande en mémoire.
-     */
-//    public void afficherCommande(){
-//        System.out.println("La commande en mémoire est de : ");
-//        System.out.println("Nombre d'objets de type A : " + nbObjetsA_);
-//        System.out.println("Nombre d'objets de type B : " + nbObjetsB_);
-//        System.out.println("Nombre d'objets de type C : " + nbObjetsC_);
-//    }
 }

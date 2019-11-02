@@ -9,6 +9,9 @@ import java.io.FileNotFoundException;
 public class Graphe {
     private List<Sommet> listeSommets = new ArrayList<>();
     private Commande commande = new Commande();
+    private List<SommetChemin> listeSommetsVerifies = new ArrayList<>();
+    private List<SommetChemin> listeSommetsATraiter= new ArrayList<>();
+    private int DISTANCE_MAX = Integer.MAX_VALUE;
 
     // constructeur par defaut
     public Graphe(){
@@ -142,7 +145,18 @@ public class Graphe {
      *
      * Si le chemin est impossible, la fonction doit en informer l'utilisateur.
      */
-    public void plusCourtChemin(){}
+    public void plusCourtChemin(Sommet noeudDepart, Sommet noeudArrivee){
+        List<Voisin> listeVoisins = noeudDepart.getVoisins();
+        SommetChemin premierSommet = new SommetChemin(noeudArrivee.getNoeud(), 0);
+        premierSommet.addSommet(noeudDepart);
+        listeSommetsATraiter.add(premierSommet);
+
+        while (!listeSommetsATraiter.isEmpty())
+
+        for (Voisin v : listeVoisins) {
+
+        }
+    }
 
 
     public void quitter(){ }

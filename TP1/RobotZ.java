@@ -6,4 +6,9 @@ public class RobotZ {
     public void calculerCstKz() {
         cstKz = 2.5 + 0.2*masse;
     }
+
+    public double calculerTemps(int distance){
+        double temps = cstKz * distance;
+        return temps;
+    }
 }

@@ -9,6 +9,7 @@ public class Commande {
 //    private RobotX robotY = new RobotY(this);
 //    private RobotX robotZ = new RobotZ(this);
 
+
     public Commande(){
         nbObjetsA_ = 0;
         nbObjetsB_ = 0;
@@ -45,12 +46,12 @@ public class Commande {
         this.nbObjetsC_ = nbObjetsC_;
     }
 
-    public double CalculerTempsTotal(LinkedList<Sommet> chemin) {
-        double temps = Double.MAX_VALUE;
-        if (robotX.verifierChargeMax()) {
-            temps = robotX.calculerTempsTotal(chemin);
-        }
-        //if robot y et robot z meme chose
-        return temps;
-    }
+//    public double CalculerTempsTotal(LinkedList<Sommet> chemin) {
+//        double temps = Double.MAX_VALUE;
+//        if (robotX.verifierChargeMax()) {
+//            temps = robotX.calculerTempsTotal(chemin);
+//        }
+//        //if robot y et robot z meme chose
+//        return temps;
+//    }
 }

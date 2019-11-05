@@ -133,9 +133,6 @@ public class Graphe {
             System.out.println("---------------------------------------");
         }
         inputUserA = scan.nextInt();
-//        if (inputUserA > maxA) {
-//            System.out.println(inputUserA + " n'est pas une option valide!");
-//        }
 
         System.out.println("Entrez le nombre d'objets de type B: ");
         while(!scan.hasNextInt()) {
@@ -212,9 +209,48 @@ public class Graphe {
 //        }
         Sommet distanceMin = trouverSommetMin(listeTemp);
         System.out.println(distanceMin.getNoeud());
-        RobotX robot = new RobotX(commande);
-        afficherParcours(distanceMin.getListeSommetsTraverses(), robot);
+        Commande commandeOriginale = new Commande(commande.getNbObjetsA_(), commande.getNbObjetsB_(), commande.getNbObjetsC_());
+        RobotX robotX = new RobotX(commande);
+        robotX.calculerTempsTotal(distanceMin.getListeSommetsTraverses());
+        commande = new Commande(commandeOriginale.getNbObjetsA_(), commandeOriginale.getNbObjetsB_(), commandeOriginale.getNbObjetsC_());
+        RobotY robotY = new RobotY(commande);
+        robotY.calculerTempsTotal(distanceMin.getListeSommetsTraverses());
+        commande = new Commande(commandeOriginale.getNbObjetsA_(), commandeOriginale.getNbObjetsB_(), commandeOriginale.getNbObjetsC_());
+        RobotZ robotZ = new RobotZ(commande);
+        robotZ.calculerTempsTotal(distanceMin.getListeSommetsTraverses());
+
+        trouverRobotMin(robotX, robotY, robotZ);
+        if (robotX.isEstMin())
+            afficherParcoursX(distanceMin.getListeSommetsTraverses(), robotX);
+        else if (robotY.isEstMin())
+            afficherParcoursY(distanceMin.getListeSommetsTraverses(), robotY);
+        else if (robotZ.isEstMin())
+            afficherParcoursZ(distanceMin.getListeSommetsTraverses(), robotZ);
+        else
+            System.out.println("commande trop grande");
+
+
+
         //System.out.println("noeud" + distanceMin.getNoeud() + " avec distance de " + distanceMin.getSommetDistance());
+    }
+
+    public void trouverRobotMin(RobotX robotX, RobotY robotY, RobotZ robotZ) {
+        double tempsMin = robotX.getTempsTotal();
+        if (robotY.getTempsTotal() < tempsMin){
+            tempsMin = robotY.getTempsTotal();
+            if (robotZ.getTempsTotal() < tempsMin) {
+                //tempsMin = robotZ.getTempsTotal();
+                robotZ.setEstMin(true);
+            }
+            else
+                robotY.setEstMin(true);
+        }
+        else if (robotZ.getTempsTotal() < tempsMin) {
+            //tempsMin = robotZ.getTempsTotal();
+            robotZ.setEstMin(true);
+        }
+        else if (tempsMin < 10000.0)
+            robotX.setEstMin(true);
     }
 
     public boolean contientSommetOptimal() {
@@ -333,12 +369,26 @@ public class Graphe {
         return distanceMin;
     }
 
-    public void afficherParcours(LinkedList<Sommet> liste, RobotX robot) {
+    public void afficherParcoursX(LinkedList<Sommet> liste, RobotX robot) {
         for (Sommet s : liste) {
             System.out.print("Noeud" + s.getNoeud() + " --> ");
         }
         System.out.println("Robot : RobotX");
-        System.out.println(robot.calculerTempsTotal(liste));
+        System.out.println(robot.getTempsTotal());
+    }
+    public void afficherParcoursY(LinkedList<Sommet> liste, RobotY robot) {
+        for (Sommet s : liste) {
+            System.out.print("Noeud" + s.getNoeud() + " --> ");
+        }
+        System.out.println("Robot : RobotY");
+        System.out.println(robot.getTempsTotal());
+    }
+    public void afficherParcoursZ(LinkedList<Sommet> liste, RobotZ robot) {
+        for (Sommet s : liste) {
+            System.out.print("Noeud" + s.getNoeud() + " --> ");
+        }
+        System.out.println("Robot : RobotZ");
+        System.out.println(robot.getTempsTotal());
     }
 
 

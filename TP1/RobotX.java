@@ -11,10 +11,24 @@ public class RobotX {
     private int poidsA = 1;
     private int poidsB = 3;
     private int poidsC = 6;
+    private double tempsTotal = 100000000000.0;
+    private boolean estMin = false;
+
+    public void setEstMin(boolean estMin) {
+        this.estMin = estMin;
+    }
+
+    public boolean isEstMin() {
+        return estMin;
+    }
 
     public double calculerCstKx(double masse) {
         cstKx = 1 + masse;
         return cstKx;
+    }
+
+    public double getTempsTotal() {
+        return tempsTotal;
     }
 
     public RobotX(Commande commande) {
@@ -23,6 +37,7 @@ public class RobotX {
 
     public boolean verifierChargeMax(){
         boolean chargeMaxOK = false;
+        System.out.println(commande.getNbObjetsA_()*poidsA + commande.getNbObjetsB_()*poidsB + commande.getNbObjetsC_()*poidsC);
         if (commande.getNbObjetsA_()*poidsA + commande.getNbObjetsB_()*poidsB + commande.getNbObjetsC_()*poidsC <= chargeMax){
             chargeMaxOK = true;
         }
@@ -30,12 +45,12 @@ public class RobotX {
     }
 
 //    public double calculerTempsTotal(LinkedList<Arc> distance, int nombreObjetsA, int nombreObjetsB, int nombreObjetsC, LinkedList<Sommet> chemin){
-        public double calculerTempsTotal(LinkedList<Sommet> chemin){
+        public void calculerTempsTotal(LinkedList<Sommet> chemin){
 
-        double temps = Double.MAX_VALUE;
+        tempsTotal = 999.0;
 
         if (verifierChargeMax()) {
-            temps = 0;
+            tempsTotal = 0;
 //            Sommet sommetNext = new Sommet(0,0,0,0);
 //            for (Sommet s : chemin) {
 //                for (Arc a : s.getVoisins()) {
@@ -50,57 +65,49 @@ public class RobotX {
             for (Sommet s : chemin) {
                 int distance = sommetTemp.getDistanceArc(s);
                 sommetTemp = s;
-                temps += calculerCstKx(masse)*distance;
-                System.out.println("noeud" + s.getNoeud());
+                tempsTotal += calculerCstKx(masse)*distance;
             }
             LinkedList<Sommet> cheminTemp = new LinkedList<>(chemin);
             LinkedList<Sommet> cheminInverse = new LinkedList<>();
             while (!cheminTemp.isEmpty()) {
                 cheminInverse.add(cheminTemp.pollLast());
-                System.out.println("neoud" + cheminInverse.getLast().getNoeud());
             }
 
             Sommet sommetTest = new Sommet(50,0,0,0);
             for (Sommet s : cheminInverse) {
                 int distance = sommetTest.getDistanceArc(s);
-                System.out.println(distance);
                 sommetTest = s;
-                temps += calculerCstKx(masse)*distance;
-                System.out.println(temps);
+                tempsTotal += calculerCstKx(masse)*distance;
                 if (s.getNbObjetsA() <= commande.getNbObjetsA_()) {
-                    temps += tempsConstant*s.getNbObjetsA();
-                    System.out.println(temps + "et " + s.getNbObjetsA());
+                    tempsTotal += tempsConstant*s.getNbObjetsA();
+                    System.out.println(tempsTotal + "et " + s.getNbObjetsA());
                     masse += s.getNbObjetsA()*poidsA;
                     commande.setNbObjetsA_(commande.getNbObjetsA_() - s.getNbObjetsA());
                 }
                 else {
-                    temps += tempsConstant*commande.getNbObjetsA_();
-                    System.out.println(temps);
+                    tempsTotal += tempsConstant*commande.getNbObjetsA_();
                     masse += commande.getNbObjetsA_()*poidsA;
                     commande.setNbObjetsA_(0);
                 }
 
                 if (s.getNbObjetsB() <= commande.getNbObjetsB_()) {
-                    temps += tempsConstant*s.getNbObjetsB();
-                    System.out.println(temps);
+                    tempsTotal += tempsConstant*s.getNbObjetsB();
                     masse += s.getNbObjetsB()*poidsB;
                     commande.setNbObjetsB_(commande.getNbObjetsB_() - s.getNbObjetsB());
                 }
                 else {
-                    temps += tempsConstant*commande.getNbObjetsB_();
-                    System.out.println(temps);
+                    tempsTotal += tempsConstant*commande.getNbObjetsB_();
+                    System.out.println(tempsTotal);
                     masse += commande.getNbObjetsB_()*poidsB;
                     commande.setNbObjetsB_(0);
                 }
                 if (s.getNbObjetsC() <= commande.getNbObjetsC_()) {
-                    temps += tempsConstant*s.getNbObjetsC();
-                    System.out.println(temps);
+                    tempsTotal += tempsConstant*s.getNbObjetsC();
                     masse += s.getNbObjetsC()*poidsC;
                     commande.setNbObjetsC_(commande.getNbObjetsC_() - s.getNbObjetsC());
                 }
                 else {
-                    temps += tempsConstant*commande.getNbObjetsC_();
-                    System.out.println(temps);
+                    tempsTotal += tempsConstant*commande.getNbObjetsC_();
                     masse += commande.getNbObjetsC_()*poidsC;
                     commande.setNbObjetsC_(0);
                 }
@@ -168,7 +175,6 @@ public class RobotX {
 //            }
 
         }
-        return temps;
 
 //        double masseTotale = 0.0;
 //        double tempsTotal = 0.0;
@@ -233,6 +239,7 @@ public class RobotX {
 //        tempsTotal += tempsPrendre;
 //
 //        return tempsTotal;
+        System.out.println(tempsTotal);
     }
 
 }

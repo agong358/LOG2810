@@ -12,22 +12,11 @@ import java.io.FileNotFoundException;
 public class Graphe {
     private List<Sommet> listeSommets = new ArrayList<>();
     private Commande commande = new Commande();
-    private int maxA;
-    private int maxB;
-    private int maxC;
-    private boolean nbAEstValide = false;
 
     public List<Sommet> getListeSommets() {
         return listeSommets;
     }
 
-    public void calculerMaxObjets() {
-        for (Sommet s : listeSommets) {
-            maxA += s.getNbObjetsA();
-            maxB += s.getNbObjetsB();
-            maxC += s.getNbObjetsC();
-        }
-    }
 
     // constructeur par defaut
     public Graphe(){
@@ -118,9 +107,6 @@ public class Graphe {
             s.reinitialiserTotal();
         }
 
-        calculerMaxObjets();
-        System.out.println(maxA);
-
         int inputUserA, inputUserB, inputUserC;
 
         System.out.println("Entrez le nombre d'objets de type A: ");
@@ -208,7 +194,6 @@ public class Graphe {
 //            }
 //        }
         Sommet distanceMin = trouverSommetMin(listeTemp);
-        System.out.println(distanceMin.getNoeud());
         Commande commandeOriginale = new Commande(commande.getNbObjetsA_(), commande.getNbObjetsB_(), commande.getNbObjetsC_());
         RobotX robotX = new RobotX(commande);
         robotX.calculerTempsTotal(distanceMin.getListeSommetsTraverses());
@@ -249,7 +234,7 @@ public class Graphe {
             //tempsMin = robotZ.getTempsTotal();
             robotZ.setEstMin(true);
         }
-        else if (tempsMin < 10000.0)
+        else if (tempsMin < Double.MAX_VALUE)
             robotX.setEstMin(true);
     }
 
@@ -373,22 +358,79 @@ public class Graphe {
         for (Sommet s : liste) {
             System.out.print("Noeud" + s.getNoeud() + " --> ");
         }
+        Sommet premierSommet = robot.getCheminInverse().get(0);
+        for (int i = 0; i < premierSommet.getNbPrendreA(); i++)
+            System.out.print("Prendre A --> ");
+        for (int i = 0; i < premierSommet.getNbPrendreB(); i++)
+            System.out.print("Prendre B --> ");
+        for (int i = 0; i < premierSommet.getNbPrendreC(); i++)
+            System.out.print("Prendre C --> ");
+        robot.getCheminInverse().pollFirst();
+        List<Sommet> cheminInverse = new LinkedList<Sommet>(robot.getCheminInverse());
+        for (Sommet s : robot.getCheminInverse()) {
+            System.out.print("Noeud" + s.getNoeud() + " --> ");
+            for (int i = 0; i < s.getNbPrendreA(); i++)
+                System.out.print("Prendre A --> ");
+            for (int i = 0; i < s.getNbPrendreB(); i++)
+                System.out.print("Prendre B --> ");
+            for (int i = 0; i < s.getNbPrendreC(); i++)
+                System.out.print("Prendre C --> ");
+        }
+        System.out.println("end");
         System.out.println("Robot : RobotX");
-        System.out.println(robot.getTempsTotal());
+        System.out.println("Temps : " + robot.getTempsTotal() + "\n");
     }
     public void afficherParcoursY(LinkedList<Sommet> liste, RobotY robot) {
         for (Sommet s : liste) {
             System.out.print("Noeud" + s.getNoeud() + " --> ");
         }
+        Sommet premierSommet = robot.getCheminInverse().get(0);
+        for (int i = 0; i < premierSommet.getNbPrendreA(); i++)
+            System.out.print("Prendre A --> ");
+        for (int i = 0; i < premierSommet.getNbPrendreB(); i++)
+            System.out.print("Prendre B --> ");
+        for (int i = 0; i < premierSommet.getNbPrendreC(); i++)
+            System.out.print("Prendre C --> ");
+        robot.getCheminInverse().pollFirst();
+        List<Sommet> cheminInverse = new LinkedList<>(robot.getCheminInverse());
+        for (Sommet s : robot.getCheminInverse()) {
+            System.out.print("Noeud" + s.getNoeud() + " --> ");
+            for (int i = 0; i < s.getNbPrendreA(); i++)
+                System.out.print("Prendre A --> ");
+            for (int i = 0; i < s.getNbPrendreB(); i++)
+                System.out.print("Prendre B --> ");
+            for (int i = 0; i < s.getNbPrendreC(); i++)
+                System.out.print("Prendre C --> ");
+        }
+        System.out.println("end");
         System.out.println("Robot : RobotY");
-        System.out.println(robot.getTempsTotal());
+        System.out.println("Temps : " + robot.getTempsTotal() + "\n");
     }
     public void afficherParcoursZ(LinkedList<Sommet> liste, RobotZ robot) {
         for (Sommet s : liste) {
             System.out.print("Noeud" + s.getNoeud() + " --> ");
         }
+        Sommet premierSommet = robot.getCheminInverse().get(0);
+        for (int i = 0; i < premierSommet.getNbPrendreA(); i++)
+            System.out.print("Prendre A --> ");
+        for (int i = 0; i < premierSommet.getNbPrendreB(); i++)
+            System.out.print("Prendre B --> ");
+        for (int i = 0; i < premierSommet.getNbPrendreC(); i++)
+            System.out.print("Prendre C --> ");
+        robot.getCheminInverse().pollFirst();
+        List<Sommet> cheminInverse = new LinkedList<Sommet>(robot.getCheminInverse());
+        for (Sommet s : robot.getCheminInverse()) {
+            System.out.print("Noeud" + s.getNoeud() + " --> ");
+            for (int i = 0; i < s.getNbPrendreA(); i++)
+                System.out.print("Prendre A --> ");
+            for (int i = 0; i < s.getNbPrendreB(); i++)
+                System.out.print("Prendre B --> ");
+            for (int i = 0; i < s.getNbPrendreC(); i++)
+                System.out.print("Prendre C --> ");
+        }
+        System.out.println("end");
         System.out.println("Robot : RobotZ");
-        System.out.println(robot.getTempsTotal());
+        System.out.println("Temps : " + robot.getTempsTotal() + "\n");
     }
 
 

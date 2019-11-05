@@ -17,6 +17,36 @@ public class Sommet {
     private boolean assezA = false;
     private boolean assezB = false;
     private boolean assezC = false;
+    private int nbPrendreA = 0;
+    private int nbPrendreB = 0;
+    private int nbPrendreC = 0;
+    private boolean prendreA = false;
+    private boolean prendreB = false;
+    private boolean prendreC = false;
+
+    public int getNbPrendreA() {
+        return nbPrendreA;
+    }
+
+    public int getNbPrendreB() {
+        return nbPrendreB;
+    }
+
+    public int getNbPrendreC() {
+        return nbPrendreC;
+    }
+
+    public void setNbPrendreA(int nbPrendreA) {
+        this.nbPrendreA = nbPrendreA;
+    }
+
+    public void setNbPrendreB(int nbPrendreB) {
+        this.nbPrendreB = nbPrendreB;
+    }
+
+    public void setNbPrendreC(int nbPrendreC) {
+        this.nbPrendreC = nbPrendreC;
+    }
 
     public Sommet(int noeud, int nbObjetsA, int nbObjetsB, int nbObjetsC) {
         this.noeud = noeud;

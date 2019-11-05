@@ -1,7 +1,3 @@
-//package LOG2810.TP1;
-
-import sun.awt.image.ImageWatched;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,8 +22,7 @@ public class Graphe {
      * que les chemins reliants ces sections entre elles à partir d'un fichier texte.
      */
     public void creerGraphe(String fichier){
-        File file = new File("C:\\Users\\nhien\\Documents\\Session Automne 2019\\LOG2810\\TP\\LOG2810\\TP1\\entrepot.txt");
-        File fileAlice = new File("C:\\Users\\Alice G\\Documents\\Polytechnique\\Session 3\\LOG2810\\TP\\LOG2810\\TP1\\entrepot.txt");
+        File file = new File("entrepot.txt");
         String sommetNbObjets = new String("");
         String voisinDistance = new String("");
         String pattern = ".*,.*,.*,.*";
@@ -53,38 +48,11 @@ public class Graphe {
                     Integer.parseInt(tempArray[2]), Integer.parseInt(tempArray[3])));
         }
 
-        //TESTS DAFFICHAGE
-//        for (Sommet oui : listeSommets) {
-//            System.out.println(oui.getNoeud() + "," + oui.getNbObjetsA() + "," + oui.getNbObjetsB() + "," + oui.getNbObjetsC());
-//        }
-
-        //List<Arc> listeFichier = new ArrayList<>();
         for (String v : arrayVoisinDistance) {
             String[] tempArray = v.split(",");
             listeSommets.get(Integer.parseInt(tempArray[1])).addVoisin(new Arc(listeSommets.get(Integer.parseInt(tempArray[0])), Integer.parseInt(tempArray[2])));
             listeSommets.get(Integer.parseInt(tempArray[0])).addVoisin(new Arc(listeSommets.get(Integer.parseInt(tempArray[1])), Integer.parseInt(tempArray[2])));
-//            listeFichier.add(new Arc(listeSommets.get(Integer.parseInt(tempArray[0])), Integer.parseInt(tempArray[2])));
-//            listeFichier.add(new Arc(listeSommets.get(Integer.parseInt(tempArray[1])), Integer.parseInt(tempArray[2])));
         }
-
-//        //TESTS DAFFICHAGE
-//        for (Arc oui : listeFichier) {
-//            System.out.println(oui.getVoisin().getNoeud() + "," + oui.getDistance());
-//        }
-
-//        for (Arc v : listeFichier) {
-//            //listeSommets.get(v.getNoeudCourant()).addVoisin(v);
-//            //listeSommets.get(v.getNoeudVoisin()).addVoisin(new Voisin(v.getNoeudVoisin(), v.getNoeudCourant(), v.getDistance()));
-//            listeSommets.get(v.getVoisin().getNoeud()).addVoisin(v);
-//        }
-
-        //TESTS DAFFICHAGE
-//        for (Sommet s : listeSommets) {
-//            List<Arc> tempVoisin = s.getVoisins();
-//            for (Arc v : tempVoisin) {
-//                System.out.println(s.getNoeud() + "," + v.getVoisin().getNoeud() + "," + v.getDistance());
-//            }
-//        }
     }
 
     /** TODO
@@ -160,39 +128,16 @@ public class Graphe {
      *
      * Si le chemin est impossible, la fonction doit en informer l'utilisateur.
      */
-    public void plusCourtChemin(Sommet noeudDepart, Sommet noeudArrivee){
-        //LinkedList<Sommet> cheminCourt = new LinkedList<>();
+    public void plusCourtChemin(Sommet noeudDepart){
         List<Sommet> listeTemp = new ArrayList<>();
         Dijkstra dijskstra = new Dijkstra();
         dijskstra.dijkstra(noeudDepart);
-//        if (contientSommetOptimal()) {
         for (Sommet s : listeSommets) {
-            //s.calculerTotal();
-//                System.out.println(s.getNoeud() + ":" + s.getTotalA() + ", " +s.getTotalB() + ", " + s.getTotalC());
-//                System.out.println(s.contientAssezObjets(commande));
             if (s.contientAssezObjets(commande)) {
                 listeTemp.add(s);
             }
         }
-//        }
-        if (listeTemp.isEmpty()) {
-            calculerTotal();
-            if (contientAssezA()) {
-                if (contientAssezB()) {
-                    //listeTemp = trouverSommetsCMax(listeSommets, trouverValeurCMax());
-                    Sommet distanceMin = trouverSommetMin(trouverSommetsCMax(listeSommets, trouverValeurCMax()));
-                }
-            }
-        }
-//        if (listeTemp.isEmpty()) {
-//            Sommet max = trouverSommetMaxObjets(listeSommets);
-//            dijskstra.dijkstra(max);
-//            for (Sommet s : listeSommets) {
-//                if (s.contientAssezObjets(new Commande(commande.getNbObjetsA_() - max.getTotalA(), commande.getNbObjetsB_() - max.getTotalB(), commande.getNbObjetsC_() - max.getTotalC()))) {
-//                    listeTemp.add(s);
-//                }
-//            }
-//        }
+
         Sommet distanceMin = trouverSommetMin(listeTemp);
         Commande commandeOriginale = new Commande(commande.getNbObjetsA_(), commande.getNbObjetsB_(), commande.getNbObjetsC_());
         RobotX robotX = new RobotX(commande);
@@ -212,11 +157,7 @@ public class Graphe {
         else if (robotZ.isEstMin())
             afficherParcoursZ(distanceMin.getListeSommetsTraverses(), robotZ);
         else
-            System.out.println("commande trop grande");
-
-
-
-        //System.out.println("noeud" + distanceMin.getNoeud() + " avec distance de " + distanceMin.getSommetDistance());
+            System.out.println("Commande trop grande");
     }
 
     public void trouverRobotMin(RobotX robotX, RobotY robotY, RobotZ robotZ) {
@@ -224,124 +165,16 @@ public class Graphe {
         if (robotY.getTempsTotal() < tempsMin){
             tempsMin = robotY.getTempsTotal();
             if (robotZ.getTempsTotal() < tempsMin) {
-                //tempsMin = robotZ.getTempsTotal();
                 robotZ.setEstMin(true);
             }
             else
                 robotY.setEstMin(true);
         }
         else if (robotZ.getTempsTotal() < tempsMin) {
-            //tempsMin = robotZ.getTempsTotal();
             robotZ.setEstMin(true);
         }
         else if (tempsMin < Double.MAX_VALUE)
             robotX.setEstMin(true);
-    }
-
-    public boolean contientSommetOptimal() {
-        boolean contient = false;
-        for (Sommet s : listeSommets) {
-            //s.calculerTotal();
-            //System.out.println(s.getNoeud() + ":" + s.getTotalA() + ", " +s.getTotalB() + ", " + s.getTotalC());
-            //System.out.println(s.contientAssezObjets(commande));
-            if (s.contientAssezObjets(commande)) {
-                contient = true;
-            }
-        }
-        return contient;
-    }
-
-    public void calculerTotal() {
-        for (Sommet s : listeSommets) {
-            s.contientAssezObjets(commande);
-        }
-    }
-
-    public boolean contientAssezA() {
-        boolean assezA = false;
-        for (Sommet s : listeSommets) {
-            if (s.contientAssezA())
-                assezA = true;
-        }
-        return assezA;
-    }
-
-    public boolean contientAssezB() {
-        boolean assezB = false;
-        for (Sommet s : listeSommets) {
-            if (s.contientAssezB())
-                assezB = true;
-        }
-        return assezB;
-    }
-
-    public boolean contientAssezC() {
-        boolean assezC = false;
-        for (Sommet s : listeSommets) {
-            if (s.contientAssezC())
-                assezC = true;
-        }
-        return assezC;
-    }
-
-    public int trouverValeurAMax() {
-        int nbAMax = 0;
-        for (Sommet s : listeSommets) {
-            if (s.getTotalA() >= nbAMax) {
-                nbAMax = s.getTotalA();
-            }
-        }
-        return nbAMax;
-    }
-
-    public int trouverValeurBMax() {
-        int nbBMax = 0;
-        for (Sommet s : listeSommets) {
-            if (s.getTotalB() >= nbBMax) {
-                nbBMax = s.getTotalB();
-            }
-        }
-        return nbBMax;
-    }
-
-    public int trouverValeurCMax() {
-        int nbCMax = 0;
-        for (Sommet s : listeSommets) {
-            if (s.getTotalC() >= nbCMax) {
-                nbCMax = s.getTotalC();
-            }
-        }
-        return nbCMax;
-    }
-
-    public List<Sommet> trouverSommetsAMax(List<Sommet> liste, int nbObjetsMax) {
-        List<Sommet> listeMax = new ArrayList<Sommet>();
-        for (Sommet s : liste) {
-            if (s.getTotalA() == nbObjetsMax) {
-                listeMax.add(s);
-            }
-        }
-        return listeMax;
-    }
-
-    public List<Sommet> trouverSommetsBMax(List<Sommet> liste, int nbObjetsMax) {
-        List<Sommet> listeMax = new ArrayList<Sommet>();
-        for (Sommet s : liste) {
-            if (s.getTotalB() == nbObjetsMax) {
-                listeMax.add(s);
-            }
-        }
-        return listeMax;
-    }
-
-    public List<Sommet> trouverSommetsCMax(List<Sommet> liste, int nbObjetsMax) {
-        List<Sommet> listeMax = new ArrayList<Sommet>();
-        for (Sommet s : liste) {
-            if (s.getTotalC() == nbObjetsMax) {
-                listeMax.add(s);
-            }
-        }
-        return listeMax;
     }
 
     public Sommet trouverSommetMin(List<Sommet> liste) {
@@ -366,7 +199,6 @@ public class Graphe {
         for (int i = 0; i < premierSommet.getNbPrendreC(); i++)
             System.out.print("Prendre C --> ");
         robot.getCheminInverse().pollFirst();
-        List<Sommet> cheminInverse = new LinkedList<Sommet>(robot.getCheminInverse());
         for (Sommet s : robot.getCheminInverse()) {
             System.out.print("Noeud" + s.getNoeud() + " --> ");
             for (int i = 0; i < s.getNbPrendreA(); i++)
@@ -392,7 +224,6 @@ public class Graphe {
         for (int i = 0; i < premierSommet.getNbPrendreC(); i++)
             System.out.print("Prendre C --> ");
         robot.getCheminInverse().pollFirst();
-        List<Sommet> cheminInverse = new LinkedList<>(robot.getCheminInverse());
         for (Sommet s : robot.getCheminInverse()) {
             System.out.print("Noeud" + s.getNoeud() + " --> ");
             for (int i = 0; i < s.getNbPrendreA(); i++)
@@ -418,7 +249,6 @@ public class Graphe {
         for (int i = 0; i < premierSommet.getNbPrendreC(); i++)
             System.out.print("Prendre C --> ");
         robot.getCheminInverse().pollFirst();
-        List<Sommet> cheminInverse = new LinkedList<Sommet>(robot.getCheminInverse());
         for (Sommet s : robot.getCheminInverse()) {
             System.out.print("Noeud" + s.getNoeud() + " --> ");
             for (int i = 0; i < s.getNbPrendreA(); i++)
@@ -432,9 +262,6 @@ public class Graphe {
         System.out.println("Robot : RobotZ");
         System.out.println("Temps : " + robot.getTempsTotal() + "\n");
     }
-
-
-    public void quitter(){ }
 
     public void interfaceUsager() {
         int userInput;
@@ -450,7 +277,7 @@ public class Graphe {
                 System.out.println("5- Trouver le plus court chemin");
                 System.out.println("6- Quitter");
 
-                // Pour lire l'option que l'usager a choisi
+                // Pour lire l'option que l'usager a choisie
                 Scanner scan = new Scanner(System.in);
 
                 while(!scan.hasNextInt()) {
@@ -465,7 +292,6 @@ public class Graphe {
                     System.out.println("Veuillez saisir un chiffre entre 1 à 6!");
                     System.out.println("---------------------------------------");
                 }
-                // System.out.println(userInput);
             } while (userInput > 6);
 
             System.out.print("Vous avez sélectionné l'option " + userInput + ": ");
@@ -489,7 +315,7 @@ public class Graphe {
                     break;
                 case 5:
                     System.out.println("Trouver le plus court chemin. \n");
-                    plusCourtChemin(listeSommets.get(0), listeSommets.get(0));
+                    plusCourtChemin(listeSommets.get(0));
                     break;
                 // pour quitter
                 case 6:
@@ -500,5 +326,4 @@ public class Graphe {
             }
         }
     }
-
 }

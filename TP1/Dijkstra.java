@@ -6,9 +6,6 @@ public class Dijkstra {
 
     private List<Sommet> listeSommetsVerifies = new ArrayList<>();
     private List<Sommet> listeSommetsATraiter= new ArrayList<>();
-    private int nbA;
-    private int nbB;
-    private int nbC;
 
     public void dijkstra(Sommet noeudDepart) {
         noeudDepart.setSommetDistance(0);
@@ -29,8 +26,6 @@ public class Dijkstra {
     }
 
     public Sommet getSommetDistanceMin(List<Sommet> liste) {
-        //List<Voisin> listeVoisins = sommet.getVoisins();
-        //SommetChemin sommetTemp = listeVoisins.get(0);
         Sommet distanceMin = liste.get(0);
         for (Sommet s : liste) {
             if (s.getSommetDistance() < distanceMin.getSommetDistance()) {
@@ -45,7 +40,6 @@ public class Dijkstra {
         if (sommetTraite.getSommetDistance() > distanceInitiale + distanceArc) {
             sommetTraite.setSommetDistance(distanceInitiale + distanceArc);
             LinkedList<Sommet> chemin = new LinkedList<>(sommetInitial.getListeSommetsTraverses());
-            //chemin.add(sommetInitial);
             chemin.add(sommetTraite);
             sommetTraite.setListeSommetsTraverses(chemin);
         }

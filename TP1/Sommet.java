@@ -20,9 +20,6 @@ public class Sommet {
     private int nbPrendreA = 0;
     private int nbPrendreB = 0;
     private int nbPrendreC = 0;
-    private boolean prendreA = false;
-    private boolean prendreB = false;
-    private boolean prendreC = false;
 
     public int getNbPrendreA() {
         return nbPrendreA;
@@ -147,41 +144,6 @@ public class Sommet {
         if (totalC >= commande.getNbObjetsC_())
             assezC = true;
         return assezA && assezB && assezC;
-    }
-
-    public boolean contientAssezA() {
-        return assezA;
-    }
-
-    public boolean contientAssezB() {
-        return assezB;
-    }
-
-    public boolean contientAssezC() {
-        return assezC;
-    }
-
-
-//    public Sommet trouverSommetMin(List<Sommet> liste) {
-//        Sommet distanceMin = liste.get(0);
-//        for (Sommet sommet : liste) {
-//            if (sommet.getSommetDistance() <= distanceMin.getSommetDistance()) {
-//                distanceMin = sommet;
-//            }
-//        }
-//        return distanceMin;
-//    }
-
-    public int getTotalA() {
-        return totalA;
-    }
-
-    public int getTotalB() {
-        return totalB;
-    }
-
-    public int getTotalC() {
-        return totalC;
     }
 
     public int getDistanceArc(Sommet sommet) {

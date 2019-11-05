@@ -14,6 +14,9 @@ public class Sommet {
     private int nbObjetsC = 0;
     private List<Arc> voisins = new ArrayList<>();
     private LinkedList<Sommet> listeSommetsTraverses = new LinkedList<>();
+    private boolean assezA = false;
+    private boolean assezB = false;
+    private boolean assezC = false;
 
     public Sommet(int noeud, int nbObjetsA, int nbObjetsB, int nbObjetsC) {
         this.noeud = noeud;
@@ -30,6 +33,9 @@ public class Sommet {
         totalA = 0;
         totalB = 0;
         totalC = 0;
+        this.assezA = false;
+        this.assezB = false;
+        this.assezC = false;
     }
 
     public void setEstTraite(boolean estTraite) {
@@ -103,12 +109,28 @@ public class Sommet {
     }
 
     public boolean contientAssezObjets(Commande commande) {
-        boolean estVrai = false;
         calculerTotal();
-        if (totalA >= commande.getNbObjetsA_() && totalB >= commande.getNbObjetsB_() && totalC >= commande.getNbObjetsC_())
-            estVrai = true;
-        return estVrai;
+        if (totalA >= commande.getNbObjetsA_())
+            assezA = true;
+        if (totalB >= commande.getNbObjetsB_())
+            assezB = true;
+        if (totalC >= commande.getNbObjetsC_())
+            assezC = true;
+        return assezA && assezB && assezC;
     }
+
+    public boolean contientAssezA() {
+        return assezA;
+    }
+
+    public boolean contientAssezB() {
+        return assezB;
+    }
+
+    public boolean contientAssezC() {
+        return assezC;
+    }
+
 
 //    public Sommet trouverSommetMin(List<Sommet> liste) {
 //        Sommet distanceMin = liste.get(0);
@@ -130,5 +152,15 @@ public class Sommet {
 
     public int getTotalC() {
         return totalC;
+    }
+
+    public int getDistanceArc(Sommet sommet) {
+        int distance = 0;
+        for (Arc a : voisins) {
+            if (a.getVoisin().getNoeud() == sommet.getNoeud()) {
+                distance = a.getDistance();
+            }
+        }
+        return distance;
     }
 }

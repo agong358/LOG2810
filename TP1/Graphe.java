@@ -1,5 +1,7 @@
 //package LOG2810.TP1;
 
+import sun.awt.image.ImageWatched;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -180,9 +182,23 @@ public class Graphe {
         List<Sommet> listeTemp = new ArrayList<>();
         Dijkstra dijskstra = new Dijkstra();
         dijskstra.dijkstra(noeudDepart);
+//        if (contientSommetOptimal()) {
         for (Sommet s : listeSommets) {
+            //s.calculerTotal();
+//                System.out.println(s.getNoeud() + ":" + s.getTotalA() + ", " +s.getTotalB() + ", " + s.getTotalC());
+//                System.out.println(s.contientAssezObjets(commande));
             if (s.contientAssezObjets(commande)) {
                 listeTemp.add(s);
+            }
+        }
+//        }
+        if (listeTemp.isEmpty()) {
+            calculerTotal();
+            if (contientAssezA()) {
+                if (contientAssezB()) {
+                    //listeTemp = trouverSommetsCMax(listeSommets, trouverValeurCMax());
+                    Sommet distanceMin = trouverSommetMin(trouverSommetsCMax(listeSommets, trouverValeurCMax()));
+                }
             }
         }
 //        if (listeTemp.isEmpty()) {
@@ -195,18 +211,116 @@ public class Graphe {
 //            }
 //        }
         Sommet distanceMin = trouverSommetMin(listeTemp);
-        afficherParcours(distanceMin.getListeSommetsTraverses());
+        System.out.println(distanceMin.getNoeud());
+        RobotX robot = new RobotX(commande);
+        afficherParcours(distanceMin.getListeSommetsTraverses(), robot);
         //System.out.println("noeud" + distanceMin.getNoeud() + " avec distance de " + distanceMin.getSommetDistance());
     }
 
-    public Sommet trouverSommetMaxObjets(List<Sommet> liste) {
-        Sommet objetsMax = liste.get(0);
-        for (Sommet s : liste) {
-            if (s.getTotalA() > objetsMax.getTotalA()) {
-                objetsMax = s;
+    public boolean contientSommetOptimal() {
+        boolean contient = false;
+        for (Sommet s : listeSommets) {
+            //s.calculerTotal();
+            //System.out.println(s.getNoeud() + ":" + s.getTotalA() + ", " +s.getTotalB() + ", " + s.getTotalC());
+            //System.out.println(s.contientAssezObjets(commande));
+            if (s.contientAssezObjets(commande)) {
+                contient = true;
             }
         }
-        return objetsMax;
+        return contient;
+    }
+
+    public void calculerTotal() {
+        for (Sommet s : listeSommets) {
+            s.contientAssezObjets(commande);
+        }
+    }
+
+    public boolean contientAssezA() {
+        boolean assezA = false;
+        for (Sommet s : listeSommets) {
+            if (s.contientAssezA())
+                assezA = true;
+        }
+        return assezA;
+    }
+
+    public boolean contientAssezB() {
+        boolean assezB = false;
+        for (Sommet s : listeSommets) {
+            if (s.contientAssezB())
+                assezB = true;
+        }
+        return assezB;
+    }
+
+    public boolean contientAssezC() {
+        boolean assezC = false;
+        for (Sommet s : listeSommets) {
+            if (s.contientAssezC())
+                assezC = true;
+        }
+        return assezC;
+    }
+
+    public int trouverValeurAMax() {
+        int nbAMax = 0;
+        for (Sommet s : listeSommets) {
+            if (s.getTotalA() >= nbAMax) {
+                nbAMax = s.getTotalA();
+            }
+        }
+        return nbAMax;
+    }
+
+    public int trouverValeurBMax() {
+        int nbBMax = 0;
+        for (Sommet s : listeSommets) {
+            if (s.getTotalB() >= nbBMax) {
+                nbBMax = s.getTotalB();
+            }
+        }
+        return nbBMax;
+    }
+
+    public int trouverValeurCMax() {
+        int nbCMax = 0;
+        for (Sommet s : listeSommets) {
+            if (s.getTotalC() >= nbCMax) {
+                nbCMax = s.getTotalC();
+            }
+        }
+        return nbCMax;
+    }
+
+    public List<Sommet> trouverSommetsAMax(List<Sommet> liste, int nbObjetsMax) {
+        List<Sommet> listeMax = new ArrayList<Sommet>();
+        for (Sommet s : liste) {
+            if (s.getTotalA() == nbObjetsMax) {
+                listeMax.add(s);
+            }
+        }
+        return listeMax;
+    }
+
+    public List<Sommet> trouverSommetsBMax(List<Sommet> liste, int nbObjetsMax) {
+        List<Sommet> listeMax = new ArrayList<Sommet>();
+        for (Sommet s : liste) {
+            if (s.getTotalB() == nbObjetsMax) {
+                listeMax.add(s);
+            }
+        }
+        return listeMax;
+    }
+
+    public List<Sommet> trouverSommetsCMax(List<Sommet> liste, int nbObjetsMax) {
+        List<Sommet> listeMax = new ArrayList<Sommet>();
+        for (Sommet s : liste) {
+            if (s.getTotalC() == nbObjetsMax) {
+                listeMax.add(s);
+            }
+        }
+        return listeMax;
     }
 
     public Sommet trouverSommetMin(List<Sommet> liste) {
@@ -219,10 +333,12 @@ public class Graphe {
         return distanceMin;
     }
 
-    public void afficherParcours(LinkedList<Sommet> liste) {
+    public void afficherParcours(LinkedList<Sommet> liste, RobotX robot) {
         for (Sommet s : liste) {
             System.out.print("Noeud" + s.getNoeud() + " --> ");
         }
+        System.out.println("Robot : RobotX");
+        System.out.println(robot.calculerTempsTotal(liste));
     }
 
 

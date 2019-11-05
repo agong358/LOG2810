@@ -26,6 +26,12 @@ public class Sommet {
         return estTraite;
     }
 
+    public void reinitialiserTotal() {
+        totalA = 0;
+        totalB = 0;
+        totalC = 0;
+    }
+
     public void setEstTraite(boolean estTraite) {
         this.estTraite = estTraite;
     }
@@ -85,6 +91,7 @@ public class Sommet {
     public void addSommetTraverse(Sommet sommet) {
         listeSommetsTraverses.add(sommet);
     }
+
 
     public void calculerTotal() {
 

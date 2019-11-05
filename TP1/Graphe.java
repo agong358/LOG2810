@@ -10,9 +10,21 @@ import java.io.FileNotFoundException;
 public class Graphe {
     private List<Sommet> listeSommets = new ArrayList<>();
     private Commande commande = new Commande();
+    private int maxA;
+    private int maxB;
+    private int maxC;
+    private boolean nbAEstValide = false;
 
     public List<Sommet> getListeSommets() {
         return listeSommets;
+    }
+
+    public void calculerMaxObjets() {
+        for (Sommet s : listeSommets) {
+            maxA += s.getNbObjetsA();
+            maxB += s.getNbObjetsB();
+            maxC += s.getNbObjetsC();
+        }
     }
 
     // constructeur par defaut
@@ -100,11 +112,18 @@ public class Graphe {
      * type que le robot devra aller chercher.
      */
     public void prendreCommande(){
+        for (Sommet s : listeSommets) {
+            s.reinitialiserTotal();
+        }
+
+        calculerMaxObjets();
+        System.out.println(maxA);
 
         int inputUserA, inputUserB, inputUserC;
 
         System.out.println("Entrez le nombre d'objets de type A: ");
         Scanner scan = new Scanner(System.in);
+
         while(!scan.hasNextInt()) {
             String input = scan.next();
             System.out.println(input + " n'est pas une option valide!");
@@ -112,6 +131,9 @@ public class Graphe {
             System.out.println("---------------------------------------");
         }
         inputUserA = scan.nextInt();
+//        if (inputUserA > maxA) {
+//            System.out.println(inputUserA + " n'est pas une option valide!");
+//        }
 
         System.out.println("Entrez le nombre d'objets de type B: ");
         while(!scan.hasNextInt()) {
@@ -163,8 +185,28 @@ public class Graphe {
                 listeTemp.add(s);
             }
         }
+//        if (listeTemp.isEmpty()) {
+//            Sommet max = trouverSommetMaxObjets(listeSommets);
+//            dijskstra.dijkstra(max);
+//            for (Sommet s : listeSommets) {
+//                if (s.contientAssezObjets(new Commande(commande.getNbObjetsA_() - max.getTotalA(), commande.getNbObjetsB_() - max.getTotalB(), commande.getNbObjetsC_() - max.getTotalC()))) {
+//                    listeTemp.add(s);
+//                }
+//            }
+//        }
         Sommet distanceMin = trouverSommetMin(listeTemp);
+        afficherParcours(distanceMin.getListeSommetsTraverses());
         //System.out.println("noeud" + distanceMin.getNoeud() + " avec distance de " + distanceMin.getSommetDistance());
+    }
+
+    public Sommet trouverSommetMaxObjets(List<Sommet> liste) {
+        Sommet objetsMax = liste.get(0);
+        for (Sommet s : liste) {
+            if (s.getTotalA() > objetsMax.getTotalA()) {
+                objetsMax = s;
+            }
+        }
+        return objetsMax;
     }
 
     public Sommet trouverSommetMin(List<Sommet> liste) {
@@ -175,6 +217,12 @@ public class Graphe {
             }
         }
         return distanceMin;
+    }
+
+    public void afficherParcours(LinkedList<Sommet> liste) {
+        for (Sommet s : liste) {
+            System.out.print("Noeud" + s.getNoeud() + " --> ");
+        }
     }
 
 

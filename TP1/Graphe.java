@@ -9,9 +9,10 @@ import java.io.FileNotFoundException;
 public class Graphe {
     private List<Sommet> listeSommets = new ArrayList<>();
     private Commande commande = new Commande();
-    private List<SommetChemin> listeSommetsVerifies = new ArrayList<>();
-    private List<SommetChemin> listeSommetsATraiter= new ArrayList<>();
-    private int DISTANCE_MAX = Integer.MAX_VALUE;
+
+    public List<Sommet> getListeSommets() {
+        return listeSommets;
+    }
 
     // constructeur par defaut
     public Graphe(){
@@ -52,26 +53,31 @@ public class Graphe {
 //            System.out.println(oui.getNoeud() + "," + oui.getNbObjetsA() + "," + oui.getNbObjetsB() + "," + oui.getNbObjetsC());
 //        }
 
-        List<Voisin> listeFichier = new ArrayList<>();
+        //List<Arc> listeFichier = new ArrayList<>();
         for (String v : arrayVoisinDistance) {
             String[] tempArray = v.split(",");
-            listeFichier.add(new Voisin(Integer.parseInt(tempArray[0]), Integer.parseInt(tempArray[1]), Integer.parseInt(tempArray[2])));
+            listeSommets.get(Integer.parseInt(tempArray[1])).addVoisin(new Arc(listeSommets.get(Integer.parseInt(tempArray[0])), Integer.parseInt(tempArray[2])));
+            listeSommets.get(Integer.parseInt(tempArray[0])).addVoisin(new Arc(listeSommets.get(Integer.parseInt(tempArray[1])), Integer.parseInt(tempArray[2])));
+//            listeFichier.add(new Arc(listeSommets.get(Integer.parseInt(tempArray[0])), Integer.parseInt(tempArray[2])));
+//            listeFichier.add(new Arc(listeSommets.get(Integer.parseInt(tempArray[1])), Integer.parseInt(tempArray[2])));
         }
 
-        //TESTS DAFFICHAGE
-//        for (Voisin oui : listeFichier) {
-//            System.out.println(oui.getNoeudCourant() + "," + oui.getNoeudVoisin() + "," + oui.getDistance());
+//        //TESTS DAFFICHAGE
+//        for (Arc oui : listeFichier) {
+//            System.out.println(oui.getVoisin().getNoeud() + "," + oui.getDistance());
 //        }
-        for (Voisin v : listeFichier) {
-            listeSommets.get(v.getNoeudCourant()).addVoisin(v);
-            listeSommets.get(v.getNoeudVoisin()).addVoisin(new Voisin(v.getNoeudVoisin(), v.getNoeudCourant(), v.getDistance()));
-        }
+
+//        for (Arc v : listeFichier) {
+//            //listeSommets.get(v.getNoeudCourant()).addVoisin(v);
+//            //listeSommets.get(v.getNoeudVoisin()).addVoisin(new Voisin(v.getNoeudVoisin(), v.getNoeudCourant(), v.getDistance()));
+//            listeSommets.get(v.getVoisin().getNoeud()).addVoisin(v);
+//        }
 
         //TESTS DAFFICHAGE
 //        for (Sommet s : listeSommets) {
-//            List<Voisin> tempVoisin = s.getVoisins();
-//            for (Voisin v : tempVoisin) {
-//                System.out.println(v.getNoeudCourant() + "," + v.getNoeudVoisin() + "," + v.getDistance());
+//            List<Arc> tempVoisin = s.getVoisins();
+//            for (Arc v : tempVoisin) {
+//                System.out.println(s.getNoeud() + "," + v.getVoisin().getNoeud() + "," + v.getDistance());
 //            }
 //        }
     }
@@ -146,16 +152,8 @@ public class Graphe {
      * Si le chemin est impossible, la fonction doit en informer l'utilisateur.
      */
     public void plusCourtChemin(Sommet noeudDepart, Sommet noeudArrivee){
-        List<Voisin> listeVoisins = noeudDepart.getVoisins();
-        SommetChemin premierSommet = new SommetChemin(noeudArrivee.getNoeud(), 0);
-        premierSommet.addSommet(noeudDepart);
-        listeSommetsATraiter.add(premierSommet);
-
-        while (!listeSommetsATraiter.isEmpty())
-
-        for (Voisin v : listeVoisins) {
-
-        }
+        Dijkstra dijskstra = new Dijkstra();
+        dijskstra.dijkstra(noeudDepart);
     }
 
 
@@ -214,6 +212,10 @@ public class Graphe {
                     break;
                 case 5:
                     System.out.println("Trouver le plus court chemin. \n");
+                    plusCourtChemin(listeSommets.get(0), listeSommets.get(0));
+                    System.out.println(listeSommets.get(12).getSommetDistance());
+                    System.out.println(listeSommets.get(2).getSommetDistance());
+                    System.out.println(listeSommets.get(3).getSommetDistance());
                     break;
                 // pour quitter
                 case 6:

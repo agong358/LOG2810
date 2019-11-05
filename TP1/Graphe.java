@@ -1,6 +1,7 @@
 //package LOG2810.TP1;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 import java.io.File;
@@ -153,8 +154,27 @@ public class Graphe {
      * Si le chemin est impossible, la fonction doit en informer l'utilisateur.
      */
     public void plusCourtChemin(Sommet noeudDepart, Sommet noeudArrivee){
+        //LinkedList<Sommet> cheminCourt = new LinkedList<>();
+        List<Sommet> listeTemp = new ArrayList<>();
         Dijkstra dijskstra = new Dijkstra();
         dijskstra.dijkstra(noeudDepart);
+        for (Sommet s : listeSommets) {
+            if (s.contientAssezObjets(commande)) {
+                listeTemp.add(s);
+            }
+        }
+        Sommet distanceMin = trouverSommetMin(listeTemp);
+        //System.out.println("noeud" + distanceMin.getNoeud() + " avec distance de " + distanceMin.getSommetDistance());
+    }
+
+    public Sommet trouverSommetMin(List<Sommet> liste) {
+        Sommet distanceMin = liste.get(0);
+        for (Sommet sommet : liste) {
+            if (sommet.getSommetDistance() < distanceMin.getSommetDistance()) {
+                distanceMin = sommet;
+            }
+        }
+        return distanceMin;
     }
 
 
@@ -214,9 +234,6 @@ public class Graphe {
                 case 5:
                     System.out.println("Trouver le plus court chemin. \n");
                     plusCourtChemin(listeSommets.get(0), listeSommets.get(0));
-                    System.out.println(listeSommets.get(12).getSommetDistance());
-                    System.out.println(listeSommets.get(2).getSommetDistance());
-                    System.out.println(listeSommets.get(3).getSommetDistance());
                     break;
                 // pour quitter
                 case 6:

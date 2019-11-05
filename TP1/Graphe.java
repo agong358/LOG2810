@@ -23,6 +23,7 @@ public class Graphe {
      */
     public void creerGraphe(String fichier){
         File file = new File("C:\\Users\\nhien\\Documents\\Session Automne 2019\\LOG2810\\TP\\LOG2810\\TP1\\entrepot.txt");
+        File fileAlice = new File("C:\\Users\\Alice G\\Documents\\Polytechnique\\Session 3\\LOG2810\\TP\\LOG2810\\TP1\\entrepot.txt");
         String sommetNbObjets = new String("");
         String voisinDistance = new String("");
         String pattern = ".*,.*,.*,.*";

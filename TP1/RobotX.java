@@ -22,14 +22,14 @@ public class RobotX {
         return chargeMaxOK;
     }
 
-    public double calculerMasseParSommet(int nombreObjetsA, int nombreObjetsB, int nombreObjetsC, LinkedList<Double> chemin){
+    public double calculerTempsTotale(double distance, int nombreObjetsA, int nombreObjetsB, int nombreObjetsC, LinkedList<Sommet> chemin){
         double masseTotale = 0.0;
         double nombreObjetAActuel = 0.0;
         double nombreObjetBActuel = 0.0;
         double nombreObjetCActuel = 0.0;
 
         //Pour chaque sommet que le robot croise
-        for(/*linkedlist avec la nouvelle version de sommet*/){
+        for(/*TODO linkedlist avec la nouvelle version de sommet*/){
             masse = nombreObjetsA * poidsA + nombreObjetsB * poidsB + nombreObjetsC * poidsC;
             double ajouterA = 0;
             double ajouterB = 0;
@@ -73,19 +73,38 @@ public class RobotX {
                     masseTotale += poidsA;
                 }
             }
+
+
+
+            // ICI!!
+
+
+
         }
-        return masseTotale;
     }
 
-    public int calculerTempsAuSommet(int nombreObjetsA, int nombreObjetsB, int nombreObjetsC){
-        int temps;
-        temps = tempsConstant * (nombreObjetsA + nombreObjetsB + nombreObjetsC);
+    //TODO Mettre calculerTempsAuSommet dans le for loop de ^
 
-        return temps;
+    public double calculerTempsAuSommet(double distance, int nombreObjetsA, int nombreObjetsB, int nombreObjetsC){
+
+        //TODO utiliser la formule T = k*D
+
+        double tempsPrendre;
+        tempsPrendre = tempsConstant * (nombreObjetsA + nombreObjetsB + nombreObjetsC);
+
+        boolean prendreObjet = false;
+        double tempsTotal = tempsPrendre;
+        int nombreObjetAActuel = 0;
+        int nombreObjetBActuel = 0;
+        int nombreObjetCActuel = 0;
+        for(/*TODO linkedlist avec la nouvelle version de sommet*/){
+            if(){
+
+            }
+            tempsTotal += distance;
+        }
     }
 
-     public int calculerTempsTotal(double distance){
 
-     }
 
 }

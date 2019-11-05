@@ -10,8 +10,9 @@ public class RobotX {
     private int poidsB = 3;
     private int poidsC = 6;
 
-    public void calculerCstKx() {
+    public double calculerCstKx(double masse) {
         cstKx = 1 + masse;
+        return cstKx;
     }
 
     public boolean verifierChargeMax(){
@@ -22,8 +23,9 @@ public class RobotX {
         return chargeMaxOK;
     }
 
-    public double calculerTempsTotale(double distance, int nombreObjetsA, int nombreObjetsB, int nombreObjetsC, LinkedList<Sommet> chemin){
+    public double calculerTempsTotale(LinkedList<Arc> distance, int nombreObjetsA, int nombreObjetsB, int nombreObjetsC, LinkedList<Sommet> chemin){
         double masseTotale = 0.0;
+        double tempsTotal = 0.0;
         double nombreObjetAActuel = 0.0;
         double nombreObjetBActuel = 0.0;
         double nombreObjetCActuel = 0.0;
@@ -34,6 +36,7 @@ public class RobotX {
             double ajouterA = 0;
             double ajouterB = 0;
             double ajouterC = 0;
+
 
             //Vérifier que le robot ne prend pas plus d'objets que la commande
             if((nombreObjetAActuel + nombreObjetsA)<=commande.getNbObjetsA_()){
@@ -74,37 +77,16 @@ public class RobotX {
                 }
             }
 
-
-
-            // ICI!!
-
-
-
+            //À chaque fois qu'on visite un nouveau sommet, on ajoute du temps selon la masse
+            double cste_kx = calculerCstKx(masseTotale);
+            tempsTotal += cste_kx * distance[/*TODO la variable dans le for loop de départ?????*/];
         }
+
+        //Ajouter le temps par défaut pour prendre chaque objet
+        double tempsPrendre = tempsConstant * (nombreObjetsA + nombreObjetsB + nombreObjetsC);
+        tempsTotal += tempsPrendre;
+
+        return tempsTotal;
     }
-
-    //TODO Mettre calculerTempsAuSommet dans le for loop de ^
-
-    public double calculerTempsAuSommet(double distance, int nombreObjetsA, int nombreObjetsB, int nombreObjetsC){
-
-        //TODO utiliser la formule T = k*D
-
-        double tempsPrendre;
-        tempsPrendre = tempsConstant * (nombreObjetsA + nombreObjetsB + nombreObjetsC);
-
-        boolean prendreObjet = false;
-        double tempsTotal = tempsPrendre;
-        int nombreObjetAActuel = 0;
-        int nombreObjetBActuel = 0;
-        int nombreObjetCActuel = 0;
-        for(/*TODO linkedlist avec la nouvelle version de sommet*/){
-            if(){
-
-            }
-            tempsTotal += distance;
-        }
-    }
-
-
 
 }

@@ -12,7 +12,7 @@ public class Dijkstra {
 
     public void dijkstra(Sommet noeudDepart) {
         noeudDepart.setSommetDistance(0);
-        //noeudDepart.addSommetTraverse(noeudDepart);
+        noeudDepart.addSommetTraverse(noeudDepart);
         listeSommetsATraiter.add(noeudDepart);
 
         while (!listeSommetsATraiter.isEmpty()) {
@@ -45,7 +45,8 @@ public class Dijkstra {
         if (sommetTraite.getSommetDistance() > distanceInitiale + distanceArc) {
             sommetTraite.setSommetDistance(distanceInitiale + distanceArc);
             LinkedList<Sommet> chemin = new LinkedList<>(sommetInitial.getListeSommetsTraverses());
-            chemin.add(sommetInitial);
+            //chemin.add(sommetInitial);
+            chemin.add(sommetTraite);
             sommetTraite.setListeSommetsTraverses(chemin);
         }
     }

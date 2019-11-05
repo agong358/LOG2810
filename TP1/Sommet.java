@@ -3,6 +3,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Sommet {
+    private int totalA = 0;
+    private int totalB = 0;
+    private int totalC = 0;
     private boolean estTraite = false;
     private int sommetDistance = Integer.MAX_VALUE;
     private int noeud;
@@ -81,5 +84,44 @@ public class Sommet {
 
     public void addSommetTraverse(Sommet sommet) {
         listeSommetsTraverses.add(sommet);
+    }
+
+    public void calculerTotal() {
+
+        for (Sommet s : listeSommetsTraverses) {
+            totalA += s.getNbObjetsA();
+            totalB += s.getNbObjetsB();
+            totalC += s.getNbObjetsC();
+        }
+    }
+
+    public boolean contientAssezObjets(Commande commande) {
+        boolean estVrai = false;
+        calculerTotal();
+        if (totalA >= commande.getNbObjetsA_() && totalB >= commande.getNbObjetsB_() && totalC >= commande.getNbObjetsC_())
+            estVrai = true;
+        return estVrai;
+    }
+
+//    public Sommet trouverSommetMin(List<Sommet> liste) {
+//        Sommet distanceMin = liste.get(0);
+//        for (Sommet sommet : liste) {
+//            if (sommet.getSommetDistance() <= distanceMin.getSommetDistance()) {
+//                distanceMin = sommet;
+//            }
+//        }
+//        return distanceMin;
+//    }
+
+    public int getTotalA() {
+        return totalA;
+    }
+
+    public int getTotalB() {
+        return totalB;
+    }
+
+    public int getTotalC() {
+        return totalC;
     }
 }

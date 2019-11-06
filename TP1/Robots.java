@@ -43,7 +43,7 @@ public abstract class Robots {
     //Vérifier que la charge maximale n'est pas dépassée
     public boolean verifierChargeMax(){
         boolean chargeMaxOK = false;
-        if (commande.getNbObjetsA_() * POIDS_A + commande.getNbObjetsB_() * POIDS_B + commande.getNbObjetsC_() * POIDS_C <= chargeMax){
+        if (commande.getNbObjetsA() * POIDS_A + commande.getNbObjetsB() * POIDS_B + commande.getNbObjetsC() * POIDS_C <= chargeMax){
             chargeMaxOK = true;
         }
 
@@ -74,45 +74,45 @@ public abstract class Robots {
                 int distance = sommetTest.getDistanceArc(s);
                 sommetTest = s;
                 tempsTotal += calculerCstK(masse) * distance;
-                if (s.getNbObjetsA() <= commande.getNbObjetsA_()) {
-                    if (commande.getNbObjetsA_() != 0)
+                if (s.getNbObjetsA() <= commande.getNbObjetsA()) {
+                    if (commande.getNbObjetsA() != 0)
                         s.setNbPrendreA(s.getNbObjetsA());
                     tempsTotal += TEMPS_CONSTANT * s.getNbObjetsA();
                     masse += s.getNbObjetsA() * POIDS_A;
-                    commande.setNbObjetsA_(commande.getNbObjetsA_() - s.getNbObjetsA());
+                    commande.setNbObjetsA(commande.getNbObjetsA() - s.getNbObjetsA());
                 }
                 else {
-                    s.setNbPrendreA(commande.getNbObjetsA_());
-                    tempsTotal += TEMPS_CONSTANT * commande.getNbObjetsA_();
-                    masse += commande.getNbObjetsA_() * POIDS_A;
-                    commande.setNbObjetsA_(0);
+                    s.setNbPrendreA(commande.getNbObjetsA());
+                    tempsTotal += TEMPS_CONSTANT * commande.getNbObjetsA();
+                    masse += commande.getNbObjetsA() * POIDS_A;
+                    commande.setNbObjetsA(0);
                 }
 
-                if (s.getNbObjetsB() <= commande.getNbObjetsB_()) {
-                    if (commande.getNbObjetsB_() != 0)
+                if (s.getNbObjetsB() <= commande.getNbObjetsB()) {
+                    if (commande.getNbObjetsB() != 0)
                         s.setNbPrendreB(s.getNbObjetsB());
                     tempsTotal += TEMPS_CONSTANT * s.getNbObjetsB();
                     masse += s.getNbObjetsB() * POIDS_B;
-                    commande.setNbObjetsB_(commande.getNbObjetsB_() - s.getNbObjetsB());
+                    commande.setNbObjetsB(commande.getNbObjetsB() - s.getNbObjetsB());
                 }
                 else {
-                    s.setNbPrendreB(commande.getNbObjetsB_());
-                    tempsTotal += TEMPS_CONSTANT * commande.getNbObjetsB_();
-                    masse += commande.getNbObjetsB_() * POIDS_B;
-                    commande.setNbObjetsB_(0);
+                    s.setNbPrendreB(commande.getNbObjetsB());
+                    tempsTotal += TEMPS_CONSTANT * commande.getNbObjetsB();
+                    masse += commande.getNbObjetsB() * POIDS_B;
+                    commande.setNbObjetsB(0);
                 }
-                if (s.getNbObjetsC() <= commande.getNbObjetsC_()) {
-                    if (commande.getNbObjetsC_() != 0)
+                if (s.getNbObjetsC() <= commande.getNbObjetsC()) {
+                    if (commande.getNbObjetsC() != 0)
                         s.setNbPrendreC(s.getNbObjetsC());
                     tempsTotal += TEMPS_CONSTANT * s.getNbObjetsC();
                     masse += s.getNbObjetsC() * POIDS_C;
-                    commande.setNbObjetsC_(commande.getNbObjetsC_() - s.getNbObjetsC());
+                    commande.setNbObjetsC(commande.getNbObjetsC() - s.getNbObjetsC());
                 }
                 else {
-                    s.setNbPrendreC(commande.getNbObjetsC_());
-                    tempsTotal += TEMPS_CONSTANT* commande.getNbObjetsC_();
-                    masse += commande.getNbObjetsC_() * POIDS_C;
-                    commande.setNbObjetsC_(0);
+                    s.setNbPrendreC(commande.getNbObjetsC());
+                    tempsTotal += TEMPS_CONSTANT* commande.getNbObjetsC();
+                    masse += commande.getNbObjetsC() * POIDS_C;
+                    commande.setNbObjetsC(0);
                 }
             }
         }

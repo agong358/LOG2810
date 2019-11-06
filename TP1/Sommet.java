@@ -21,6 +21,7 @@ public class Sommet {
     private int nbPrendreB = 0;
     private int nbPrendreC = 0;
 
+    //Getters
     public int getNbPrendreA() {
         return nbPrendreA;
     }
@@ -31,42 +32,6 @@ public class Sommet {
 
     public int getNbPrendreC() {
         return nbPrendreC;
-    }
-
-    public void setNbPrendreA(int nbPrendreA) {
-        this.nbPrendreA = nbPrendreA;
-    }
-
-    public void setNbPrendreB(int nbPrendreB) {
-        this.nbPrendreB = nbPrendreB;
-    }
-
-    public void setNbPrendreC(int nbPrendreC) {
-        this.nbPrendreC = nbPrendreC;
-    }
-
-    public Sommet(int noeud, int nbObjetsA, int nbObjetsB, int nbObjetsC) {
-        this.noeud = noeud;
-        this.nbObjetsA = nbObjetsA;
-        this.nbObjetsB = nbObjetsB;
-        this.nbObjetsC = nbObjetsC;
-    }
-
-    public boolean estTraite() {
-        return estTraite;
-    }
-
-    public void reinitialiserTotal() {
-        totalA = 0;
-        totalB = 0;
-        totalC = 0;
-        this.assezA = false;
-        this.assezB = false;
-        this.assezC = false;
-    }
-
-    public void setEstTraite(boolean estTraite) {
-        this.estTraite = estTraite;
     }
 
     public int getNoeud() {
@@ -89,61 +54,12 @@ public class Sommet {
         return voisins;
     }
 
-    public void setVoisins(List<Arc> voisins) {
-        this.voisins = voisins;
-    }
-
-    public void addVoisin(Arc voisin) {
-        this.voisins.add(voisin);
-    }
-
-    public void print() {
-        System.out.println("Noeud" + this.getNoeud() + ", nbObjetsA : " + this.getNbObjetsA() + ", nbObjetsB : " +
-                this.getNbObjetsB() + ", nbObjetsC : " + this.getNbObjetsC());
-        for (Arc v : voisins) {
-            System.out.println("(noeud_voisin_" + v.getVoisin().getNoeud() + ", distance : " + v.getDistance() + ")");
-        }
-    }
-
     public int getSommetDistance() {
         return sommetDistance;
     }
 
-    public void setSommetDistance(int sommetDistance) {
-        this.sommetDistance = sommetDistance;
-    }
-
-    public void setListeSommetsTraverses(LinkedList<Sommet> listeSommetsTraverses) {
-        this.listeSommetsTraverses = listeSommetsTraverses;
-    }
-
     public LinkedList<Sommet> getListeSommetsTraverses() {
         return listeSommetsTraverses;
-    }
-
-    public void addSommetTraverse(Sommet sommet) {
-        listeSommetsTraverses.add(sommet);
-    }
-
-
-    public void calculerTotal() {
-
-        for (Sommet s : listeSommetsTraverses) {
-            totalA += s.getNbObjetsA();
-            totalB += s.getNbObjetsB();
-            totalC += s.getNbObjetsC();
-        }
-    }
-
-    public boolean contientAssezObjets(Commande commande) {
-        calculerTotal();
-        if (totalA >= commande.getNbObjetsA_())
-            assezA = true;
-        if (totalB >= commande.getNbObjetsB_())
-            assezB = true;
-        if (totalC >= commande.getNbObjetsC_())
-            assezC = true;
-        return assezA && assezB && assezC;
     }
 
     public int getDistanceArc(Sommet sommet) {
@@ -154,5 +70,98 @@ public class Sommet {
             }
         }
         return distance;
+    }
+
+    //Setters
+    public void setNbPrendreA(int nbPrendreA) {
+        this.nbPrendreA = nbPrendreA;
+    }
+
+    public void setNbPrendreB(int nbPrendreB) {
+        this.nbPrendreB = nbPrendreB;
+    }
+
+    public void setNbPrendreC(int nbPrendreC) {
+        this.nbPrendreC = nbPrendreC;
+    }
+
+    public void setEstTraite(boolean estTraite) {
+        this.estTraite = estTraite;
+    }
+
+    public void setVoisins(List<Arc> voisins) {
+        this.voisins = voisins;
+    }
+
+    public void setSommetDistance(int sommetDistance) {
+        this.sommetDistance = sommetDistance;
+    }
+
+    public void setListeSommetsTraverses(LinkedList<Sommet> listeSommetsTraverses) {
+        this.listeSommetsTraverses = listeSommetsTraverses;
+    }
+
+    //Constructeur par paramètres
+    public Sommet(int noeud, int nbObjetsA, int nbObjetsB, int nbObjetsC) {
+        this.noeud = noeud;
+        this.nbObjetsA = nbObjetsA;
+        this.nbObjetsB = nbObjetsB;
+        this.nbObjetsC = nbObjetsC;
+    }
+
+    //Vérifie si le sommet est traité
+    public boolean estTraite() {
+        return estTraite;
+    }
+
+    //Réinitialiser le sommet
+    public void reinitialiserTotal() {
+        totalA = 0;
+        totalB = 0;
+        totalC = 0;
+        this.assezA = false;
+        this.assezB = false;
+        this.assezC = false;
+    }
+
+    //Ajouter un voisin
+    public void addVoisin(Arc voisin) {
+        this.voisins.add(voisin);
+    }
+
+    //Affichage
+    public void print() {
+        System.out.println("Noeud" + this.getNoeud() + ", nbObjetsA : " + this.getNbObjetsA() + ", nbObjetsB : " +
+                this.getNbObjetsB() + ", nbObjetsC : " + this.getNbObjetsC());
+        for (Arc v : voisins) {
+            System.out.println("(noeud_voisin_" + v.getVoisin().getNoeud() + ", distance : " + v.getDistance() + ")");
+        }
+    }
+
+    //Ajouter un sommet a la liste de sommets traversés
+    public void addSommetTraverse(Sommet sommet) {
+        listeSommetsTraverses.add(sommet);
+    }
+
+    //Calculer le total de la distance des trois objets
+    public void calculerTotal() {
+
+        for (Sommet s : listeSommetsTraverses) {
+            totalA += s.getNbObjetsA();
+            totalB += s.getNbObjetsB();
+            totalC += s.getNbObjetsC();
+        }
+    }
+
+    //Vérifier si le robot a pris toutes les objets des commandes
+    public boolean contientAssezObjets(Commande commande) {
+        calculerTotal();
+        if (totalA >= commande.getNbObjetsA_())
+            assezA = true;
+        if (totalB >= commande.getNbObjetsB_())
+            assezB = true;
+        if (totalC >= commande.getNbObjetsC_())
+            assezC = true;
+        return assezA && assezB && assezC;
     }
 }

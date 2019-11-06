@@ -15,28 +15,32 @@ public abstract class Robots {
 
     private boolean estMin = false;
 
+    //Getters
     public LinkedList<Sommet> getCheminInverse() {
         return cheminInverse;
     }
 
-    public void setEstMin(boolean estMin) {
-        this.estMin = estMin;
+    public double getTempsTotal() {
+        return tempsTotal;
     }
 
-    public boolean isEstMin() {
-        return estMin;
+    //Setters
+    public void setEstMin(boolean estMin) {
+        this.estMin = estMin;
     }
 
     public void setCharge(int charge) {
         this.chargeMax = charge;
     }
 
-    abstract double calculerCstK(double masse);
 
-    public double getTempsTotal() {
-        return tempsTotal;
+    public boolean isEstMin() {
+        return estMin;
     }
 
+    abstract double calculerCstK(double masse);
+
+    //Vérifier que la charge maximale n'est pas dépassée
     public boolean verifierChargeMax(){
         boolean chargeMaxOK = false;
         if (commande.getNbObjetsA_() * POIDS_A + commande.getNbObjetsB_() * POIDS_B + commande.getNbObjetsC_() * POIDS_C <= chargeMax){
@@ -46,21 +50,25 @@ public abstract class Robots {
         return chargeMaxOK;
     }
 
+    //Calculer le temps total pour le robot en question
     public void calculerTempsTotal(LinkedList<Sommet> chemin){
+        //Tant que le robot peut prendre des objets
         if (verifierChargeMax()) {
             tempsTotal = 0;
             Sommet sommetTemp = new Sommet(30,0,0,0); //noeud qui n'existe pas
+            //Calculer le temps pris par le robot pour faire le chemin
             for (Sommet s : chemin) {
                 int distance = sommetTemp.getDistanceArc(s);
                 sommetTemp = s;
                 tempsTotal += calculerCstK(masse) * distance;
             }
-
+            //Créer le chemin de retour
             LinkedList<Sommet> cheminTemp = new LinkedList<>(chemin);
             while (!cheminTemp.isEmpty()) {
                 cheminInverse.add(cheminTemp.pollLast());
             }
 
+            //Calculer le temps total pour le chemin de retour avec tous les objets
             Sommet sommetTest = new Sommet(50,0,0,0);
             for (Sommet s : cheminInverse) {
                 int distance = sommetTest.getDistanceArc(s);

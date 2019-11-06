@@ -10,6 +10,15 @@ public class Commande {
     private int nbObjetsA, nbObjetsB, nbObjetsC;
 
     /**
+     *  Constructeur par défaut
+     */
+    public Commande() {
+        nbObjetsA = 0;
+        nbObjetsB = 0;
+        nbObjetsC = 0;
+    }
+
+    /**
      *  Constructeur par paramètres
      *
      * @param a Nombre d'objets de type A

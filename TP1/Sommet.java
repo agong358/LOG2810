@@ -156,11 +156,11 @@ public class Sommet {
     //Vérifier si le robot a pris toutes les objets des commandes
     public boolean contientAssezObjets(Commande commande) {
         calculerTotal();
-        if (totalA >= commande.getNbObjetsA_())
+        if (totalA >= commande.getNbObjetsA())
             assezA = true;
-        if (totalB >= commande.getNbObjetsB_())
+        if (totalB >= commande.getNbObjetsB())
             assezB = true;
-        if (totalC >= commande.getNbObjetsC_())
+        if (totalC >= commande.getNbObjetsC())
             assezC = true;
         return assezA && assezB && assezC;
     }

@@ -119,9 +119,9 @@ public class Graphe {
      */
     public void afficherCommande(){
         System.out.println("La commande en mémoire est de : ");
-        System.out.println("Nombre d'objets de type A : " + commande.getNbObjetsA_());
-        System.out.println("Nombre d'objets de type B : " + commande.getNbObjetsB_());
-        System.out.println("Nombre d'objets de type C : " + commande.getNbObjetsC_() + "\n");
+        System.out.println("Nombre d'objets de type A : " + commande.getNbObjetsA());
+        System.out.println("Nombre d'objets de type B : " + commande.getNbObjetsB());
+        System.out.println("Nombre d'objets de type C : " + commande.getNbObjetsC() + "\n");
     }
 
 
@@ -144,14 +144,14 @@ public class Graphe {
         }
 
         Sommet distanceMin = trouverSommetMin(listeTemp);
-        Commande commandeOriginale = new Commande(commande.getNbObjetsA_(), commande.getNbObjetsB_(), commande.getNbObjetsC_());
+        Commande commandeOriginale = new Commande(commande.getNbObjetsA(), commande.getNbObjetsB(), commande.getNbObjetsC());
         RobotX robotX = new RobotX(commande);
         robotX.calculerTempsTotal(distanceMin.getListeSommetsTraverses());
         System.out.println(robotX.tempsTotal);
-        commande = new Commande(commandeOriginale.getNbObjetsA_(), commandeOriginale.getNbObjetsB_(), commandeOriginale.getNbObjetsC_());
+        commande = new Commande(commandeOriginale.getNbObjetsA(), commandeOriginale.getNbObjetsB(), commandeOriginale.getNbObjetsC());
         RobotY robotY = new RobotY(commande);
         robotY.calculerTempsTotal(distanceMin.getListeSommetsTraverses());
-        commande = new Commande(commandeOriginale.getNbObjetsA_(), commandeOriginale.getNbObjetsB_(), commandeOriginale.getNbObjetsC_());
+        commande = new Commande(commandeOriginale.getNbObjetsA(), commandeOriginale.getNbObjetsB(), commandeOriginale.getNbObjetsC());
         RobotZ robotZ = new RobotZ(commande);
         robotZ.calculerTempsTotal(distanceMin.getListeSommetsTraverses());
 

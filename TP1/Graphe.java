@@ -6,16 +6,18 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 public class Graphe {
+    //liste de tous les Sommets contenus dans ce Graphe
     private List<Sommet> listeSommets = new ArrayList<>();
+    //Commande entrée par l'usager
     private Commande commande = new Commande();
+    //String du fichier d'ou on va extraire les données pour créer le Graphe
     private String fichier;
 
     public List<Sommet> getListeSommets() {
         return listeSommets;
     }
 
-
-    // constructeur par defaut
+    // constructeur par paramètres
     public Graphe(String fichier){
         this.fichier = fichier;
     }
@@ -30,6 +32,9 @@ public class Graphe {
         String voisinDistance = new String("");
         String pattern = ".*,.*,.*,.*";
 
+        //séparer le fichier texte en deux parties, la première
+        //avec les nombres d'objets et le deuxième avec les
+        //distances
         try {
             Scanner scan = new Scanner(file);
             while(scan.hasNext(pattern)) {
@@ -43,9 +48,11 @@ public class Graphe {
             e.printStackTrace();
         }
 
+        //split les array de String pour séparer les différents noeuds par ligne
         String[] arraySommetNbObjets = sommetNbObjets.split("\n");
         String[] arrayVoisinDistance = voisinDistance.split("\n");
 
+        //séparer les string en valeur unitaire et les convertir en Integer pour les manipuler plus tard
         for (String s : arraySommetNbObjets) {
             String[] tempArray = s.split(",");
             listeSommets.add(new Sommet(Integer.parseInt(tempArray[0]), Integer.parseInt(tempArray[1]),
@@ -145,6 +152,8 @@ public class Graphe {
         }
 
         Sommet distanceMin = trouverSommetMin(listeTemp);
+
+        //création des différents robots avec la commande
         Commande commandeOriginale = new Commande(commande.getNbObjetsA(), commande.getNbObjetsB(), commande.getNbObjetsC());
         RobotX robotX = new RobotX(commande);
         robotX.calculerTempsTotal(distanceMin.getListeSommetsTraverses());
@@ -155,8 +164,10 @@ public class Graphe {
         RobotZ robotZ = new RobotZ(commande);
         robotZ.calculerTempsTotal(distanceMin.getListeSommetsTraverses());
 
+        //trouve quel robot a le temps minimum
         trouverRobotMin(robotX, robotY, robotZ);
 
+        //va afficher le robot qui a la distance minimum
         if (robotX.isEstMin())
             afficherParcoursX(distanceMin.getListeSommetsTraverses(), robotX);
 
@@ -170,6 +181,9 @@ public class Graphe {
             System.out.println("Commande trop grande");
     }
 
+    /** TODO
+     * Trouver le Robot ayant la distance minimum
+     */
     public void trouverRobotMin(RobotX robotX, RobotY robotY, RobotZ robotZ) {
         double tempsMin = robotX.getTempsTotal();
         if (robotY.getTempsTotal() < tempsMin){
@@ -187,6 +201,9 @@ public class Graphe {
             robotX.setEstMin(true);
     }
 
+    /** TODO
+     * Trouver le Sommet ayant la distance minimum parmi une liste de Sommets
+     */
     public Sommet trouverSommetMin(List<Sommet> liste) {
         Sommet distanceMin = liste.get(0);
         for (Sommet sommet : liste) {
@@ -196,6 +213,10 @@ public class Graphe {
         }
         return distanceMin;
     }
+
+    /** TODO
+     * Afficher le parcours d'un RobotX
+     */
 
     public void afficherParcoursX(LinkedList<Sommet> liste, RobotX robot) {
         for (Sommet s : liste) {
@@ -223,6 +244,9 @@ public class Graphe {
         System.out.println("Temps : " + robot.getTempsTotal() + "\n");
     }
 
+    /** TODO
+     * Afficher le parcours d'un RobotY
+     */
     public void afficherParcoursY(LinkedList<Sommet> liste, RobotY robot) {
         for (Sommet s : liste) {
             System.out.print("Noeud" + s.getNoeud() + " --> ");
@@ -248,6 +272,10 @@ public class Graphe {
         System.out.println("Robot : RobotY");
         System.out.println("Temps : " + robot.getTempsTotal() + "\n");
     }
+
+    /** TODO
+     * Afficher le parcours d'un RobotZ
+     */
     public void afficherParcoursZ(LinkedList<Sommet> liste, RobotZ robot) {
         for (Sommet s : liste) {
             System.out.print("Noeud" + s.getNoeud() + " --> ");
@@ -274,6 +302,9 @@ public class Graphe {
         System.out.println("Temps : " + robot.getTempsTotal() + "\n");
     }
 
+    /** TODO
+     * Afficher une interface demandant à l'usager de choisir une option parmi les 6 disponibles
+     */
     public void interfaceUsager() {
         int userInput;
 
@@ -308,6 +339,7 @@ public class Graphe {
 
             System.out.print("Vous avez sélectionné l'option " + userInput + ": ");
 
+            //switchcase utilisant les différentes méthodes implémentées dans Graphe
             switch(userInput) {
                 case 1:
                     System.out.println("Créer le graphe. \n");

@@ -10,20 +10,33 @@ import java.util.List;
  * @auteure: Kai Sen Trieu
  */
 public class Sommet {
+    //Nombre d'objet accumuler jusqu'à ce sommet
     private int totalA = 0;
     private int totalB = 0;
     private int totalC = 0;
+    //Vérifie si le sommet est traité
     private boolean estTraite = false;
+    //donne la distance d'un sommet à son voisin
     private int sommetDistance = Integer.MAX_VALUE;
+    //donne le noeud
     private int noeud;
+    //nombre d'objet A au sommet
     private int nbObjetsA = 0;
+    //nombre d'objet B au sommet
     private int nbObjetsB = 0;
+    //nombre d'objet C au sommet
     private int nbObjetsC = 0;
+    //liste des voisins du sommet
     private List<Arc> voisins = new ArrayList<>();
+    //liste des sommets parcourus
     private LinkedList<Sommet> listeSommetsTraverses = new LinkedList<>();
+    //vérifie que le robot a pris assez d'objets A
     private boolean assezA = false;
+    //Vérifie que le robot a pris assez d'objets B
     private boolean assezB = false;
+    //Vérifie que le robot a pris assez d'objets C
     private boolean assezC = false;
+    //Nombre d'objet pris à ce sommet
     private int nbPrendreA = 0;
     private int nbPrendreB = 0;
     private int nbPrendreC = 0;

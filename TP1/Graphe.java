@@ -26,6 +26,7 @@ public class Graphe {
         String sommetNbObjets = new String("");
         String voisinDistance = new String("");
         String pattern = ".*,.*,.*,.*";
+
         try {
             Scanner scan = new Scanner(file);
             while(scan.hasNext(pattern)) {
@@ -86,6 +87,7 @@ public class Graphe {
             System.out.println("Veuillez saisir le nombre d'objets de type A: ");
             System.out.println("---------------------------------------");
         }
+
         inputUserA = scan.nextInt();
 
         System.out.println("Entrez le nombre d'objets de type B: ");
@@ -98,12 +100,14 @@ public class Graphe {
         inputUserB = scan.nextInt();
 
         System.out.println("Entrez le nombre d'objets de type C: ");
+
         while(!scan.hasNextInt()) {
             String input = scan.next();
             System.out.println(input + " n'est pas une option valide!");
             System.out.println("Veuillez saisir le nombre d'objets de type C: ");
             System.out.println("---------------------------------------");
         }
+
         inputUserC = scan.nextInt();
 
         commande = new Commande(inputUserA, inputUserB, inputUserC);
@@ -132,6 +136,7 @@ public class Graphe {
         List<Sommet> listeTemp = new ArrayList<>();
         Dijkstra dijskstra = new Dijkstra();
         dijskstra.dijkstra(noeudDepart);
+
         for (Sommet s : listeSommets) {
             if (s.contientAssezObjets(commande)) {
                 listeTemp.add(s);
@@ -142,6 +147,7 @@ public class Graphe {
         Commande commandeOriginale = new Commande(commande.getNbObjetsA_(), commande.getNbObjetsB_(), commande.getNbObjetsC_());
         RobotX robotX = new RobotX(commande);
         robotX.calculerTempsTotal(distanceMin.getListeSommetsTraverses());
+        System.out.println(robotX.tempsTotal);
         commande = new Commande(commandeOriginale.getNbObjetsA_(), commandeOriginale.getNbObjetsB_(), commandeOriginale.getNbObjetsC_());
         RobotY robotY = new RobotY(commande);
         robotY.calculerTempsTotal(distanceMin.getListeSommetsTraverses());
@@ -150,12 +156,16 @@ public class Graphe {
         robotZ.calculerTempsTotal(distanceMin.getListeSommetsTraverses());
 
         trouverRobotMin(robotX, robotY, robotZ);
+
         if (robotX.isEstMin())
             afficherParcoursX(distanceMin.getListeSommetsTraverses(), robotX);
+
         else if (robotY.isEstMin())
             afficherParcoursY(distanceMin.getListeSommetsTraverses(), robotY);
+
         else if (robotZ.isEstMin())
             afficherParcoursZ(distanceMin.getListeSommetsTraverses(), robotZ);
+
         else
             System.out.println("Commande trop grande");
     }
@@ -212,6 +222,7 @@ public class Graphe {
         System.out.println("Robot : RobotX");
         System.out.println("Temps : " + robot.getTempsTotal() + "\n");
     }
+
     public void afficherParcoursY(LinkedList<Sommet> liste, RobotY robot) {
         for (Sommet s : liste) {
             System.out.print("Noeud" + s.getNoeud() + " --> ");

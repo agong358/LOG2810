@@ -8,18 +8,25 @@ import java.util.LinkedList;
  * @auteure: Kai Sen Trieu
  */
 public abstract class Robots {
+    //Poids des différents objets à prendre
     protected static final int POIDS_A = 1;
     protected static final int POIDS_B = 3;
     protected static final int POIDS_C = 6;
+    //Temps mis pour prendre un objet
     protected static final int TEMPS_CONSTANT = 10;
-
+    //Commande entrée par l'utilisateur
     protected Commande commande;
+    //Constante K unique à chaque robot
     protected double cstK;
+    //Temps total suite au parcours
     protected double tempsTotal = Double.MAX_VALUE;
+    //Charge maximale pour le robot en question
     protected int chargeMax;
+    //masse d'objets actuel su robot
     protected int masse = 0;
+    //liste de sommets pour le chemin de retour
     protected LinkedList<Sommet> cheminInverse = new LinkedList<>();
-
+    //Vérifie si c'est le chemin optimal
     private boolean estMin = false;
 
     /**
@@ -82,7 +89,7 @@ public abstract class Robots {
 
         return chargeMaxOK;
     }
-    
+
     /**
      *  Calcule le temps total pour le robot en question
      *
@@ -110,7 +117,9 @@ public abstract class Robots {
             for (Sommet s : cheminInverse) {
                 int distance = sommetTest.getDistanceArc(s);
                 sommetTest = s;
+                //Utiliser la formule T=k*D
                 tempsTotal += calculerCstK(masse) * distance;
+                //Pour l'objet A
                 if (s.getNbObjetsA() <= commande.getNbObjetsA()) {
                     if (commande.getNbObjetsA() != 0)
                         s.setNbPrendreA(s.getNbObjetsA());
@@ -125,6 +134,7 @@ public abstract class Robots {
                     commande.setNbObjetsA(0);
                 }
 
+                //Pour l'objet B
                 if (s.getNbObjetsB() <= commande.getNbObjetsB()) {
                     if (commande.getNbObjetsB() != 0)
                         s.setNbPrendreB(s.getNbObjetsB());
@@ -138,6 +148,8 @@ public abstract class Robots {
                     masse += commande.getNbObjetsB() * POIDS_B;
                     commande.setNbObjetsB(0);
                 }
+
+                //Pour l'objet C
                 if (s.getNbObjetsC() <= commande.getNbObjetsC()) {
                     if (commande.getNbObjetsC() != 0)
                         s.setNbPrendreC(s.getNbObjetsC());

@@ -63,7 +63,6 @@ public class Graphe {
         for (Sommet s : listeSommets) {
             s.print();
         }
-        System.out.println("---------------------------------------");
     }
 
 
@@ -113,7 +112,6 @@ public class Graphe {
         commande = new Commande(inputUserA, inputUserB, inputUserC);
     }
 
-
     /** TODO
      * Permet de voir la commande en mémoire.
      */
@@ -147,7 +145,6 @@ public class Graphe {
         Commande commandeOriginale = new Commande(commande.getNbObjetsA(), commande.getNbObjetsB(), commande.getNbObjetsC());
         RobotX robotX = new RobotX(commande);
         robotX.calculerTempsTotal(distanceMin.getListeSommetsTraverses());
-        System.out.println(robotX.tempsTotal);
         commande = new Commande(commandeOriginale.getNbObjetsA(), commandeOriginale.getNbObjetsB(), commandeOriginale.getNbObjetsC());
         RobotY robotY = new RobotY(commande);
         robotY.calculerTempsTotal(distanceMin.getListeSommetsTraverses());
@@ -279,8 +276,9 @@ public class Graphe {
 
         while (true) {
             do{
-                System.out.println("Veuillez sélectionner une option");
-                System.out.println("--------------------------------");
+                System.out.println("---------------------------------------");
+                System.out.println("|   Veuillez sélectionner une option   |");
+                System.out.println("---------------------------------------");
                 System.out.println("1- Créer le graphe");
                 System.out.println("2- Afficher le graphe");
                 System.out.println("3- Prendre une commande");
@@ -331,6 +329,7 @@ public class Graphe {
                 // pour quitter
                 case 6:
                     System.out.println("Quitter.");
+                    System.out.println("");
                     System.out.println("Au revoir.");
                     System.exit(0);
                     break;

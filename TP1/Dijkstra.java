@@ -38,7 +38,7 @@ public class Dijkstra {
     }
 
     /**
-     * Retourne le sommet ayant la plus distance parmi une liste de noeuds non traités
+     * Retourne le sommet ayant la plus courte distance parmi une liste de noeuds
      *
      * @return Sommet se retrouvant à la plus courte distance parmi une liste de d'autres sommets
      */

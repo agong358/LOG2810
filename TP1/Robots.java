@@ -1,5 +1,12 @@
 import java.util.LinkedList;
 
+/**
+ * Classe pour contenant des méthodes pour les robots en général
+ *
+ * @auteure: Alice Gong
+ * @auteure: Nu Chan Nhien Ton
+ * @auteure: Kai Sen Trieu
+ */
 public abstract class Robots {
     protected static final int POIDS_A = 1;
     protected static final int POIDS_B = 3;
@@ -15,32 +22,58 @@ public abstract class Robots {
 
     private boolean estMin = false;
 
-    //Getters
+    /**
+     *  Getter pour chercher l'attribut cheminInverse
+     *
+     * @return attribut cheminInverse
+     */
     public LinkedList<Sommet> getCheminInverse() {
         return cheminInverse;
     }
 
+    /**
+     *  Getter pour chercher l'attribut tempsTotal
+     *
+     * @return attribut tempsTotal
+     */
     public double getTempsTotal() {
         return tempsTotal;
     }
 
-    //Setters
+    /**
+     *  Setter pour mettre à jour l'attribut estMin
+     */
     public void setEstMin(boolean estMin) {
         this.estMin = estMin;
     }
 
+    /**
+     *  Setter pour mettre à jour l'attribut charge
+     */
     public void setCharge(int charge) {
         this.chargeMax = charge;
     }
 
-
+    /**
+     *  Setter pour mettre à jour l'attribut estMin
+     */
     public boolean isEstMin() {
         return estMin;
     }
 
+    /**
+     *  Calcul la constante K du robot en question
+     *
+     * @param masse
+     */
     abstract double calculerCstK(double masse);
 
     //Vérifier que la charge maximale n'est pas dépassée
+    /**
+     *  Vérifie que la charge maximale n'est pas dépassée
+     *
+     * @return chargeMaxOK
+     */
     public boolean verifierChargeMax(){
         boolean chargeMaxOK = false;
         if (commande.getNbObjetsA() * POIDS_A + commande.getNbObjetsB() * POIDS_B + commande.getNbObjetsC() * POIDS_C <= chargeMax){
@@ -49,8 +82,12 @@ public abstract class Robots {
 
         return chargeMaxOK;
     }
-
-    //Calculer le temps total pour le robot en question
+    
+    /**
+     *  Calcule le temps total pour le robot en question
+     *
+     * @param chemin chemin parcouru par le robot
+     */
     public void calculerTempsTotal(LinkedList<Sommet> chemin){
         //Tant que le robot peut prendre des objets
         if (verifierChargeMax()) {

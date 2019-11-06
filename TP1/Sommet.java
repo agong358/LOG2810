@@ -234,8 +234,10 @@ public class Sommet {
         System.out.println("Noeud" + this.getNoeud() + ", nbObjetsA : " + this.getNbObjetsA() + ", nbObjetsB : " +
                 this.getNbObjetsB() + ", nbObjetsC : " + this.getNbObjetsC());
         for (Arc v : voisins) {
-            System.out.println("(noeud_voisin_" + v.getVoisin().getNoeud() + ", distance : " + v.getDistance() + ")");
+            System.out.println("    (noeud_voisin_" + v.getVoisin().getNoeud() + ", distance : " + v.getDistance() + ")");
         }
+
+        System.out.println("");
     }
 
     //Ajouter un sommet a la liste de sommets traversés

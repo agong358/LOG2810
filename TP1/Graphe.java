@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 public class Graphe {
     private List<Sommet> listeSommets = new ArrayList<>();
     private Commande commande = new Commande();
+    private String fichier;
 
     public List<Sommet> getListeSommets() {
         return listeSommets;
@@ -15,14 +16,16 @@ public class Graphe {
 
 
     // constructeur par defaut
-    public Graphe(){
+    public Graphe(String fichier){
+        this.fichier = fichier;
     }
     /** TODO
      * Créer un graphe représentant les différentes section de l'entrepôt, ainsi
-     * que les chemins reliants ces sections entre elles à partir d'un fichier texte.
+     * que les chemins reliants ces sections entre elles à partir d'un fichier texte
+     * contenu au même path que ce fichier
      */
-    public void creerGraphe(String fichier){
-        File file = new File("entrepot.txt");
+    public void creerGraphe(){
+        File file = new File(fichier);
         String sommetNbObjets = new String("");
         String voisinDistance = new String("");
         String pattern = ".*,.*,.*,.*";
@@ -63,7 +66,6 @@ public class Graphe {
         for (Sommet s : listeSommets) {
             s.print();
         }
-        System.out.println("---------------------------------------");
     }
 
 
@@ -113,7 +115,6 @@ public class Graphe {
         commande = new Commande(inputUserA, inputUserB, inputUserC);
     }
 
-
     /** TODO
      * Permet de voir la commande en mémoire.
      */
@@ -147,7 +148,6 @@ public class Graphe {
         Commande commandeOriginale = new Commande(commande.getNbObjetsA(), commande.getNbObjetsB(), commande.getNbObjetsC());
         RobotX robotX = new RobotX(commande);
         robotX.calculerTempsTotal(distanceMin.getListeSommetsTraverses());
-        System.out.println(robotX.tempsTotal);
         commande = new Commande(commandeOriginale.getNbObjetsA(), commandeOriginale.getNbObjetsB(), commandeOriginale.getNbObjetsC());
         RobotY robotY = new RobotY(commande);
         robotY.calculerTempsTotal(distanceMin.getListeSommetsTraverses());
@@ -279,8 +279,9 @@ public class Graphe {
 
         while (true) {
             do{
-                System.out.println("Veuillez sélectionner une option");
-                System.out.println("--------------------------------");
+                System.out.println("---------------------------------------");
+                System.out.println("|   Veuillez sélectionner une option   |");
+                System.out.println("---------------------------------------");
                 System.out.println("1- Créer le graphe");
                 System.out.println("2- Afficher le graphe");
                 System.out.println("3- Prendre une commande");
@@ -310,7 +311,7 @@ public class Graphe {
             switch(userInput) {
                 case 1:
                     System.out.println("Créer le graphe. \n");
-                    creerGraphe("allo");
+                    creerGraphe();
                     break;
                 case 2:
                     System.out.println("Afficher le graphe. \n");
@@ -331,6 +332,7 @@ public class Graphe {
                 // pour quitter
                 case 6:
                     System.out.println("Quitter.");
+                    System.out.println("");
                     System.out.println("Au revoir.");
                     System.exit(0);
                     break;

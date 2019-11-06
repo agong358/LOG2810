@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 public class Graphe {
     private List<Sommet> listeSommets = new ArrayList<>();
     private Commande commande = new Commande();
+    private String fichier;
 
     public List<Sommet> getListeSommets() {
         return listeSommets;
@@ -15,14 +16,16 @@ public class Graphe {
 
 
     // constructeur par defaut
-    public Graphe(){
+    public Graphe(String fichier){
+        this.fichier = fichier;
     }
     /** TODO
      * Créer un graphe représentant les différentes section de l'entrepôt, ainsi
-     * que les chemins reliants ces sections entre elles à partir d'un fichier texte.
+     * que les chemins reliants ces sections entre elles à partir d'un fichier texte
+     * contenu au même path que ce fichier
      */
-    public void creerGraphe(String fichier){
-        File file = new File("entrepot.txt");
+    public void creerGraphe(){
+        File file = new File(fichier);
         String sommetNbObjets = new String("");
         String voisinDistance = new String("");
         String pattern = ".*,.*,.*,.*";
@@ -308,7 +311,7 @@ public class Graphe {
             switch(userInput) {
                 case 1:
                     System.out.println("Créer le graphe. \n");
-                    creerGraphe("allo");
+                    creerGraphe();
                     break;
                 case 2:
                     System.out.println("Afficher le graphe. \n");

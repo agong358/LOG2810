@@ -44,6 +44,8 @@ public class Dijkstra {
      */
     public Sommet getSommetDistanceMin(List<Sommet> liste) {
         Sommet distanceMin = liste.get(0);
+        
+        // Pour parcourir une liste de sommets pour évaluer leur distance
         for (Sommet s : liste) {
             if (s.getSommetDistance() < distanceMin.getSommetDistance()) {
                 distanceMin = s;
@@ -58,6 +60,8 @@ public class Dijkstra {
      */
     public void calculerDistanceMin(Sommet sommetTraite, int distanceArc, Sommet sommetInitial) {
         int distanceInitiale = sommetInitial.getSommetDistance();
+
+        // Comparaison de la distance initiale avec la distance du sommet traité
         if (sommetTraite.getSommetDistance() > distanceInitiale + distanceArc) {
             sommetTraite.setSommetDistance(distanceInitiale + distanceArc);
             LinkedList<Sommet> chemin = new LinkedList<>(sommetInitial.getListeSommetsTraverses());

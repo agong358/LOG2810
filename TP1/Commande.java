@@ -1,39 +1,72 @@
+/**
+ * Représente les commandes du client.
+ *
+ * @auteure: Alice Gong
+ * @auteure: Nu Chan Nhien Ton
+ * @auteure: Kai Sen Trieu
+ */
 public class Commande {
-    private int nbObjetsA_, nbObjetsB_, nbObjetsC_;
+    // Nombre d'objets de chaque type commandé par le client
+    private int nbObjetsA, nbObjetsB, nbObjetsC;
 
-    public Commande(){
-        nbObjetsA_ = 0;
-        nbObjetsB_ = 0;
-        nbObjetsC_ = 0;
-    }
-
+    /**
+     *  Constructeur par paramètres
+     *
+     * @param a Nombre d'objets de type A
+     * @param b Nombre d'objets de type B
+     * @param c Nombre d'objets de type C
+     */
     public Commande(int a, int b, int c) {
-        nbObjetsA_ = a;
-        nbObjetsB_ = b;
-        nbObjetsC_ = c;
+        nbObjetsA = a;
+        nbObjetsB = b;
+        nbObjetsC = c;
     }
 
-    public int getNbObjetsA_() {
-        return nbObjetsA_;
+    /**
+     *  Getter pour chercher l'attribut nbObjetsA
+     *
+     * @return Nombre d'objets de type A
+     */
+    public int getNbObjetsA() {
+        return nbObjetsA;
     }
 
-    public int getNbObjetsB_() {
-        return nbObjetsB_;
+    /**
+     *  Getter pour chercher l'attribut nbObjetsB
+     *
+     * @return Nombre d'objets de type B
+     */
+    public int getNbObjetsB() {
+        return nbObjetsB;
     }
 
-    public int getNbObjetsC_() {
-        return nbObjetsC_;
+    /**
+     *  Getter pour chercher l'attribut nbObjetsC
+     *
+     * @return Nombre d'objets de type C
+     */
+    public int getNbObjetsC() {
+        return nbObjetsC;
     }
 
-    public void setNbObjetsA_(int nbObjetsA_) {
-        this.nbObjetsA_ = nbObjetsA_;
+    /**
+     *  Setter pour mettre à jour l'attribut nbObjetsA
+     */
+    public void setNbObjetsA(int nbObjetsA_) {
+        this.nbObjetsA = nbObjetsA;
     }
 
-    public void setNbObjetsB_(int nbObjetsB_) {
-        this.nbObjetsB_ = nbObjetsB_;
+    /**
+     *  Setter pour mettre à jour l'attribut nbObjetsB
+     */
+    public void setNbObjetsB(int nbObjetsB) {
+        this.nbObjetsB = nbObjetsB;
     }
 
-    public void setNbObjetsC_(int nbObjetsC_) {
-        this.nbObjetsC_ = nbObjetsC_;
+    /**
+     *  Setter pour mettre à jour l'attribut nbObjetsC
+     */
+    public void setNbObjetsC(int nbObjetsC) {
+        this.nbObjetsC = nbObjetsC;
     }
 }

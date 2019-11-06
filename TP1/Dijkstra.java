@@ -2,11 +2,23 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Classe pour contenant des méthodes utiles pour appliquer l'algorithme Dijkstra
+ * dans notre laboratoire.
+ *
+ * @auteure: Alice Gong
+ * @auteure: Nu Chan Nhien Ton
+ * @auteure: Kai Sen Trieu
+ */
 public class Dijkstra {
 
-    private List<Sommet> listeSommetsVerifies = new ArrayList<>();
+    // Liste contenant les sommets non traités
     private List<Sommet> listeSommetsATraiter= new ArrayList<>();
 
+    /**
+     * Méthode principale de cette classe, utilisant les deux prochaines méthodes.
+     * Représente l'algorithme de Dijkstra
+     */
     public void dijkstra(Sommet noeudDepart) {
         noeudDepart.setSommetDistance(0);
         noeudDepart.addSommetTraverse(noeudDepart);
@@ -25,6 +37,11 @@ public class Dijkstra {
         }
     }
 
+    /**
+     * Retourne le sommet ayant la plus distance parmi une liste de noeuds non traités
+     *
+     * @return Sommet se retrouvant à la plus courte distance parmi une liste de d'autres sommets
+     */
     public Sommet getSommetDistanceMin(List<Sommet> liste) {
         Sommet distanceMin = liste.get(0);
         for (Sommet s : liste) {
@@ -35,6 +52,10 @@ public class Dijkstra {
         return distanceMin;
     }
 
+    /**
+     * Compare la distance actuelle avec une distance initiale, permettant de calculer
+     * la distance minimale
+     */
     public void calculerDistanceMin(Sommet sommetTraite, int distanceArc, Sommet sommetInitial) {
         int distanceInitiale = sommetInitial.getSommetDistance();
         if (sommetTraite.getSommetDistance() > distanceInitiale + distanceArc) {

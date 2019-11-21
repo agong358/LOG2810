@@ -1,0 +1,4 @@
+#fichier a ignorer
+TP2/.idea
+TP1/.idea
+TP2/out/production

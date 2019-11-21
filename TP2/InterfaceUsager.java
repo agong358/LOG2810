@@ -80,7 +80,6 @@ public class InterfaceUsager {
                     System.out.println("Au revoir.");
                     System.exit(0);
                     break;
-
             }
         }
     }

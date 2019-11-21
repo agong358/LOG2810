@@ -2,8 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a3a30ee4-d98c-4092-af57-b408e7d96eef" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../.gitignore.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InterfaceUsager.java" beforeDir="false" afterPath="$PROJECT_DIR$/InterfaceUsager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TP2/Automate.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TP2/Automate.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TP2/InterfaceUsager.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TP2/InterfaceUsager.class" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -27,6 +31,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../TP1" />
+    <property name="restartRequiresConfirmation" value="false" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">

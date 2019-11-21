@@ -1,7 +1,10 @@
 import java.util.Scanner;
 
 public class InterfaceUsager {
-    public void initialiserProgramme(){}
+    public void initialiserProgramme(){
+        Automate automate = new Automate();
+        automate.lireFichier();
+    }
     public void fonctionnaliteSuggestion(){}
     public void fonctionnaliteAjout(){}
     public void fonctionnaliteRetrait(){}
@@ -47,7 +50,7 @@ public class InterfaceUsager {
             switch(userInput) {
                 case 1:
                     System.out.println("Initialiser le programme.\n");
-                    //initialiserProgramme();
+                    initialiserProgramme();
                     break;
                 case 2:
                     System.out.println("Fonctionnalité suggestion. \n");

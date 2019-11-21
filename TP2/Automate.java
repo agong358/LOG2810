@@ -30,7 +30,7 @@ public class Automate {
         try {
             Scanner scan = new Scanner(file).useDelimiter("[\n]");
             while (scan.hasNext()) {
-                texteFichier += scan.next();
+                texteFichier += scan.next() + ',';
             }
         }
         catch (FileNotFoundException e) {
@@ -38,7 +38,7 @@ public class Automate {
         }
 
         //store les lignes separement dans un array de string
-        String[] lignesObjets = texteFichier.split("\r");
+        String[] lignesObjets = texteFichier.split(",");
 
         //separer les strings grace a l'espace entre chaque element
         for (String s : lignesObjets) {

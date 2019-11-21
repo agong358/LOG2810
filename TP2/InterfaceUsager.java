@@ -7,6 +7,9 @@ public class InterfaceUsager {
     }
     public void fonctionnaliteSuggestion(){}
     public void fonctionnaliteAjout(){}
+    public void fonctionnaliteRetrait(){}
+    public void fonctionnaliteCommande(){}
+    public void retour(){}
 
     public void interfaceUsager(){
         int userInput;
@@ -20,7 +23,7 @@ public class InterfaceUsager {
                 System.out.println("2- Fonctionnalite suggestion");
                 System.out.println("3- Fonctionnalite d'ajout d'objet au panier");
                 System.out.println("4- Fonctionnalite de retrait d'objets du panier ou de vidage de panier");
-                System.out.println("5- Focntionnalite de passage de commande");
+                System.out.println("5- Fonctionnalite de passage de commande");
                 System.out.println("6- Retour");
                 System.out.println("7- Quitter");
 
@@ -50,27 +53,27 @@ public class InterfaceUsager {
                     initialiserProgramme();
                     break;
                 case 2:
-                    System.out.println("Fonctionnalite suggestion. \n");
+                    System.out.println("Fonctionnalité suggestion. \n");
                     //fonctionnaliteSuggestion();
                     break;
                 case 3:
-                    System.out.println("Fonctionnalite d'ajout d'objet au panier.\n");
+                    System.out.println("Fonctionnalité d'ajout d'objet au panier.\n");
                     //fonctionnaliteAjout();
                     break;
                 case 4:
-                    System.out.println("Fonctionnalite de retrait d'objet du panier ou vidage de panier. \n");
+                    System.out.println("Fonctionnalité de retrait d'objet du panier ou vidage de panier. \n");
                     //fonctionnaliteRetrait();
                     break;
                 case 5:
-                    System.out.println("Fonctionnalite de passage de commande. \n");
+                    System.out.println("Fonctionnalité de passage de commande. \n");
                     //fonctionnaliteCommade();
                     break;
 
                 case 6:
                     System.out.println("Retour. \n");
                     //retour();
+                    break;
 
-                    // pour quitter
                 case 7:
                     System.out.println("Quitter.");
                     System.out.println("");

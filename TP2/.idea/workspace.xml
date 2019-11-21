@@ -2,16 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a3a30ee4-d98c-4092-af57-b408e7d96eef" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Objet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.gitignore.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Automate.java" beforeDir="false" afterPath="$PROJECT_DIR$/Automate.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InterfaceUsager.java" beforeDir="false" afterPath="$PROJECT_DIR$/InterfaceUsager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TP2/.idea/$PRODUCT_WORKSPACE_FILE$" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TP2/.idea/$PRODUCT_WORKSPACE_FILE$" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TP2/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TP2/.idea/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TP2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TP2/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/TP2/Automate.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TP2/Automate.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TP2/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TP2/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TP2/InterfaceUsager.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TP2/InterfaceUsager.class" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -73,7 +69,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1574348215240</updated>
-      <workItem from="1574348216652" duration="2400000" />
+      <workItem from="1574348216652" duration="2740000" />
     </task>
     <servers />
   </component>

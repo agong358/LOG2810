@@ -28,7 +28,7 @@ public class Automate {
 
         //lire le fichier texte et tout store dans un string, ligne par ligne
         try {
-            Scanner scan = new Scanner(file).useDelimiter("[\n]");
+            Scanner scan = new Scanner(file).useDelimiter("[\r\n]");
             while (scan.hasNext()) {
                 texteFichier += scan.next() + ',';
             }

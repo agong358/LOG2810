@@ -1,14 +1,27 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class InterfaceUsager {
+
+    private List<Objet> liste = new ArrayList<>();
+
     public void initialiserProgramme(){
         Automate automate = new Automate();
         automate.lireFichier();
+        liste = automate.getListeObjets();
     }
     public void fonctionnaliteSuggestion(){}
     public void fonctionnaliteAjout(){}
     public void fonctionnaliteRetrait(){}
-    public void fonctionnaliteCommande(){}
+    public void fonctionnaliteCommande(){
+        Commande commande = new Commande(liste);
+        List<Objet> temp = new ArrayList<>(liste);
+        for (Objet o : temp) {
+            commande.ajouterCommande(o);
+        }
+        commande.commander();
+    }
     public void retour(){}
 
     public void interfaceUsager(){
@@ -66,7 +79,7 @@ public class InterfaceUsager {
                     break;
                 case 5:
                     System.out.println("Fonctionnalité de passage de commande. \n");
-                    //fonctionnaliteCommade();
+                    fonctionnaliteCommande();
                     break;
 
                 case 6:

@@ -1,5 +1,11 @@
+#out
+#.DS_Store
+#.idea/misc.xml
+#*.log
 
+#fichier a ignorer
+.idea/misc.xml
+.idea/misc/workspace.xml
 out
 .DS_Store
-.idea/misc.xml
 *.log

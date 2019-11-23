@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -5,24 +6,74 @@ import java.util.Scanner;
 public class InterfaceUsager {
 
     private List<Objet> liste = new ArrayList<>();
+    private Commande commande;
 
     public void initialiserProgramme(){
         Automate automate = new Automate();
         automate.lireFichier();
         liste = automate.getListeObjets();
+
+        commande = new Commande(liste);
     }
     public void fonctionnaliteSuggestion(){}
-    public void fonctionnaliteAjout(){}
-    public void fonctionnaliteRetrait(){}
-    public void fonctionnaliteCommande(){
-        Commande commande = new Commande(liste);
-        List<Objet> temp = new ArrayList<>(liste);
-        for (Objet o : temp) {
-            commande.ajouterCommande(o);
+
+    public void fonctionnaliteAjout(){
+        commande.afficherObjetsDisponibles();
+        commande.afficherPanier();
+        int userInput = 0;
+        while (true) {
+            do {
+                System.out.println("Veuillez choisir un objet à ajouter au panier : ");
+                Scanner scanner = new Scanner(System.in);
+                while (!scanner.hasNextInt()) {
+                    String input = scanner.next();
+                    System.out.println(input + " n'est pas une option valide");
+                }
+                userInput = scanner.nextInt();
+
+                if (userInput < 1 || userInput > commande.getTailleObjetsDisponibles())
+                    System.out.println(userInput + " n'est pas une option valide");
+            } while (userInput < 1 || userInput > commande.getTailleObjetsDisponibles());
+            commande.ajouterCommande(commande.getObjetDisponible(userInput));
+            break;
         }
+    }
+
+    public void fonctionnaliteRetrait(){
+        commande.afficherPanier();
+        int userInput = 0;
+        while (true) {
+            do {
+                System.out.println("Veuillez la fonctionnalité désirée : ");
+                System.out.println("[1] Retrait d'objets");
+                System.out.println("[2] Vidage de panier");
+                Scanner scanner = new Scanner(System.in);
+                while (!scanner.hasNextInt()) {
+                    String input = scanner.next();
+                    System.out.println(input + " n'est pas une option valide");
+                }
+                userInput = scanner.nextInt();
+
+                if (userInput < 1 || userInput > 2)
+                    System.out.println(userInput + " n'est pas une option valide");
+            } while (userInput < 1 || userInput > 2);
+            if (userInput == 1) {
+                System.out.println("retrait");
+            }
+            else {
+                System.out.println("Vidage de panier en cours...");
+                commande.viderPanier();
+            }
+            break;
+        }
+    }
+
+    public void fonctionnaliteCommande(){
+        commande.afficherPanier();
         commande.commander();
     }
-    public void retour(){}
+    public void retour(){
+    }
 
     public void interfaceUsager(){
         int userInput;
@@ -71,11 +122,11 @@ public class InterfaceUsager {
                     break;
                 case 3:
                     System.out.println("Fonctionnalité d'ajout d'objet au panier.\n");
-                    //fonctionnaliteAjout();
+                    fonctionnaliteAjout();
                     break;
                 case 4:
                     System.out.println("Fonctionnalité de retrait d'objet du panier ou vidage de panier. \n");
-                    //fonctionnaliteRetrait();
+                    fonctionnaliteRetrait();
                     break;
                 case 5:
                     System.out.println("Fonctionnalité de passage de commande. \n");

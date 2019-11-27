@@ -14,6 +14,10 @@ public class InterfaceUsager {
         liste = automate.getListeObjets();
 
         commande = new Commande(liste);
+
+        automate.setEtatsNoms();
+        automate.setEtatsTerminaux();
+        automate.suggestion("a");
     }
     public void fonctionnaliteSuggestion(){}
 

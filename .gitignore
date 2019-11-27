@@ -4,8 +4,8 @@
 #*.log
 
 #fichier a ignorer
-.idea/misc.xml
-.idea/misc/workspace.xml
-out
-.DS_Store
-*.log
+**.idea/misc.xml
+**.idea/misc/workspace.xml
+**out
+**.DS_Store
+**.log

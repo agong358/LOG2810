@@ -7,6 +7,11 @@ public class Automate {
     private int id;
     private List<Objet> listeObjets = new ArrayList<>();
     private String fichier = "inventaire.txt";
+    private List<Etat> listeEtats = new ArrayList<>();
+    private List<Etat> listeEtatsTerminaux = new ArrayList<>();
+    private Etat rootNom = new Etat();
+    private Etat rootCode = new Etat();
+    private Etat rootType = new Etat();
 
     // Constructeur par defaut
     public Automate() {
@@ -49,6 +54,53 @@ public class Automate {
         //test pour print
         for (Objet o : listeObjets) {
             System.out.println(o.getNom() + " " + o.getCode() + " " + o.getType());
+        }
+    }
+
+    public void setEtatsNoms() {
+        for (Objet o : listeObjets) {
+            int i = 0;
+            String chara = "";
+            while (i < o.getNom().length()) {
+                chara += String.valueOf(o.getNom().charAt(i++));
+                if (!contientEtat(chara)) {
+                    Etat prochain = new Etat(chara);
+                    listeEtats.add(prochain);
+                    //rootNom.addArc(new Arc(prochain, chara));
+                }
+            }
+        }
+
+//        for (Arc a : rootNom.getListeArcs()) {
+//            System.out.println(a.getNom());
+//        }
+        for (Etat e : listeEtats) {
+            System.out.println(e.getNom());
+        }
+    }
+
+
+
+    public boolean contientEtat(String etat) {
+        for (Etat e : listeEtats) {
+            if (e.getNom().equals(etat)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void setEtatsTerminaux() {
+        for (Objet o : listeObjets) {
+            Etat terminal = new Etat(o.getNom());
+            listeEtatsTerminaux.add(terminal);
+        }
+    }
+
+    public void suggestion(String input) {
+        for (Etat e : listeEtatsTerminaux) {
+            if (e.getNom().startsWith(input))
+                System.out.println(e.getNom());
         }
     }
 

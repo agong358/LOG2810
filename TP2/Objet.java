@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 public class Objet {
     private String nom;
     private String code;
@@ -6,6 +10,28 @@ public class Objet {
     private int poidsA = 1;
     private int poidsB = 3;
     private int poidsC = 5;
+
+    //TODO test
+    private boolean estTraite = false;
+    private boolean sortedNom = false;
+
+
+    //TODO test
+    public boolean isSortedNom() {
+        return sortedNom;
+    }
+
+    public void setSortedNom(boolean sortedNom) {
+        this.sortedNom = sortedNom;
+    }
+
+    public boolean isEstTraite() {
+        return estTraite;
+    }
+
+    public void setEstTraite(boolean estTraite) {
+        this.estTraite = estTraite;
+    }
 
 
     //getters et setters

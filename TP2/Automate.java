@@ -12,6 +12,7 @@ public class Automate {
     private Etat rootNom = new Etat();
     private Etat rootCode = new Etat();
     private Etat rootType = new Etat();
+    private List<Etat> suggestion = new ArrayList<>();
 
     // Constructeur par defaut
     public Automate() {
@@ -61,12 +62,17 @@ public class Automate {
         for (Objet o : listeObjets) {
             int i = 0;
             String chara = "";
+            Etat courant = rootNom;
             while (i < o.getNom().length()) {
                 chara += String.valueOf(o.getNom().charAt(i++));
-                if (!contientEtat(chara)) {
+                if (!contientEtat(chara, listeEtats)) {
                     Etat prochain = new Etat(chara);
                     listeEtats.add(prochain);
-                    //rootNom.addArc(new Arc(prochain, chara));
+                    courant.addArc(new Arc(prochain, chara));
+                    courant = prochain;
+                }
+                else {
+                    courant = getEtatContenu(chara);
                 }
             }
         }
@@ -80,14 +86,24 @@ public class Automate {
     }
 
 
-
-    public boolean contientEtat(String etat) {
-        for (Etat e : listeEtats) {
+    public boolean contientEtat(String etat, List<Etat> liste) {
+        for (Etat e : liste) {
             if (e.getNom().equals(etat)) {
-                return true;
+                if (!e.isEstTraite()) {
+                    e.setEstTraite(true);
+                    return true;
+                }
             }
         }
         return false;
+    }
+
+    public Etat getEtatContenu(String etat) {
+        for (Etat e : listeEtats) {
+            if (e.getNom().equals(etat))
+                return e;
+        }
+        return null;
     }
 
     public void setEtatsTerminaux() {
@@ -98,11 +114,81 @@ public class Automate {
     }
 
     public void suggestion(String input) {
-        for (Etat e : listeEtatsTerminaux) {
-            if (e.getNom().startsWith(input))
-                System.out.println(e.getNom());
+//        for (Etat e : listeEtatsTerminaux) {
+//            if (e.getNom().startsWith(input))
+//                System.out.println(e.getNom());
+//        } //methode non automate
+
+        Etat courant = new Etat();
+        for (Etat e : listeEtats) {
+            if (e.getNom().equals(input)) {
+                parcourirEtats(e);
+//                courant = e;
+//                while (courant.hasNext()) {
+////                    for (Arc a : e.getListeArcs()) {
+////                        courant = a.getVoisin();
+////                    }
+//                    courant = courant.getListeArcs().get(0).getVoisin();
+//                    //courant = e.getListeArcs().get(0).getVoisin();
+//                }
+                //System.out.println(courant.getNom());
+            }
+        }
+        printSuggestions();
+    }
+
+    public void parcourirEtats(Etat e) {
+        Etat courant = e;
+        //e.setEstTraite(true);
+        while (courant.hasNext()) {
+//            if (contientEtat(courant.getNom(), listeEtatsTerminaux)) {
+//                System.out.println(courant.getNom());
+//                courant.setEstTraite(true);
+//            }
+            for (Etat etat : listeEtatsTerminaux) {
+                if (etat.getNom().equals(courant.getNom()) && !etat.isEstTraite()) {
+                    etat.setEstTraite(true);
+                    suggestion.add(courant);
+                    //System.out.println(courant.getNom());
+                }
+            }
+
+            if (courant.aPlusieursVoisins()) {
+                for (Arc a : courant.getListeArcs()) {
+                    //if (!a.getVoisin().isEstTraite())
+                        parcourirEtats(a.getVoisin());
+                }
+            }
+            //courant.setEstTraite(true);
+            courant = courant.getListeArcs().get(0).getVoisin();
+        }
+//        if (contientEtat(courant.getNom(), listeEtatsTerminaux)) {
+//            System.out.println(courant.getNom());
+//            courant.setEstTraite(true);
+//        }
+        for (Etat etat : listeEtatsTerminaux) {
+            if (etat.getNom().equals(courant.getNom()) && !etat.isEstTraite()) {
+                etat.setEstTraite(true);
+                suggestion.add(courant);
+                //System.out.println(courant.getNom());
+            }
+        }
+
+
+//        if (!courant.isEstTraite()) {
+//            System.out.println(courant.getNom());
+//            courant.setEstTraite(true);
+//        }
+
+    }
+
+    public void printSuggestions() {
+        System.out.println("SUGGE");
+        for (Etat suggestions : suggestion) {
+            System.out.println(suggestions.getNom());
         }
     }
+
 
 
 //    // Fonction pour creer les etats

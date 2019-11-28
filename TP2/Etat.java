@@ -7,6 +7,7 @@ public class Etat {
     private HashMap<Character, Etat> prochains;
     private int nbUtilisation;
     private List<Arc> listeArcs = new ArrayList<>();
+    private boolean estTraite = false;
 
     // Constructeur par defaut
     public Etat() {
@@ -30,4 +31,35 @@ public class Etat {
     public String getNom() {
         return nom;
     }
+
+    public boolean isEstTraite() {
+        return estTraite;
+    }
+
+    public void setEstTraite(boolean estTraite) {
+        this.estTraite = estTraite;
+    }
+
+    public boolean hasNext() {
+        if (!listeArcs.isEmpty())
+            return true;
+        return false;
+    }
+
+    public boolean aPlusieursVoisins() {
+        if (listeArcs.size() > 1)
+            return true;
+        return false;
+    }
+
+    //recursivite BABY
+//    public void parcourirEtats() {
+//        Etat courant = new Etat();
+//        while (hasNext()) {
+//            if (aPlusieursVoisins()) {
+//                courant.parcourirEtats();
+//            }
+//            courant = courant.getListeArcs().get(0).getVoisin();
+//        }
+//    }
 }

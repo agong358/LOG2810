@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a3a30ee4-d98c-4092-af57-b408e7d96eef" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.gitignore.txt" beforeDir="false" />
+    <list default="true" id="42990189-82d3-4559-84af-a9b7f124ad3f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/TP2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TP2/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TP2/Automate.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TP2/Automate.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TP2/InterfaceUsager.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TP2/InterfaceUsager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TP2/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TP2/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TP2/Objet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TP2/Objet.class" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -62,7 +64,7 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="a3a30ee4-d98c-4092-af57-b408e7d96eef" name="Default Changelist" comment="" />
+      <changelist id="42990189-82d3-4559-84af-a9b7f124ad3f" name="Default Changelist" comment="" />
       <created>1574348215240</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -72,6 +74,8 @@
       <workItem from="1574482966250" duration="41000" />
       <workItem from="1574483025820" duration="311000" />
       <workItem from="1574483357727" duration="37000" />
+      <workItem from="1574609216106" duration="1613000" />
+      <workItem from="1574887456666" duration="699000" />
     </task>
     <servers />
   </component>
@@ -90,5 +94,29 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/Automate.java</url>
+          <line>28</line>
+          <properties class="Automate" method="lireFichier">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Automate.java</url>
+          <line>45</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Automate.java</url>
+          <line>36</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -25,7 +25,6 @@ public class Automate {
     }
 
     /* Fonction lire fichier ici*/
-
     public void lireFichier() {
         File file = new File(fichier);
 

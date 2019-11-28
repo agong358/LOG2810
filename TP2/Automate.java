@@ -26,7 +26,6 @@ public class Automate {
     }
 
     /* Fonction lire fichier ici*/
-
     public void lireFichier() {
         File file = new File(fichier);
 
@@ -84,7 +83,6 @@ public class Automate {
             System.out.println(e.getNom());
         }
     }
-
 
     public boolean contientEtat(String etat, List<Etat> liste) {
         for (Etat e : liste) {

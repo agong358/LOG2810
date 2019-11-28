@@ -79,7 +79,6 @@ public class Automate {
     }
 
 
-
     public boolean contientEtat(String etat) {
         for (Etat e : listeEtats) {
             if (e.getNom().equals(etat)) {

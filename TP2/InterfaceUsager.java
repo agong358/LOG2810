@@ -19,6 +19,7 @@ public class InterfaceUsager {
         automate.setEtatsTerminaux();
         automate.suggestion("a");
     }
+
     public void fonctionnaliteSuggestion(){}
 
     public void fonctionnaliteAjout(){

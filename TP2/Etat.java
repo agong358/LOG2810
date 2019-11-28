@@ -1,19 +1,23 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Etat {
     private String nom;
-    private HashMap<Character, Etat> prochains;
-    private int nbUtilisation;
     private List<Arc> listeArcs = new ArrayList<>();
     private boolean estTraite = false;
+    private boolean sortedNom = false;
 
     // Constructeur par defaut
     public Etat() {
         nom = "";
-        prochains = new HashMap<Character, Etat>();
-        nbUtilisation = 0;
+    }
+
+    public boolean isSortedNom() {
+        return sortedNom;
+    }
+
+    public void setSortedNom(boolean sortedNom) {
+        this.sortedNom = sortedNom;
     }
 
     public Etat(String nom) {
@@ -52,14 +56,4 @@ public class Etat {
         return false;
     }
 
-    //recursivite BABY
-//    public void parcourirEtats() {
-//        Etat courant = new Etat();
-//        while (hasNext()) {
-//            if (aPlusieursVoisins()) {
-//                courant.parcourirEtats();
-//            }
-//            courant = courant.getListeArcs().get(0).getVoisin();
-//        }
-//    }
 }

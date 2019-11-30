@@ -7,7 +7,7 @@ import java.util.*;
 public class Automate {
 
     private List<Objet> listeObjets = new ArrayList<>();
-    private String fichier = "inventaire.txt";
+//    private String fichier = "inventaire.txt";
     private List<Etat> listeEtats = new ArrayList<>();
     private List<Etat> listeEtatsCodes = new ArrayList<>();
     private List<Etat> listeEtatsTypes = new ArrayList<>();
@@ -23,8 +23,8 @@ public class Automate {
     }
 
     /* Fonction lire fichier ici*/
-    public void lireFichier() {
-        File file = new File(fichier);
+    public void lireFichier(String nom) {
+        File file = new File(nom);
 
         String texteFichier = "";
 

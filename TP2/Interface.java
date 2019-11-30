@@ -85,7 +85,7 @@ public class Interface {
         frame.add(browseButton);
         browseButton.setVisible(true);
         browseButton.setBounds(20,25,100, 40);
-        frame.setVisible(true);                                  // pour rendre la bordure de l'interface visible
+        frame.setVisible(true);  // pour rendre la bordure de l'interface visible
 
         browseButton.addActionListener(e -> {
             pathFichier.setText(selectFile());
@@ -100,7 +100,7 @@ public class Interface {
 
         String commandePanier = "";
         Automate automate = new Automate();
-        automate.lireFichier();
+        automate.lireFichier(selectFile());
         List<Objet> liste = automate.getListeObjets();
         for (Objet o : liste) {
             commandePanier += o.getNom() + " " + o.getCode() + " " + o.getType() + "\n";

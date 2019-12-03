@@ -203,11 +203,13 @@ public class Interface {
         button_order.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if(liste_panier.getModel().getSize() <= 25){
+                if (Integer.parseInt(textField_poids.getText()) <= 25){
                     JOptionPane.showMessageDialog(frame,
                             "La commande a été passée.",
                             "Commande passée",
                             JOptionPane.PLAIN_MESSAGE);
+                    listPanierModel.removeAllElements();
+                    liste_panier.setModel(listPanierModel);
                 }
                 else {
                     JOptionPane.showMessageDialog(frame,
@@ -347,8 +349,17 @@ public class Interface {
 
     public List<Objet> trouverSuggestions() {
         List<Objet> suggestionsNom = automate.getSuggestionsNom(textField_name.getText());
+        if (!textField_name.getText().isEmpty() && suggestionsNom == null)
+            return null;
+
         List<Objet> suggestionsCode = automate.getSuggestionsCode(textField_code.getText());
+        if (!textField_code.getText().isEmpty() && suggestionsCode == null)
+            return null;
+
         List<Objet> suggestionsType = automate.getSuggestionsType(textField_type.getText());
+        if (!textField_type.getText().isEmpty() && suggestionsType == null)
+            return null;
+
         if (suggestionsNom != null) {
             if (suggestionsCode != null) {
                 if (suggestionsType != null) {
@@ -372,7 +383,6 @@ public class Interface {
                 suggestionsCode.retainAll(suggestionsType);
             return suggestionsCode;
         }
-
         else if (suggestionsType != null) {
             if (suggestionsCode != null) {
                 if (suggestionsNom != null) {
@@ -384,8 +394,7 @@ public class Interface {
                 suggestionsType.retainAll(suggestionsNom);
             return suggestionsType;
         }
-        else
-            return null;
+        return null;
     }
 
 

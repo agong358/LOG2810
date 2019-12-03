@@ -1,6 +1,8 @@
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,6 +14,8 @@ import java.util.*;
 import java.util.List;
 
 public class Interface {
+    int poids = 0;
+
     JFrame frame = new JFrame("Interface de commandes");
 
     JLabel label_search = new JLabel("Recherche ");
@@ -38,8 +42,6 @@ public class Interface {
     List<Objet> listeObjets = new ArrayList<>();
 
     Automate automate = new Automate();
-    private JTextField textField;
-
     @SuppressWarnings({ "unchecked", "rawtypes" })
     Interface() {
         // layout general
@@ -72,6 +74,22 @@ public class Interface {
         frame.getContentPane().add(liste_panier);
         liste_panier.setBounds(582, 171, 254, 300);
 
+
+
+        liste.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                try {
+                    Objet objetSelectionne = trouverObjet(liste.getSelectedValue().toString());
+                    textField_poidsSelection.setText(String.valueOf(objetSelectionne.getPoids()));;
+                } catch(NullPointerException e1) {
+                    textField_poidsSelection.setText("         ---");
+                }
+
+            }
+        });
+
+
         pathFichier.setForeground(new Color(0, 0, 0));
         pathFichier.setBackground(Color.WHITE);
 //        pathFichier.setEditable(false);
@@ -86,7 +104,7 @@ public class Interface {
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                DefaultListModel listModel = new DefaultListModel();
+//                DefaultListModel listModel = new DefaultListModel();
                 liste.setModel(getListModel());
             }
 
@@ -145,9 +163,8 @@ public class Interface {
         frame.getContentPane().add(button_add);
         button_add.setBounds(185, 510, 100, 40);
         button_add.addMouseListener(new MouseAdapter() {
-            int poids = 0;
             public void mouseClicked(MouseEvent e) {
-                List<Objet> listeSuggestions = trouverSuggestions();
+//                List<Objet> listeSuggestions = trouverSuggestions();
 
                 listPanierModel.addElement(liste.getSelectedValue());
                 liste_panier.setModel(listPanierModel);
@@ -165,17 +182,18 @@ public class Interface {
         frame.getContentPane().add(button_remove);
         button_remove.setBounds(582, 487, 120, 40);
         button_remove.addMouseListener(new MouseAdapter() {
-            int poids = 0;
             public void mouseClicked(MouseEvent e) {
                 //TODO ajouter update pour liste -- mettre un élément dans la liste efface tout
                 listeObjets.add(creerObjet(liste_panier.getSelectedValue().toString()));
                 getListModel();
                 liste.setModel(getListModel());
+                Objet removeObject = trouverObjet(liste_panier.getSelectedValue().toString());
+
+                poids -= removeObject.getPoids();
+                textField_poids.setText(String.valueOf(poids));
 
                 listPanierModel.removeElementAt(liste_panier.getSelectedIndex());
                 liste_panier.setModel(listPanierModel);
-
-                textField_poids.setText(String.valueOf(poids));
 
             }
         });
@@ -209,6 +227,9 @@ public class Interface {
                 for (int i = 0; i < liste_panier.getModel().getSize(); i++) {
                     listeObjets.add(creerObjet(liste_panier.getModel().getElementAt(i).toString()));
                 }
+
+                textField_poids.setText("         ---");
+
                 liste.setModel(getListModel());
 
                 listPanierModel.removeAllElements();
@@ -263,13 +284,14 @@ public class Interface {
         textField_poidsSelection.setText("         ---");
         textField_poidsSelection.setBounds(37, 235, 70, 26);
         frame.getContentPane().add(textField_poidsSelection);
+        textField_poidsSelection.setBackground(Color.WHITE);
         textField_poidsSelection.setColumns(10);
         textField_poidsSelection.setEditable(false);
 
         frame.setVisible(true);
 
         //test panier
-        String commandePanier = "";
+//        String commandePanier = "";
     }
 
     public List<Objet> trouverSuggestionsNoms() {
@@ -427,6 +449,7 @@ public class Interface {
         return new Objet(array[0], array[1], array[2]);
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public DefaultListModel getListModel() {
         DefaultListModel listModel = new DefaultListModel();
         List<Objet> listeSuggestions = trouverSuggestions();

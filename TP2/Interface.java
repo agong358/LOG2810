@@ -44,6 +44,9 @@ public class Interface {
     private int poids_panier = 0;
     private int poids_selection = 0;
 
+    private int poids = 0;
+
+
     @SuppressWarnings({ "unchecked", "rawtypes" })
     Interface() {
         // layout general
@@ -76,18 +79,24 @@ public class Interface {
         frame.getContentPane().add(liste_panier);
         liste_panier.setBounds(582, 171, 254, 300);
 
+
+
+        liste.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                try {
+                    Objet objetSelectionne = trouverObjet(liste.getSelectedValue().toString());
+                    textField_poidsSelection.setText(String.valueOf(objetSelectionne.getPoids()));;
+                } catch(NullPointerException e1) {
+                    textField_poidsSelection.setText("         ---");
+                }
+            }
+        });
+
+
         pathFichier.setForeground(new Color(0, 0, 0));
         pathFichier.setBackground(Color.WHITE);
 //        pathFichier.setEditable(false);
-
-        liste.addListSelectionListener(e -> {
-            if (liste.getSelectedValue() != null)  {
-
-            }
-            poids_selection = trouverObjet(liste.getSelectedValue().toString()).getPoids();
-            textField_poidsSelection.setText(Integer.toString(poids_selection));
-        });
-
 
         // autosuggestion lorsque l'utilisateur ecrit dans le textField sous "Nom"
         textField_name.getDocument().addDocumentListener(new DocumentListener() {
@@ -98,7 +107,7 @@ public class Interface {
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                DefaultListModel listModel = new DefaultListModel();
+//                DefaultListModel listModel = new DefaultListModel();
                 liste.setModel(getListModel());
             }
 
@@ -188,7 +197,6 @@ public class Interface {
 
                 poids_panier -= removedObject.getPoids();
                 textField_poids.setText(String.valueOf(poids_panier));
-
             }
         });
 
@@ -205,7 +213,8 @@ public class Interface {
                     listPanierModel.removeAllElements();
                     liste_panier.setModel(listPanierModel);
                     poids_panier = 0;
-                    textField_poids.setText(String.valueOf(poids_panier));
+                    //textField_poids.setText(String.valueOf(poids_panier));
+                    textField_poids.setText("         ---");
                 }
                 else {
                     JOptionPane.showMessageDialog(frame,
@@ -225,13 +234,16 @@ public class Interface {
                 for (int i = 0; i < liste_panier.getModel().getSize(); i++) {
                     listeObjets.add(creerObjet(liste_panier.getModel().getElementAt(i).toString()));
                 }
+
+                textField_poids.setText("         ---");
+
                 liste.setModel(getListModel());
 
                 listPanierModel.removeAllElements();
                 liste_panier.setModel(listPanierModel);
 
                 poids_panier = 0;
-                textField_poids.setText(String.valueOf(poids_panier));
+                //textField_poids.setText(String.valueOf(poids_panier));
             }
         });
 
@@ -282,13 +294,14 @@ public class Interface {
         textField_poidsSelection.setText("         ---");
         textField_poidsSelection.setBounds(37, 235, 70, 26);
         frame.getContentPane().add(textField_poidsSelection);
+        textField_poidsSelection.setBackground(Color.WHITE);
         textField_poidsSelection.setColumns(10);
         textField_poidsSelection.setEditable(false);
 
         frame.setVisible(true);
 
         //test panier
-        String commandePanier = "";
+//        String commandePanier = "";
     }
 
     public List<Objet> trouverSuggestionsNoms() {
@@ -453,6 +466,7 @@ public class Interface {
         return new Objet(array[0], array[1], array[2]);
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public DefaultListModel getListModel() {
         DefaultListModel listModel = new DefaultListModel();
         List<Objet> listeSuggestions = trouverSuggestions();

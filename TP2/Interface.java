@@ -186,11 +186,13 @@ public class Interface {
         button_order.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if(liste_panier.getModel().getSize() <= 25){
+                if (Integer.parseInt(textField_poids.getText()) <= 25){
                     JOptionPane.showMessageDialog(frame,
                             "La commande a été passée.",
                             "Commande passée",
                             JOptionPane.PLAIN_MESSAGE);
+                    listPanierModel.removeAllElements();
+                    liste_panier.setModel(listPanierModel);
                 }
                 else {
                     JOptionPane.showMessageDialog(frame,

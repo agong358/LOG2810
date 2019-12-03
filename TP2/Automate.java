@@ -7,7 +7,7 @@ import java.util.*;
 public class Automate {
 
     private List<Objet> listeObjets = new ArrayList<>();
-    //private String fichier = "inventaire.txt";
+//    private String fichier = "inventaire.txt";
     private List<Etat> listeEtats = new ArrayList<>();
     private List<Etat> listeEtatsCodes = new ArrayList<>();
     private List<Etat> listeEtatsTypes = new ArrayList<>();

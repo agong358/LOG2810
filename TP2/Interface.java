@@ -406,7 +406,6 @@ public class Interface {
             //System.out.println("No file selected");
             return "Aucun fichier n'a été sélectionné";
         }
-
     }
 
     public void initialiser(String fichier) {
@@ -417,6 +416,9 @@ public class Interface {
         automate.setEtatsCodes();
         automate.setEtatsTypes();
         automate.setMapSuggestions();
+
+        JOptionPane.showMessageDialog(null,"Initialisation terminée" + "\n" + "Vous pouvez procéder à la commande" );
+
     }
 
     public List<Objet> getListeSuggestions() {

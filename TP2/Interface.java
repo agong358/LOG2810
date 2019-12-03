@@ -38,7 +38,6 @@ public class Interface {
         //Layout general
         frame.setSize(950, 650);//400 width and 500 height
         frame.getContentPane().setLayout(null);//using no layout managers
-        frame.setVisible(true);//making the frame visible
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -244,9 +243,7 @@ public class Interface {
 
         JButton browseButton = new JButton("Browse");
         frame.getContentPane().add(browseButton);
-        browseButton.setVisible(true);
         browseButton.setBounds(700, 25, 100, 40);
-        frame.setVisible(true);  // pour rendre la bordure de l'interface visible
 
         browseButton.addActionListener(e -> {
             pathFichier.setText(selectFile());
@@ -254,7 +251,6 @@ public class Interface {
 
         JButton boutonInitialiserProgramme = new JButton("Initialiser");
         frame.getContentPane().add(boutonInitialiserProgramme);
-        boutonInitialiserProgramme.setVisible(true);
         boutonInitialiserProgramme.setBounds(815, 25, 100, 40);
 
         JLabel lblSlectionnerUnFichier = new JLabel("S\u00E9lectionner un fichier");
@@ -263,6 +259,8 @@ public class Interface {
         boutonInitialiserProgramme.addActionListener(e -> {
             initialiser(pathFichier.getText());
         });
+
+        frame.setVisible(true);
 
         //test panier
 

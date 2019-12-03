@@ -52,7 +52,7 @@ public class Interface {
     private JTextField textField_panier = new JTextField();
     private JTextField textField_poids = new JTextField();
     private JTextField textField_poidsSelection = new JTextField();
-    private JTextField pathFichier = new JTextField("Sélectionner un fichier en écrivant son path ou sinon à l'aide du bouton Browse");
+    private HintTextField pathFichier = new HintTextField("Sélectionner un fichier en écrivant son path ou sinon à l'aide du bouton Browse");
 
     private JButton button_add = new JButton("Ajouter");
     private JButton button_remove = new JButton("Retirer");

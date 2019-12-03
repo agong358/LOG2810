@@ -17,13 +17,13 @@ public class Interface {
     JLabel label_code = new JLabel("Code");
     JLabel label_type = new JLabel("Type");
     JLabel label_panier = new JLabel("Panier");
-    JLabel label_nbElements = new JLabel("(max. 25 éléments)");
+    JLabel label_nbElements = new JLabel("(poids maximal de 25 kg)");
 
     JTextField textField_name = new JTextField();
     JTextField textField_code = new JTextField();
     JTextField textField_type = new JTextField();
     JTextField textField_panier = new JTextField();
-    JTextField pathFichier = new JTextField("No file selected");
+    JTextField pathFichier = new JTextField();
 
     JButton button_add = new JButton("Ajouter");
     JButton button_remove = new JButton("Retirer");
@@ -34,14 +34,15 @@ public class Interface {
 
     Automate automate = new Automate();
 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     Interface() {
-        //Layout general
-        frame.setSize(950, 650);//400 width and 500 height
-        frame.getContentPane().setLayout(null);//using no layout managers
+        // layout general
+        frame.setSize(950, 650);// taille de la fenetre 950 x 650
+        frame.getContentPane().setLayout(null);// aucun layout managers n'est utilise
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        label_search.setBounds(70, 115, 100, 40);    //TODO
+        label_search.setBounds(70, 115, 100, 40);
         frame.getContentPane().add(label_search);
 
         label_panier.setBounds(582, 110, 100, 40);
@@ -50,14 +51,10 @@ public class Interface {
         label_nbElements.setBounds(582, 133, 200, 40);
         frame.getContentPane().add(label_nbElements);
 
-//        textField_panier.setBounds(550, 190, 200, 300);
-//        frame.add(textField_panier);
-
         label_name.setBounds(185, 95, 110, 30);
         frame.getContentPane().add(label_name);
-        textField_name.setBounds(185, 120, 140, 30);   //TODO
+        textField_name.setBounds(185, 120, 140, 30);
         frame.getContentPane().add(textField_name);
-
 
         DefaultListModel listModel = new DefaultListModel();
         JList liste = new JList(listModel);
@@ -69,6 +66,12 @@ public class Interface {
         frame.getContentPane().add(liste_panier);
         liste_panier.setBounds(582, 171, 254, 300);
 
+        pathFichier.setForeground(new Color(0, 0, 0));
+        pathFichier.setBackground(Color.WHITE);
+        pathFichier.setEditable(false);
+
+
+        // autosuggestion lorsque l'utilisateur ecrit dans le textField sous "Nom"
         textField_name.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -102,8 +105,10 @@ public class Interface {
 
         label_code.setBounds(340, 95, 110, 30);
         frame.getContentPane().add(label_code);
-        textField_code.setBounds(340, 120, 110, 30);   //TODO
+        textField_code.setBounds(340, 120, 110, 30);
         frame.getContentPane().add(textField_code);
+
+        // autosuggestion lorsque l'utilisateur ecrit dans le textField sous "Code"
         textField_code.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -137,8 +142,10 @@ public class Interface {
 
         label_type.setBounds(465, 95, 110, 30);
         frame.getContentPane().add(label_type);
-        textField_type.setBounds(465, 120, 70, 30);   //TODO
+        textField_type.setBounds(465, 120, 70, 30);
         frame.getContentPane().add(textField_type);
+
+        // autosuggestion lorsque l'utilisateur ecrit dans le textField sous "Type"
         textField_type.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -243,7 +250,9 @@ public class Interface {
 
         JButton browseButton = new JButton("Browse");
         frame.getContentPane().add(browseButton);
+//        browseButton.setVisible(true);
         browseButton.setBounds(700, 25, 100, 40);
+//        frame.setVisible(true);  // pour rendre la bordure de l'interface visible
 
         browseButton.addActionListener(e -> {
             pathFichier.setText(selectFile());
@@ -251,6 +260,7 @@ public class Interface {
 
         JButton boutonInitialiserProgramme = new JButton("Initialiser");
         frame.getContentPane().add(boutonInitialiserProgramme);
+//        boutonInitialiserProgramme.setVisible(true);
         boutonInitialiserProgramme.setBounds(815, 25, 100, 40);
 
         JLabel lblSlectionnerUnFichier = new JLabel("S\u00E9lectionner un fichier");
@@ -259,7 +269,6 @@ public class Interface {
         boutonInitialiserProgramme.addActionListener(e -> {
             initialiser(pathFichier.getText());
         });
-
         frame.setVisible(true);
 
         //test panier
@@ -395,7 +404,7 @@ public class Interface {
         }
         else {
             //System.out.println("No file selected");
-            return "No file selected";
+            return "Aucun fichier n'a été sélectionné";
         }
 
     }

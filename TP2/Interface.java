@@ -13,7 +13,6 @@ public class Interface {
     JFrame frame = new JFrame("Interface de commandes");
 
     JLabel label_search = new JLabel("Recherche ");
-    JLabel label_title = new JLabel("Interface de commandes");
     JLabel label_name = new JLabel("Nom");
     JLabel label_code = new JLabel("Code");
     JLabel label_type = new JLabel("Type");
@@ -37,42 +36,39 @@ public class Interface {
 
     Interface() {
         //Layout general
-        frame.setSize(800, 800);//400 width and 500 height
-        frame.setLayout(null);//using no layout managers
+        frame.setSize(950, 650);//400 width and 500 height
+        frame.getContentPane().setLayout(null);//using no layout managers
         frame.setVisible(true);//making the frame visible
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        label_title.setBounds(30, 75, 200, 40);   //TODO
-        frame.add(label_title);
+        label_search.setBounds(70, 115, 100, 40);    //TODO
+        frame.getContentPane().add(label_search);
 
-        label_search.setBounds(50, 150, 100, 40);    //TODO
-        frame.add(label_search);
+        label_panier.setBounds(582, 110, 100, 40);
+        frame.getContentPane().add(label_panier);
 
-        label_panier.setBounds(600, 150, 100, 40);
-        frame.add(label_panier);
-
-        label_nbElements.setBounds(600, 170, 200, 40);
-        frame.add(label_nbElements);
+        label_nbElements.setBounds(582, 133, 200, 40);
+        frame.getContentPane().add(label_nbElements);
 
 //        textField_panier.setBounds(550, 190, 200, 300);
 //        frame.add(textField_panier);
 
-        label_name.setBounds(160, 120, 110, 30);
-        frame.add(label_name);
-        textField_name.setBounds(160, 150, 110, 30);   //TODO
-        frame.add(textField_name);
+        label_name.setBounds(185, 95, 110, 30);
+        frame.getContentPane().add(label_name);
+        textField_name.setBounds(185, 120, 140, 30);   //TODO
+        frame.getContentPane().add(textField_name);
 
 
         DefaultListModel listModel = new DefaultListModel();
         JList liste = new JList(listModel);
-        frame.add(liste);
-        liste.setBounds(150, 200, 300, 300);
+        frame.getContentPane().add(liste);
+        liste.setBounds(185, 171, 350, 329);
 
         DefaultListModel listPanierModel = new DefaultListModel();
         JList liste_panier = new JList(listPanierModel);
-        frame.add(liste_panier);
-        liste_panier.setBounds(550, 200, 200, 300);
+        frame.getContentPane().add(liste_panier);
+        liste_panier.setBounds(582, 171, 254, 300);
 
         textField_name.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -105,10 +101,10 @@ public class Interface {
             }
         });
 
-        label_code.setBounds(280, 120, 110, 30);
-        frame.add(label_code);
-        textField_code.setBounds(280, 150, 110, 30);   //TODO
-        frame.add(textField_code);
+        label_code.setBounds(340, 95, 110, 30);
+        frame.getContentPane().add(label_code);
+        textField_code.setBounds(340, 120, 110, 30);   //TODO
+        frame.getContentPane().add(textField_code);
         textField_code.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -140,10 +136,10 @@ public class Interface {
             }
         });
 
-        label_type.setBounds(400, 120, 110, 30);
-        frame.add(label_type);
-        textField_type.setBounds(400, 150, 110, 30);   //TODO
-        frame.add(textField_type);
+        label_type.setBounds(465, 95, 110, 30);
+        frame.getContentPane().add(label_type);
+        textField_type.setBounds(465, 120, 70, 30);   //TODO
+        frame.getContentPane().add(textField_type);
         textField_type.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -175,8 +171,8 @@ public class Interface {
             }
         });
 
-        frame.add(button_add);
-        button_add.setBounds(410, 510, 100, 40);
+        frame.getContentPane().add(button_add);
+        button_add.setBounds(185, 510, 100, 40);
         button_add.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -189,8 +185,8 @@ public class Interface {
             }
         });
 
-        frame.add(button_remove);
-        button_remove.setBounds(550, 510, 120, 40);
+        frame.getContentPane().add(button_remove);
+        button_remove.setBounds(582, 487, 120, 40);
         button_remove.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -203,8 +199,8 @@ public class Interface {
             }
         });
 
-        frame.add(button_order);
-        button_order.setBounds(550, 560, 120, 40);
+        frame.getContentPane().add(button_order);
+        button_order.setBounds(793, 543, 120, 40);
         button_order.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -223,8 +219,8 @@ public class Interface {
             }
         });
 
-        frame.add(button_clear);
-        button_clear.setBounds(550, 610, 120, 40);
+        frame.getContentPane().add(button_clear);
+        button_clear.setBounds(717, 487, 120, 40);
         button_clear.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -237,8 +233,8 @@ public class Interface {
             }
         });
 
-        pathFichier.setBounds(140, 30, 500, 30);
-        frame.add(pathFichier);
+        pathFichier.setBounds(185, 30, 500, 30);
+        frame.getContentPane().add(pathFichier);
         pathFichier.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -247,9 +243,9 @@ public class Interface {
         });
 
         JButton browseButton = new JButton("Browse");
-        frame.add(browseButton);
+        frame.getContentPane().add(browseButton);
         browseButton.setVisible(true);
-        browseButton.setBounds(20, 25, 100, 40);
+        browseButton.setBounds(700, 25, 100, 40);
         frame.setVisible(true);  // pour rendre la bordure de l'interface visible
 
         browseButton.addActionListener(e -> {
@@ -257,9 +253,13 @@ public class Interface {
         });
 
         JButton boutonInitialiserProgramme = new JButton("Initialiser");
-        frame.add(boutonInitialiserProgramme);
+        frame.getContentPane().add(boutonInitialiserProgramme);
         boutonInitialiserProgramme.setVisible(true);
-        boutonInitialiserProgramme.setBounds(650, 25, 100, 40);
+        boutonInitialiserProgramme.setBounds(815, 25, 100, 40);
+
+        JLabel lblSlectionnerUnFichier = new JLabel("S\u00E9lectionner un fichier");
+        lblSlectionnerUnFichier.setBounds(15, 35, 183, 20);
+        frame.getContentPane().add(lblSlectionnerUnFichier);
         boutonInitialiserProgramme.addActionListener(e -> {
             initialiser(pathFichier.getText());
         });
@@ -415,7 +415,6 @@ public class Interface {
     public List<Objet> getListeSuggestions() {
         return listeObjets;
     }
-
 }
 
 

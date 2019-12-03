@@ -28,7 +28,7 @@ public class Automate {
     }
 
     /* Fonction lire fichier ici*/
-    public void lireFichier(String fichier) {
+    public void lireFichier(String fichier) throws FileNotFoundException {
 
         //TODO FAIRE UN TRY CATCH FICHIER
         File file = new File(fichier);
@@ -44,6 +44,7 @@ public class Automate {
         }
         catch (FileNotFoundException e) {
             e.printStackTrace();
+            throw e;
         }
 
         //store les lignes separement dans un array de string

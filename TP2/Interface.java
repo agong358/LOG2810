@@ -3,6 +3,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
+import java.io.FileNotFoundException;
+
 import javax.swing.JLabel;
 import java.awt.*;
 import java.awt.event.*;
@@ -23,7 +25,8 @@ public class Interface {
     JTextField textField_code = new JTextField();
     JTextField textField_type = new JTextField();
     JTextField textField_panier = new JTextField();
-    JTextField pathFichier = new JTextField();
+    JTextField textField_poids = new JTextField();
+    JTextField pathFichier = new JTextField("Sélectionner un fichier en écrivant son path ou sinon à l'aide du bouton Browse");
 
     JButton button_add = new JButton("Ajouter");
     JButton button_remove = new JButton("Retirer");
@@ -33,6 +36,7 @@ public class Interface {
     List<Objet> listeObjets = new ArrayList<>();
 
     Automate automate = new Automate();
+    private JTextField textField;
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     Interface() {
@@ -68,7 +72,7 @@ public class Interface {
 
         pathFichier.setForeground(new Color(0, 0, 0));
         pathFichier.setBackground(Color.WHITE);
-        pathFichier.setEditable(false);
+//        pathFichier.setEditable(false);
 
 
         // autosuggestion lorsque l'utilisateur ecrit dans le textField sous "Nom"
@@ -131,6 +135,7 @@ public class Interface {
                         listModel.addElement(o.getNom() + " " + o.getCode() + " " + o.getType());
                     }
                 }
+
                 liste.setModel(listModel);
             }
 
@@ -182,8 +187,17 @@ public class Interface {
         button_add.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                List<Objet> listeSuggestions = trouverSuggestions();
+
                 listPanierModel.addElement(liste.getSelectedValue());
                 liste_panier.setModel(listPanierModel);
+
+
+//                textField_poids.setText(t);
+
+//                listPanierModel.removeElement(liste.getSelectedIndex());
+//                liste_panier.setModel(listPanierModel);
+
 
                 //TODO ajouter les éléments de la liste dans listModel--Impossible de remove puisque size = 0
 //                listModel.removeElementAt(liste.getSelectedIndex());
@@ -241,8 +255,9 @@ public class Interface {
 
         pathFichier.setBounds(185, 30, 500, 30);
         frame.getContentPane().add(pathFichier);
+        // offre le choix à l'utilisateur d'écrire le path de son fichier
         pathFichier.addMouseListener(new MouseAdapter() {
-            @Override
+            //            @Override
             public void mouseClicked(MouseEvent e) {
                 pathFichier.setText("");
             }
@@ -250,9 +265,7 @@ public class Interface {
 
         JButton browseButton = new JButton("Browse");
         frame.getContentPane().add(browseButton);
-//        browseButton.setVisible(true);
         browseButton.setBounds(700, 25, 100, 40);
-//        frame.setVisible(true);  // pour rendre la bordure de l'interface visible
 
         browseButton.addActionListener(e -> {
             pathFichier.setText(selectFile());
@@ -260,7 +273,6 @@ public class Interface {
 
         JButton boutonInitialiserProgramme = new JButton("Initialiser");
         frame.getContentPane().add(boutonInitialiserProgramme);
-//        boutonInitialiserProgramme.setVisible(true);
         boutonInitialiserProgramme.setBounds(815, 25, 100, 40);
 
         JLabel lblSlectionnerUnFichier = new JLabel("S\u00E9lectionner un fichier");
@@ -269,21 +281,21 @@ public class Interface {
         boutonInitialiserProgramme.addActionListener(e -> {
             initialiser(pathFichier.getText());
         });
+
+        JLabel lblPoids = new JLabel("Poids actuel :");
+        lblPoids.setBounds(582, 548, 100, 30);
+        frame.getContentPane().add(lblPoids);
+
+        textField_poids.setText("     ---");
+        textField_poids.setEditable(false);
+        textField_poids.setBounds(686, 553, 70, 30);
+        frame.getContentPane().add(textField_poids);
+        textField_poids.setColumns(10);
+
         frame.setVisible(true);
 
         //test panier
-
         String commandePanier = "";
-
-//        Automate automate = new Automate();
-//        automate.lireFichier("inventaire.txt");
-//        List<Objet> liste = automate.getListeObjets();
-//        DefaultListModel<String> listePanier = new DefaultListModel<>();
-//        for (Objet o : liste) {
-//            //commandePanier += o.getNom() + " " + o.getCode() + " " + o.getType() + "\n";
-//            listePanier.addElement(o.getNom() + " " + o.getCode() + " " + o.getType());
-//        }
-
     }
 
     public List<Objet> trouverSuggestionsNoms() {
@@ -406,18 +418,24 @@ public class Interface {
             //System.out.println("No file selected");
             return "Aucun fichier n'a été sélectionné";
         }
+
     }
 
     public void initialiser(String fichier) {
-        automate.lireFichier(fichier);
-        listeObjets = automate.getListeObjets();
-        automate.setEtatsTerminaux();
-        automate.setEtatsNoms();
-        automate.setEtatsCodes();
-        automate.setEtatsTypes();
-        automate.setMapSuggestions();
+        try {
+            automate.lireFichier(fichier);
+            listeObjets = automate.getListeObjets();
+            automate.setEtatsTerminaux();
+            automate.setEtatsNoms();
+            automate.setEtatsCodes();
+            automate.setEtatsTypes();
+            automate.setMapSuggestions();
 
-        JOptionPane.showMessageDialog(null,"Initialisation terminée" + "\n" + "Vous pouvez procéder à la commande" );
+            JOptionPane.showMessageDialog(null,"Initialisation terminée" + "\n" + "Vous pouvez procéder à la commande" );
+
+        } catch(FileNotFoundException e) {
+            JOptionPane.showMessageDialog(null,"Veuillez sélectionner un fichier");
+        }
 
     }
 

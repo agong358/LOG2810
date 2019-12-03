@@ -120,7 +120,6 @@ public class Interface {
             }
         });
 
-
         pathFichier.setForeground(new Color(0, 0, 0));
         pathFichier.setBackground(Color.WHITE);
 //        pathFichier.setEditable(false);
@@ -257,7 +256,7 @@ public class Interface {
 
                 }
 
-                else if(poids <= 25){
+                else if(poids_panier <= 25){
                     JOptionPane.showMessageDialog(frame,
                             "La commande a été passée.",
                             "Commande passée",

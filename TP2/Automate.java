@@ -42,7 +42,6 @@ public class Automate {
             }
         }
         catch (FileNotFoundException e) {
-            e.printStackTrace();
             throw e;
         }
 

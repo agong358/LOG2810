@@ -327,8 +327,17 @@ public class Interface {
 
     public List<Objet> trouverSuggestions() {
         List<Objet> suggestionsNom = automate.getSuggestionsNom(textField_name.getText());
+        if (!textField_name.getText().isEmpty() && suggestionsNom == null)
+            return null;
+
         List<Objet> suggestionsCode = automate.getSuggestionsCode(textField_code.getText());
+        if (!textField_code.getText().isEmpty() && suggestionsCode == null)
+            return null;
+
         List<Objet> suggestionsType = automate.getSuggestionsType(textField_type.getText());
+        if (!textField_type.getText().isEmpty() && suggestionsType == null)
+            return null;
+
         if (suggestionsNom != null) {
             if (suggestionsCode != null) {
                 if (suggestionsType != null) {
@@ -352,7 +361,6 @@ public class Interface {
                 suggestionsCode.retainAll(suggestionsType);
             return suggestionsCode;
         }
-
         else if (suggestionsType != null) {
             if (suggestionsCode != null) {
                 if (suggestionsNom != null) {
@@ -364,8 +372,7 @@ public class Interface {
                 suggestionsType.retainAll(suggestionsNom);
             return suggestionsType;
         }
-        else
-            return null;
+        return null;
     }
 
 

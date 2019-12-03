@@ -1,19 +1,36 @@
 import javax.swing.*;
+import javax.swing.JLabel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import javax.swing.JLabel;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import java.util.*;
 import java.util.List;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 public class Interface {
+
     private JFrame frame = new JFrame("Interface de commandes");
 
     private JLabel label_search = new JLabel("Recherche ");
@@ -23,14 +40,21 @@ public class Interface {
     private JLabel label_panier = new JLabel("Panier");
     private JLabel label_nbElements = new JLabel("(poids maximal de 25 kg)");
     private JLabel lblPoidsDeLobject = new JLabel("<html>Poids de l'objet<br>  sélectionné (kg) : </html>");
+    private JLabel label_errorClickNoSelectionAdd = new JLabel("<html><font color='#E73F1A'>Veuillez sélectionner un objet à<br>ajouter dans le panier</font></html>");
+    private JLabel label_errorClickNoSelectionRemove = new JLabel("<html><font color='#E73F1A'>Veuillez s\u00E9lectionner un objet \u00E0<br>enlever du panier</font></html>");
 
-    private JTextField textField_name = new JTextField();
+    private JTextField textField_name = new JTextField(){
+        public void addNotify(){
+            super.addNotify();
+            requestFocus();
+        }
+    };
     private JTextField textField_code = new JTextField();
     private JTextField textField_type = new JTextField();
     private JTextField textField_panier = new JTextField();
     private JTextField textField_poids = new JTextField();
     private JTextField textField_poidsSelection = new JTextField();
-    private JTextField pathFichier = new JTextField("Sélectionner un fichier en écrivant son path ou sinon à l'aide du bouton Browse");
+    private HintTextField pathFichier = new HintTextField("Sélectionner un fichier en écrivant son path ou sinon à l'aide du bouton Browse");
 
     private JButton button_add = new JButton("Ajouter");
     private JButton button_remove = new JButton("Retirer");
@@ -40,12 +64,11 @@ public class Interface {
     private List<Objet> listeObjets = new ArrayList<>();
 
     private Automate automate = new Automate();
-    private JTextField textField;
+
     private int poids_panier = 0;
     private int poids_selection = 0;
 
     private int poids = 0;
-
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     Interface() {
@@ -77,9 +100,7 @@ public class Interface {
         DefaultListModel listPanierModel = new DefaultListModel();
         JList liste_panier = new JList(listPanierModel);
         frame.getContentPane().add(liste_panier);
-        liste_panier.setBounds(582, 171, 254, 300);
-
-
+        liste_panier.setBounds(582, 171, 254, 272);
 
         liste.addListSelectionListener(e -> {
             try {
@@ -172,17 +193,25 @@ public class Interface {
         button_add.setBounds(185, 510, 100, 40);
         button_add.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
+                if(liste.isSelectionEmpty()) {
+                    label_errorClickNoSelectionAdd.setVisible(true);
+                    label_errorClickNoSelectionAdd.revalidate();
+                    label_errorClickNoSelectionAdd.repaint();
+                }
+                else {
+                    label_errorClickNoSelectionAdd.setVisible(false);
 
-                listPanierModel.addElement(liste.getSelectedValue());
-                liste_panier.setModel(listPanierModel);
+                    listPanierModel.addElement(liste.getSelectedValue());
+                    liste_panier.setModel(listPanierModel);
 
-                Objet addedObject = trouverObjet(liste.getSelectedValue().toString());
+                    Objet addedObject = trouverObjet(liste.getSelectedValue().toString());
 
-                listeObjets.remove(addedObject);
-                liste.setModel(getListModel());
+                    listeObjets.remove(addedObject);
+                    liste.setModel(getListModel());
 
-                poids_panier += addedObject.getPoids();
-                textField_poids.setText(String.valueOf(poids_panier));
+                    poids_panier += addedObject.getPoids();
+                    textField_poids.setText(String.valueOf(poids_panier));
+                }
             }
         });
 
@@ -190,18 +219,31 @@ public class Interface {
         button_remove.setBounds(582, 487, 120, 40);
         button_remove.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                //TODO ajouter update pour liste -- mettre un élément dans la liste efface tout
+                if(liste_panier.getModel().getSize() == 0) {
+                    JOptionPane.showMessageDialog(null,"Le panier est vide!");
 
-                Objet removedObject = creerObjet(liste_panier.getSelectedValue().toString());
+                }
+                else {
+                    if(liste_panier.isSelectionEmpty()) {
+                        label_errorClickNoSelectionRemove.setVisible(true);
+                        label_errorClickNoSelectionRemove.revalidate();
+                        label_errorClickNoSelectionRemove.repaint();
+                    }
+                    else {
+                        label_errorClickNoSelectionRemove.setVisible(false);
 
-                listeObjets.add(removedObject);
-                liste.setModel(getListModel());
+                        Objet removedObject = creerObjet(liste_panier.getSelectedValue().toString());
 
-                listPanierModel.removeElementAt(liste_panier.getSelectedIndex());
-                liste_panier.setModel(listPanierModel);
+                        listeObjets.add(removedObject);
+                        liste.setModel(getListModel());
 
-                poids_panier -= removedObject.getPoids();
-                textField_poids.setText(String.valueOf(poids_panier));
+                        listPanierModel.removeElementAt(liste_panier.getSelectedIndex());
+                        liste_panier.setModel(listPanierModel);
+
+                        poids_panier -= removedObject.getPoids();
+                        textField_poids.setText(String.valueOf(poids_panier));
+                    }
+                }
             }
         });
 
@@ -210,7 +252,12 @@ public class Interface {
         button_order.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (poids_panier <= 25){
+                if(liste_panier.getModel().getSize() == 0) {
+                    JOptionPane.showMessageDialog(null,"Le panier est vide!");
+
+                }
+
+                else if(poids <= 25){
                     JOptionPane.showMessageDialog(frame,
                             "La commande a été passée.",
                             "Commande passée",
@@ -235,37 +282,40 @@ public class Interface {
         button_clear.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                //TODO Oof...
-                for (int i = 0; i < liste_panier.getModel().getSize(); i++) {
-                    listeObjets.add(creerObjet(liste_panier.getModel().getElementAt(i).toString()));
+                if (liste_panier.getModel().getSize() == 0) {
+                    JOptionPane.showMessageDialog(null, "Le panier est vide!");
+
+                } else {
+                    for (int i = 0; i < liste_panier.getModel().getSize(); i++) {
+                        listeObjets.add(creerObjet(liste_panier.getModel().getElementAt(i).toString()));
+                    }
+
+                    textField_poids.setText("         ---");
+
+                    liste.setModel(getListModel());
+
+                    listPanierModel.removeAllElements();
+                    liste_panier.setModel(listPanierModel);
+
+                    poids_panier = 0;
+                    //textField_poids.setText(String.valueOf(poids_panier));
                 }
-
-                textField_poids.setText("         ---");
-
-                liste.setModel(getListModel());
-
-                listPanierModel.removeAllElements();
-                liste_panier.setModel(listPanierModel);
-
-                poids_panier = 0;
-                //textField_poids.setText(String.valueOf(poids_panier));
             }
         });
 
         pathFichier.setBounds(185, 30, 500, 30);
         frame.getContentPane().add(pathFichier);
         // offre le choix à l'utilisateur d'écrire le path de son fichier
-        pathFichier.addMouseListener(new MouseAdapter() {
-            //            @Override
-            public void mouseClicked(MouseEvent e) {
-                pathFichier.setText("");
-            }
-        });
+//        pathFichier.addMouseListener(new MouseAdapter() {
+//            //            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                pathFichier.setText("");
+//            }
+//        });
 
         JButton browseButton = new JButton("Browse");
         frame.getContentPane().add(browseButton);
         browseButton.setBounds(700, 25, 100, 40);
-
         browseButton.addActionListener(e -> {
             pathFichier.setText(selectFile());
         });
@@ -286,6 +336,7 @@ public class Interface {
         frame.getContentPane().add(lblPoids);
         textField_poids.setBackground(Color.WHITE);
 
+
         textField_poids.setText("         ---");
         textField_poids.setEditable(false);
         textField_poids.setBounds(700, 548, 70, 30);
@@ -303,10 +354,20 @@ public class Interface {
         textField_poidsSelection.setColumns(10);
         textField_poidsSelection.setEditable(false);
 
+        label_errorClickNoSelectionAdd.setBounds(300, 510, 235, 34);
+        frame.getContentPane().add(label_errorClickNoSelectionAdd);
+        label_errorClickNoSelectionAdd.setVisible(false);
+
+
+        label_errorClickNoSelectionRemove.setBounds(582, 447, 254, 40);
+        frame.getContentPane().add(label_errorClickNoSelectionRemove);
+        label_errorClickNoSelectionRemove.setVisible(false);
+
         frame.setVisible(true);
 
         //test panier
-//        String commandePanier = "";
+        String commandePanier = "";
+
     }
 
     public List<Objet> trouverSuggestionsNoms() {
@@ -490,6 +551,53 @@ public class Interface {
     public List<Objet> getListeSuggestions() {
         return listeObjets;
     }
+
+
+
+
+
+    public class HintTextField extends JTextField {
+
+        Font gainFont = new Font("Tahoma", Font.PLAIN, 11);
+        Font lostFont = new Font("Tahoma", Font.ITALIC, 11);
+
+        public HintTextField(final String hint) {
+
+            setText(hint);
+            setFont(lostFont);
+            setForeground(Color.GRAY);
+
+            this.addFocusListener(new FocusAdapter() {
+
+                @Override
+                public void focusGained(FocusEvent e) {
+                    if (getText().equals(hint)) {
+                        setText("");
+                        setFont(gainFont);
+                    } else {
+                        setText(getText());
+                        setFont(gainFont);
+                    }
+                }
+
+                @Override
+                public void focusLost(FocusEvent e) {
+                    if (getText().equals(hint)|| getText().length()==0) {
+                        setText(hint);
+                        setFont(lostFont);
+                        setForeground(Color.GRAY);
+                    } else {
+                        setText(getText());
+                        setFont(gainFont);
+                        setForeground(Color.BLACK);
+                    }
+                }
+            });
+
+        }
+    }
+
+
 }
 
 

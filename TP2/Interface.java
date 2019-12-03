@@ -81,15 +81,21 @@ public class Interface {
 
 
 
-        liste.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                try {
-                    Objet objetSelectionne = trouverObjet(liste.getSelectedValue().toString());
-                    textField_poidsSelection.setText(String.valueOf(objetSelectionne.getPoids()));;
-                } catch(NullPointerException e1) {
-                    textField_poidsSelection.setText("         ---");
-                }
+        liste.addListSelectionListener(e -> {
+            try {
+                Objet objetSelectionne = trouverObjet(liste.getSelectedValue().toString());
+                textField_poidsSelection.setText(String.valueOf(objetSelectionne.getPoids()));;
+            } catch(NullPointerException e1) {
+                textField_poidsSelection.setText("         ---");
+            }
+        });
+
+        liste_panier.addListSelectionListener(e -> {
+            try {
+                Objet objetSelectionne = trouverObjet(liste.getSelectedValue().toString());
+                textField_poidsSelection.setText(String.valueOf(objetSelectionne.getPoids()));;
+            } catch(NullPointerException e1) {
+                textField_poidsSelection.setText("         ---");
             }
         });
 
@@ -107,7 +113,6 @@ public class Interface {
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-//                DefaultListModel listModel = new DefaultListModel();
                 liste.setModel(getListModel());
             }
 

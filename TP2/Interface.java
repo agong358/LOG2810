@@ -72,26 +72,13 @@ public class Interface {
         textField_name.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                DefaultListModel listModel = new DefaultListModel();
-                List<Objet> listeSuggestions = trouverSuggestions();
-                if (listeSuggestions != null) {
-                    for (Objet o : listeSuggestions) {
-                        listModel.addElement(o.getNom() + " " + o.getCode() + " " + o.getType());
-                    }
-                }
-                liste.setModel(listModel);
+                liste.setModel(getListModel());
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
                 DefaultListModel listModel = new DefaultListModel();
-                List<Objet> listeSuggestions = trouverSuggestions();
-                if (listeSuggestions != null) {
-                    for (Objet o : listeSuggestions) {
-                        listModel.addElement(o.getNom() + " " + o.getCode() + " " + o.getType());
-                    }
-                }
-                liste.setModel(listModel);
+                liste.setModel(getListModel());
             }
 
             @Override
@@ -107,26 +94,12 @@ public class Interface {
         textField_code.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                DefaultListModel listModel = new DefaultListModel();
-                List<Objet> listeSuggestions = trouverSuggestions();
-                if (listeSuggestions != null) {
-                    for (Objet o : listeSuggestions) {
-                        listModel.addElement(o.getNom() + " " + o.getCode() + " " + o.getType());
-                    }
-                }
-                liste.setModel(listModel);
+                liste.setModel(getListModel());
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                DefaultListModel listModel = new DefaultListModel();
-                List<Objet> listeSuggestions = trouverSuggestions();
-                if (listeSuggestions != null) {
-                    for (Objet o : listeSuggestions) {
-                        listModel.addElement(o.getNom() + " " + o.getCode() + " " + o.getType());
-                    }
-                }
-                liste.setModel(listModel);
+                liste.setModel(getListModel());
             }
 
             @Override
@@ -142,26 +115,12 @@ public class Interface {
         textField_type.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                DefaultListModel listModel = new DefaultListModel();
-                List<Objet> listeSuggestions = trouverSuggestions();
-                if (listeSuggestions != null) {
-                    for (Objet o : listeSuggestions) {
-                        listModel.addElement(o.getNom() + " " + o.getCode() + " " + o.getType());
-                    }
-                }
-                liste.setModel(listModel);
+                liste.setModel(getListModel());
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                DefaultListModel listModel = new DefaultListModel();
-                List<Objet> listeSuggestions = trouverSuggestions();
-                if (listeSuggestions != null) {
-                    for (Objet o : listeSuggestions) {
-                        listModel.addElement(o.getNom() + " " + o.getCode() + " " + o.getType());
-                    }
-                }
-                liste.setModel(listModel);
+                liste.setModel(getListModel());
             }
 
             @Override
@@ -177,6 +136,8 @@ public class Interface {
             public void mouseClicked(MouseEvent e) {
                 listPanierModel.addElement(liste.getSelectedValue());
                 liste_panier.setModel(listPanierModel);
+                listeObjets.remove(trouverObjet(liste.getSelectedValue().toString()));
+                liste.setModel(getListModel());
 
                 //TODO ajouter les éléments de la liste dans listModel--Impossible de remove puisque size = 0
 //                listModel.removeElementAt(liste.getSelectedIndex());
@@ -190,11 +151,13 @@ public class Interface {
             @Override
             public void mouseClicked(MouseEvent e) {
                 //TODO ajouter update pour liste -- mettre un élément dans la liste efface tout
-                listModel.addElement(liste_panier.getSelectedValue());
-                liste.setModel(listModel);
+                listeObjets.add(creerObjet(liste_panier.getSelectedValue().toString()));
+                getListModel();
+                liste.setModel(getListModel());
 
                 listPanierModel.removeElementAt(liste_panier.getSelectedIndex());
                 liste_panier.setModel(listPanierModel);
+
             }
         });
 
@@ -401,14 +364,50 @@ public class Interface {
     }
 
     public void initialiser(String fichier) {
+        listeObjets.clear();
         automate.lireFichier(fichier);
         listeObjets = automate.getListeObjets();
         automate.setEtatsTerminaux();
+        System.out.println("etats terminaux");
         automate.setEtatsNoms();
+        System.out.println("etats noms");
         automate.setEtatsCodes();
+        System.out.println("etats codes");
         automate.setEtatsTypes();
+        System.out.println("etats type");
         automate.setMapSuggestions();
+//        for (Objet o : automate.getSuggestionsNom("wr"))
+//            System.out.println(o.getNom() + " " + o.getCode() + " " + o.getType());
     }
+
+    public Objet trouverObjet(String input) {
+        String[] array = input.split(" ");
+        for (Objet o : listeObjets) {
+            if (o.getNom().equals(array[0]) && o.getCode().equals(array[1]) && o.getType().equals(array[2]))
+                return o;
+        }
+        return null;
+    }
+
+    public Objet creerObjet(String input) {
+        String[] array = input.split(" ");
+        return new Objet(array[0], array[1], array[2]);
+    }
+
+    public DefaultListModel getListModel() {
+        DefaultListModel listModel = new DefaultListModel();
+        List<Objet> listeSuggestions = trouverSuggestions();
+        if (listeSuggestions != null) {
+            for (Objet o : listeSuggestions) {
+                for (Objet objet : listeObjets) {
+                    if (objet.getNom().equals(o.getNom()) && objet.getCode().equals(o.getCode()) && objet.getType().equals(o.getType()))
+                        listModel.addElement(o.getNom() + " " + o.getCode() + " " + o.getType());
+                }
+            }
+        }
+        return listModel;
+    }
+
 
     public List<Objet> getListeSuggestions() {
         return listeObjets;

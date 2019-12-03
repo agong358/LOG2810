@@ -54,9 +54,9 @@ public class Automate {
         }
 
         //test pour print
-        for (Objet o : listeObjets) {
-            System.out.println(o.getNom() + " " + o.getCode() + " " + o.getType());
-        }
+//        for (Objet o : listeObjets) {
+//            System.out.println(o.getNom() + " " + o.getCode() + " " + o.getType());
+//        }
     }
 
     public void setEtats() {
@@ -327,7 +327,7 @@ public class Automate {
     public void sortSuggestions(List<Objet> liste) {
         List<Objet> temp = new ArrayList<>(liste);
         liste.clear();
-        System.out.println("SUGGE");
+//        System.out.println("SUGGE");
         List<String> listeNoms = getNomsSuggestions(temp);
 
         java.util.Collections.sort(listeNoms);
@@ -339,8 +339,8 @@ public class Automate {
                 }
             }
         }
-        for (Objet o : liste)
-            System.out.println(o.getNom() + " " + o.getCode() + " " + o.getType());
+//        for (Objet o : liste)
+//            System.out.println(o.getNom() + " " + o.getCode() + " " + o.getType());
     }
 
 //    public void sortSuggestionsCodes(List<Objet> liste) {

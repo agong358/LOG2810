@@ -17,6 +17,9 @@ public class Automate {
     private List<Objet> suggestion = new ArrayList<>();
     private List<Objet> suggestionCodes = new ArrayList<>();
     private List<Objet> suggestionTypes = new ArrayList<>();
+    private Map<String, List<Objet>> mapSuggestionsNoms = new HashMap<>();
+    private Map<String, List<Objet>> mapSuggestionsCodes = new HashMap<>();
+    private Map<String, List<Objet>> mapSuggestionsTypes = new HashMap<>();
 
     // Constructeur par defaut
     public Automate() {
@@ -56,6 +59,12 @@ public class Automate {
         }
     }
 
+    public void setEtats() {
+        setEtatsNoms();
+        setEtatsCodes();
+        setEtatsTypes();
+    }
+
     public void setEtatsNoms() {
         for (Objet o : listeObjets) {
             int i = 0;
@@ -73,9 +82,6 @@ public class Automate {
                     courant = getEtatContenu(chara, listeEtats);
                 }
             }
-        }
-        for (Etat e : listeEtats) {
-            System.out.println(e.getNom());
         }
     }
 
@@ -97,10 +103,6 @@ public class Automate {
                 }
             }
         }
-        System.out.println("COde");
-        for (Etat e : listeEtatsCodes) {
-            System.out.println(e.getNom());
-        }
     }
 
     public void setEtatsTypes() {
@@ -121,13 +123,7 @@ public class Automate {
                 }
             }
         }
-        System.out.println("typ e");
-        for (Etat e : listeEtatsTypes) {
-            System.out.println(e.getNom());
-        }
     }
-
-
 
 
     public boolean contientEtat(String etat, List<Etat> liste) {
@@ -150,6 +146,12 @@ public class Automate {
     }
 
     public void setEtatsTerminaux() {
+        setEtatsTerminauxNoms();
+        setEtatsTerminauxCodes();
+        setEtatsTerminauxTypes();
+    }
+
+    public void setEtatsTerminauxNoms() {
         for (Objet o : listeObjets) {
             Etat terminal = new Etat(o.getNom());
             listeEtatsTerminaux.add(terminal);
@@ -171,9 +173,10 @@ public class Automate {
     }
 
 
-    public void suggestion(String input) {
+    public List<Objet> suggestion(String input) {
         resetListeEtats(listeEtatsTerminaux);
         resetListeObjets();
+        List<Objet> listeSuggestions = new ArrayList<>();
 //        for (Etat e : listeEtatsTerminaux) {
 //            if (e.getNom().startsWith(input))
 //                System.out.println(e.getNom());
@@ -181,63 +184,58 @@ public class Automate {
 
         for (Etat e : listeEtats) {
             if (e.getNom().equals(input)) {
-                parcourirEtats(e, listeEtatsTerminaux);
-//                courant = e;
-//                while (courant.hasNext()) {
-////                    for (Arc a : e.getListeArcs()) {
-////                        courant = a.getVoisin();
-////                    }
-//                    courant = courant.getListeArcs().get(0).getVoisin();
-//                    //courant = e.getListeArcs().get(0).getVoisin();
-//                }
-                //System.out.println(courant.getNom());
+                parcourirEtats(e, listeEtatsTerminaux, listeSuggestions);
             }
         }
-        sortSuggestions(suggestion);
+        sortSuggestions(listeSuggestions);
+        return listeSuggestions;
     }
 
-    public void suggestionsCode(String input) {
+    public List<Objet> suggestionsCode(String input) {
         resetListeEtats(listeEtatsTerminauxCodes);
         resetListeObjets();
+        List<Objet> listeSuggestions = new ArrayList<>();
         for (Etat e : listeEtatsCodes) {
             if (e.getNom().equals(input)) {
-                parcourirEtatsCodes(e, listeEtatsTerminauxCodes);
+                parcourirEtatsCodes(e, listeEtatsTerminauxCodes, listeSuggestions);
             }
         }
-        sortSuggestions(suggestionCodes);
-        System.out.println("ALLALLALALAO");
-        suggestionCodes.retainAll(suggestion);
-        for (Objet o : suggestionCodes) {
-            System.out.println(o.getNom() + " " + o.getCode() + " " + o.getType());
-        }
+        sortSuggestions(listeSuggestions);
+        return listeSuggestions;
+//        suggestionCodes.retainAll(suggestion);
+//        for (Objet o : suggestionCodes) {
+//            System.out.println(o.getNom() + " " + o.getCode() + " " + o.getType());
+//        }
     }
 
-    public void suggestionsType(String input) {
+    public List<Objet> suggestionsType(String input) {
         resetListeEtats(listeEtatsTerminauxTypes);
         resetListeObjets();
+        List<Objet> listeSuggestions = new ArrayList<>();
         for (Etat e : listeEtatsTypes) {
             if (e.getNom().equals(input)) {
-                parcourirEtatsTypes(e, listeEtatsTerminauxTypes);
+                parcourirEtatsTypes(e, listeEtatsTerminauxTypes, listeSuggestions);
             }
         }
-        sortSuggestions(suggestionTypes);
+        sortSuggestions(listeSuggestions);
+        return listeSuggestions;
     }
 
 
 
-    public void parcourirEtats(Etat e, List<Etat> listeTerminaux) {
+    public void parcourirEtats(Etat e, List<Etat> listeTerminaux, List<Objet> listeSuggestions) {
         Etat courant = e;
         while (courant.hasNext()) {
             for (Etat etat : listeTerminaux) {
                 if (etat.getNom().equals(courant.getNom()) && !etat.isEstTraite()) {
                     etat.setEstTraite(true);
-                    ajouterObjetsSuggestion(courant);
+                    ajouterObjetsSuggestion(courant, listeSuggestions);
                 }
             }
 
             if (courant.aPlusieursVoisins()) {
                 for (Arc a : courant.getListeArcs()) {
-                        parcourirEtats(a.getVoisin(), listeTerminaux);
+                        parcourirEtats(a.getVoisin(), listeTerminaux, listeSuggestions);
                 }
             }
             courant = courant.getListeArcs().get(0).getVoisin();
@@ -245,24 +243,24 @@ public class Automate {
         for (Etat etat : listeTerminaux) {
             if (etat.getNom().equals(courant.getNom()) && !etat.isEstTraite()) {
                 etat.setEstTraite(true);
-                ajouterObjetsSuggestion(courant);
+                ajouterObjetsSuggestion(courant, listeSuggestions);
             }
         }
     }
 
-    public void parcourirEtatsCodes(Etat e, List<Etat> listeTerminaux) {
+    public void parcourirEtatsCodes(Etat e, List<Etat> listeTerminaux, List<Objet> listeSuggestions) {
         Etat courant = e;
         while (courant.hasNext()) {
             for (Etat etat : listeTerminaux) {
                 if (etat.getNom().equals(courant.getNom()) && !etat.isEstTraite()) {
                     etat.setEstTraite(true);
-                    ajouterObjetsSuggestion(courant);
+                    ajouterObjetsSuggestion(courant, listeSuggestions);
                 }
             }
 
             if (courant.aPlusieursVoisins()) {
                 for (Arc a : courant.getListeArcs()) {
-                    parcourirEtatsCodes(a.getVoisin(), listeTerminaux);
+                    parcourirEtatsCodes(a.getVoisin(), listeTerminaux, listeSuggestions);
                 }
             }
             courant = courant.getListeArcs().get(0).getVoisin();
@@ -270,23 +268,23 @@ public class Automate {
         for (Etat etat : listeTerminaux) {
             if (etat.getNom().equals(courant.getNom()) && !etat.isEstTraite()) {
                 etat.setEstTraite(true);
-                ajouterObjetsSuggestionCodes(courant);
+                ajouterObjetsSuggestionCodes(courant, listeSuggestions);
             }
         }
     }
 
-    public void parcourirEtatsTypes(Etat e, List<Etat> listeTerminaux) {
+    public void parcourirEtatsTypes(Etat e, List<Etat> listeTerminaux, List<Objet> listeSuggestions) {
         Etat courant = e;
         while (courant.hasNext()) {
             for (Etat etat : listeTerminaux) {
                 if (etat.getNom().equals(courant.getNom()) && !etat.isEstTraite()) {
                     etat.setEstTraite(true);
-                    ajouterObjetsSuggestion(courant);
+                    ajouterObjetsSuggestion(courant, listeSuggestions);
                 }
             }
             if (courant.aPlusieursVoisins()) {
                 for (Arc a : courant.getListeArcs()) {
-                    parcourirEtatsTypes(a.getVoisin(), listeTerminaux);
+                    parcourirEtatsTypes(a.getVoisin(), listeTerminaux, listeSuggestions);
                 }
             }
             courant = courant.getListeArcs().get(0).getVoisin();
@@ -294,33 +292,33 @@ public class Automate {
         for (Etat etat : listeTerminaux) {
             if (etat.getNom().equals(courant.getNom()) && !etat.isEstTraite()) {
                 etat.setEstTraite(true);
-                ajouterObjetsSuggestionTypes(courant);
+                ajouterObjetsSuggestionTypes(courant, listeSuggestions);
             }
         }
     }
 
-    public void ajouterObjetsSuggestion(Etat etat) {
+    public void ajouterObjetsSuggestion(Etat etat, List<Objet> listeSuggestions) {
         for (Objet o : getListeObjets()) {
-            if (etat.getNom().equals(o.getNom()) && !o.isEstTraite()) {
-                suggestion.add(o);
+            if (etat.getNom().equals(o.getNom()) && !o.isEstTraite() && listeSuggestions.size() < 10) {
+                listeSuggestions.add(o);
                 o.setEstTraite(true);
             }
         }
     }
 
-    public void ajouterObjetsSuggestionCodes(Etat etat) {
+    public void ajouterObjetsSuggestionCodes(Etat etat, List<Objet> listeSuggestions) {
         for (Objet o : getListeObjets()) {
-            if (etat.getNom().equals(o.getCode()) && !o.isEstTraite()) {
-                suggestionCodes.add(o);
+            if (etat.getNom().equals(o.getCode()) && !o.isEstTraite() && listeSuggestions.size() < 10) {
+                listeSuggestions.add(o);
                 o.setEstTraite(true);
             }
         }
     }
 
-    public void ajouterObjetsSuggestionTypes(Etat etat) {
+    public void ajouterObjetsSuggestionTypes(Etat etat, List<Objet> listeSuggestions) {
         for (Objet o : getListeObjets()) {
-            if (etat.getNom().equals(o.getType()) && !o.isEstTraite()) {
-                suggestionTypes.add(o);
+            if (etat.getNom().equals(o.getType()) && !o.isEstTraite() && listeSuggestions.size() < 10) {
+                listeSuggestions.add(o);
                 o.setEstTraite(true);
             }
         }
@@ -424,7 +422,69 @@ public class Automate {
         }
     }
 
+    public void resetSuggestions(List<Objet> liste) {
+        liste.clear();
+    }
+
     public List<Objet> getListeObjets() {
         return listeObjets;
     }
+
+    public void setMapSuggestions() {
+        setMapSuggestionsNom();
+        setMapSuggestionsCode();
+        setMapSuggestionsType();
+    }
+
+    public void setMapSuggestionsNom() {
+        for (Etat e : listeEtats) {
+            mapSuggestionsNoms.put(e.getNom(), suggestion(e.getNom()));
+        }
+//        System.out.println("TEST MAP   AAPAPA");
+//        for (String s : mapSuggestions.keySet()) {
+//            System.out.print(s + ": ");
+//            for (Objet o : mapSuggestions.get(s))
+//                System.out.println(o.getNom());
+//        }
+    }
+
+    public void setMapSuggestionsCode() {
+        for (Etat e : listeEtatsCodes) {
+            mapSuggestionsCodes.put(e.getNom(), suggestionsCode(e.getNom()));
+        }
+    }
+
+    public void setMapSuggestionsType() {
+        for (Etat e : listeEtatsTypes) {
+            mapSuggestionsTypes.put(e.getNom(), suggestionsType(e.getNom()));
+        }
+    }
+
+    public List<Objet> getSuggestionsNom(String input) {
+        for (String s : mapSuggestionsNoms.keySet()) {
+            if (s.equals(input)) {
+                return mapSuggestionsNoms.get(s);
+            }
+        }
+        return null;
+    }
+
+    public List<Objet> getSuggestionsCode(String input) {
+        for (String s : mapSuggestionsCodes.keySet()) {
+            if (s.equals(input)) {
+                return mapSuggestionsCodes.get(s);
+            }
+        }
+        return null;
+    }
+
+    public List<Objet> getSuggestionsType(String input) {
+        for (String s : mapSuggestionsTypes.keySet()) {
+            if (s.equals(input)) {
+                return mapSuggestionsTypes.get(s);
+            }
+        }
+        return null;
+    }
+
 }

@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import javax.swing.JLabel;
@@ -15,13 +17,15 @@ public class Interface {
     JLabel label_code = new JLabel("Code");
     JLabel label_type = new JLabel("Type");
     JLabel label_panier = new JLabel("Panier");
-    JTextField textField_name = new JTextField("Entrer le nom");
-    JTextField textField_code = new JTextField("Entrer le code");
-    JTextField textField_type = new JTextField("Entrer le type");
+    JTextField textField_name = new JTextField();
+    JTextField textField_code = new JTextField();
+    JTextField textField_type = new JTextField();
     JTextField textField_panier = new JTextField();
     JTextField pathFichier = new JTextField("No file selected");
 
     List<Objet> listeObjets = new ArrayList<>();
+
+    Automate automate = new Automate();
 
     Interface() {
         //Layout general
@@ -49,28 +53,103 @@ public class Interface {
         frame.add(label_name);
         textField_name.setBounds(160, 150, 110, 30);   //TODO
         frame.add(textField_name);
-        textField_name.addMouseListener(new MouseAdapter() {
+
+        DefaultListModel listModel = new DefaultListModel();
+        JList liste = new JList(listModel);
+        frame.add(liste);
+        liste.setBounds(150, 200, 110, 300);
+
+
+
+        textField_name.getDocument().addDocumentListener(new DocumentListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                textField_name.setText("");
+            public void insertUpdate(DocumentEvent e) {
+                DefaultListModel listModel = new DefaultListModel();
+                if (automate.getSuggestionsNom(textField_name.getText()) != null) {
+                    for (Objet o : automate.getSuggestionsNom(textField_name.getText())) {
+                        listModel.addElement(o.getNom() + " " + o.getCode() + " " + o.getType());
+                    }
+                }
+                liste.setModel(listModel);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                DefaultListModel listModel = new DefaultListModel();
+                if (automate.getSuggestionsNom(textField_name.getText()) != null) {
+                    for (Objet o : automate.getSuggestionsNom(textField_name.getText())) {
+                        listModel.addElement(o.getNom() + " " + o.getCode() + " " + o.getType());
+                    }
+                }
+                liste.setModel(listModel);
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                System.out.print("changedUpdate");
             }
         });
 
         textField_code.setBounds(280, 150, 110, 30);   //TODO
         frame.add(textField_code);
-        textField_code.addMouseListener(new MouseAdapter() {
+        textField_code.getDocument().addDocumentListener(new DocumentListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                textField_code.setText("");
+            public void insertUpdate(DocumentEvent e) {
+                System.out.println("insert");
+                DefaultListModel listModel = new DefaultListModel();
+                if (automate.getSuggestionsCode(textField_code.getText()) != null) {
+                    for (Objet o : automate.getSuggestionsCode(textField_code.getText())) {
+                        listModel.addElement(o.getNom() + " " + o.getCode() + " " + o.getType());
+                    }
+                }
+                liste.setModel(listModel);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                DefaultListModel listModel = new DefaultListModel();
+                if (automate.getSuggestionsCode(textField_name.getText()) != null) {
+                    for (Objet o : automate.getSuggestionsCode(textField_name.getText())) {
+                        listModel.addElement(o.getNom() + " " + o.getCode() + " " + o.getType());
+                    }
+                }
+                liste.setModel(listModel);
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                System.out.print("changedUpdate");
             }
         });
 
         textField_type.setBounds(400, 150, 110, 30);   //TODO
         frame.add(textField_type);
-        textField_type.addMouseListener(new MouseAdapter() {
+        textField_type.getDocument().addDocumentListener(new DocumentListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                textField_type.setText("");
+            public void insertUpdate(DocumentEvent e) {
+                DefaultListModel listModel = new DefaultListModel();
+                if (automate.getSuggestionsType(textField_type.getText()) != null) {
+                    for (Objet o : automate.getSuggestionsType(textField_type.getText())) {
+                        listModel.addElement(o.getNom() + " " + o.getCode() + " " + o.getType());
+                    }
+                }
+                liste.setModel(listModel);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                DefaultListModel listModel = new DefaultListModel();
+                if (automate.getSuggestionsNom(textField_type.getText()) != null) {
+                    for (Objet o : automate.getSuggestionsType(textField_type.getText())) {
+                        listModel.addElement(o.getNom() + " " + o.getCode() + " " + o.getType());
+                    }
+                }
+                liste.setModel(listModel);
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                System.out.print("changedUpdate");
             }
         });
 
@@ -113,37 +192,7 @@ public class Interface {
 //            //commandePanier += o.getNom() + " " + o.getCode() + " " + o.getType() + "\n";
 //            listePanier.addElement(o.getNom() + " " + o.getCode() + " " + o.getType());
 //        }
-        DefaultListModel listModel = new DefaultListModel();
-        for (Objet o : listeObjets) {
-            listModel.addElement(o.getNom() + " " + o.getCode() + " " + o.getType());
-            Automate automate = new Automate();
-            automate.lireFichier(selectFile());
-            List<Objet> liste = automate.getListeObjets();
-            for (Objet objet : liste) {
-                commandePanier += objet.getNom() + " " + objet.getCode() + " " + objet.getType() + "\n";
-            }
 
-//        JList test = new JList();
-//        test.setBounds(550, 190, 200, 300);
-//        frame.add(test);
-
-            //DefaultListModel listModel = new DefaultListModel();6t cxddxc
-//        listModel.addElement("Jasmine Mehra");
-//        listModel.addElement("Ankit Mishra");
-//        listModel.addElement("Madhuri Sanghvi");
-//        listModel.addElement("Alok Kumar");
-//        listModel.addElement("Rohit Bothra");
-//        listModel.addElement("Rahul Aggarwal");
-
-            //Create the list and put it in a scroll pane.
-            JList list = new JList(listModel);
-            frame.add(list);
-            list.setBounds(550, 190, 200, 300);
-
-//        test.setModel(listePanier);
-//        test.setVisible(true);
-//        frame.add(test);
-        }
     }
 
 
@@ -176,9 +225,13 @@ public class Interface {
     }
 
     public void initialiser(String fichier) {
-        Automate automate = new Automate();
         automate.lireFichier(fichier);
         listeObjets = automate.getListeObjets();
+        automate.setEtatsTerminaux();
+        automate.setEtatsNoms();
+        automate.setEtatsCodes();
+        automate.setEtatsTypes();
+        automate.setMapSuggestions();
     }
 
     public List<Objet> getListeSuggestions() {

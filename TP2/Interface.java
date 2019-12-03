@@ -57,7 +57,7 @@ public class Interface {
         DefaultListModel listModel = new DefaultListModel();
         JList liste = new JList(listModel);
         frame.add(liste);
-        liste.setBounds(150, 200, 110, 300);
+        liste.setBounds(150, 200, 250, 300);
 
 
 
@@ -65,8 +65,9 @@ public class Interface {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 DefaultListModel listModel = new DefaultListModel();
-                if (automate.getSuggestionsNom(textField_name.getText()) != null) {
-                    for (Objet o : automate.getSuggestionsNom(textField_name.getText())) {
+                List<Objet> listeSuggestions = trouverSuggestions();
+                if (listeSuggestions != null) {
+                    for (Objet o : listeSuggestions) {
                         listModel.addElement(o.getNom() + " " + o.getCode() + " " + o.getType());
                     }
                 }
@@ -76,8 +77,9 @@ public class Interface {
             @Override
             public void removeUpdate(DocumentEvent e) {
                 DefaultListModel listModel = new DefaultListModel();
-                if (automate.getSuggestionsNom(textField_name.getText()) != null) {
-                    for (Objet o : automate.getSuggestionsNom(textField_name.getText())) {
+                List<Objet> listeSuggestions = trouverSuggestions();
+                if (listeSuggestions != null) {
+                    for (Objet o : listeSuggestions) {
                         listModel.addElement(o.getNom() + " " + o.getCode() + " " + o.getType());
                     }
                 }
@@ -95,10 +97,10 @@ public class Interface {
         textField_code.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                System.out.println("insert");
                 DefaultListModel listModel = new DefaultListModel();
-                if (automate.getSuggestionsCode(textField_code.getText()) != null) {
-                    for (Objet o : automate.getSuggestionsCode(textField_code.getText())) {
+                List<Objet> listeSuggestions = trouverSuggestions();
+                if (listeSuggestions != null) {
+                    for (Objet o : listeSuggestions) {
                         listModel.addElement(o.getNom() + " " + o.getCode() + " " + o.getType());
                     }
                 }
@@ -108,8 +110,9 @@ public class Interface {
             @Override
             public void removeUpdate(DocumentEvent e) {
                 DefaultListModel listModel = new DefaultListModel();
-                if (automate.getSuggestionsCode(textField_name.getText()) != null) {
-                    for (Objet o : automate.getSuggestionsCode(textField_name.getText())) {
+                List<Objet> listeSuggestions = trouverSuggestions();
+                if (listeSuggestions != null) {
+                    for (Objet o : listeSuggestions) {
                         listModel.addElement(o.getNom() + " " + o.getCode() + " " + o.getType());
                     }
                 }
@@ -128,8 +131,9 @@ public class Interface {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 DefaultListModel listModel = new DefaultListModel();
-                if (automate.getSuggestionsType(textField_type.getText()) != null) {
-                    for (Objet o : automate.getSuggestionsType(textField_type.getText())) {
+                List<Objet> listeSuggestions = trouverSuggestions();
+                if (listeSuggestions != null) {
+                    for (Objet o : listeSuggestions) {
                         listModel.addElement(o.getNom() + " " + o.getCode() + " " + o.getType());
                     }
                 }
@@ -139,8 +143,9 @@ public class Interface {
             @Override
             public void removeUpdate(DocumentEvent e) {
                 DefaultListModel listModel = new DefaultListModel();
-                if (automate.getSuggestionsNom(textField_type.getText()) != null) {
-                    for (Objet o : automate.getSuggestionsType(textField_type.getText())) {
+                List<Objet> listeSuggestions = trouverSuggestions();
+                if (listeSuggestions != null) {
+                    for (Objet o : listeSuggestions) {
                         listModel.addElement(o.getNom() + " " + o.getCode() + " " + o.getType());
                     }
                 }
@@ -193,6 +198,100 @@ public class Interface {
 //            listePanier.addElement(o.getNom() + " " + o.getCode() + " " + o.getType());
 //        }
 
+    }
+
+    public List<Objet> trouverSuggestionsNoms() {
+        List<Objet> suggestionsNom = automate.getSuggestionsNom(textField_name.getText());
+        List<Objet> suggestionsCode = automate.getSuggestionsCode(textField_code.getText());
+        List<Objet> suggestionsType = automate.getSuggestionsType(textField_type.getText());
+        if (suggestionsNom != null) {
+            if (suggestionsCode != null) {
+                if (suggestionsType != null) {
+                    suggestionsNom.retainAll(suggestionsType);
+                    suggestionsNom.retainAll(suggestionsCode);
+                } else
+                    suggestionsNom.retainAll(suggestionsCode);
+            } else if (suggestionsType != null)
+                suggestionsNom.retainAll(suggestionsType);
+        }
+        return suggestionsNom;
+    }
+
+    public List<Objet> trouverSuggestionsCodes() {
+        List<Objet> suggestionsCode = automate.getSuggestionsCode(textField_code.getText());
+        List<Objet> suggestionsNom = automate.getSuggestionsNom(textField_name.getText());
+        List<Objet> suggestionsType = automate.getSuggestionsType(textField_type.getText());
+        if (suggestionsCode != null) {
+            if (suggestionsNom != null) {
+                if (suggestionsType != null) {
+                    suggestionsCode.retainAll(suggestionsType);
+                    suggestionsCode.retainAll(suggestionsNom);
+                } else
+                    suggestionsCode.retainAll(suggestionsNom);
+            } else if (suggestionsType != null)
+                suggestionsCode.retainAll(suggestionsType);
+        }
+        return suggestionsCode;
+    }
+
+    public List<Objet> trouverSuggestionsType() {
+        List<Objet> suggestionsType = automate.getSuggestionsType(textField_type.getText());
+        List<Objet> suggestionsNom = automate.getSuggestionsNom(textField_name.getText());
+        List<Objet> suggestionsCode = automate.getSuggestionsCode(textField_code.getText());
+        if (suggestionsType != null) {
+            if (suggestionsCode != null) {
+                if (suggestionsNom != null) {
+                    suggestionsType.retainAll(suggestionsNom);
+                    suggestionsType.retainAll(suggestionsCode);
+                } else
+                    suggestionsType.retainAll(suggestionsCode);
+            } else if (suggestionsNom != null)
+                suggestionsType.retainAll(suggestionsNom);
+        }
+        return suggestionsType;
+    }
+
+    public List<Objet> trouverSuggestions() {
+        List<Objet> suggestionsNom = automate.getSuggestionsNom(textField_name.getText());
+        List<Objet> suggestionsCode = automate.getSuggestionsCode(textField_code.getText());
+        List<Objet> suggestionsType = automate.getSuggestionsType(textField_type.getText());
+        if (suggestionsNom != null) {
+            if (suggestionsCode != null) {
+                if (suggestionsType != null) {
+                    suggestionsNom.retainAll(suggestionsType);
+                    suggestionsNom.retainAll(suggestionsCode);
+                } else
+                    suggestionsNom.retainAll(suggestionsCode);
+            } else if (suggestionsType != null)
+                suggestionsNom.retainAll(suggestionsType);
+            return suggestionsNom;
+        }
+
+        else if (suggestionsCode != null) {
+            if (suggestionsNom != null) {
+                if (suggestionsType != null) {
+                    suggestionsCode.retainAll(suggestionsType);
+                    suggestionsCode.retainAll(suggestionsNom);
+                } else
+                    suggestionsCode.retainAll(suggestionsNom);
+            } else if (suggestionsType != null)
+                suggestionsCode.retainAll(suggestionsType);
+            return suggestionsCode;
+        }
+
+        else if (suggestionsType != null) {
+            if (suggestionsCode != null) {
+                if (suggestionsNom != null) {
+                    suggestionsType.retainAll(suggestionsNom);
+                    suggestionsType.retainAll(suggestionsCode);
+                } else
+                    suggestionsType.retainAll(suggestionsCode);
+            } else if (suggestionsNom != null)
+                suggestionsType.retainAll(suggestionsNom);
+            return suggestionsType;
+        }
+        else
+            return null;
     }
 
 

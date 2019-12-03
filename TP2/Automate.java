@@ -463,7 +463,7 @@ public class Automate {
     public List<Objet> getSuggestionsNom(String input) {
         for (String s : mapSuggestionsNoms.keySet()) {
             if (s.equals(input)) {
-                return mapSuggestionsNoms.get(s);
+                return new ArrayList<>(mapSuggestionsNoms.get(s));
             }
         }
         return null;
@@ -472,7 +472,7 @@ public class Automate {
     public List<Objet> getSuggestionsCode(String input) {
         for (String s : mapSuggestionsCodes.keySet()) {
             if (s.equals(input)) {
-                return mapSuggestionsCodes.get(s);
+                return new ArrayList<>(mapSuggestionsCodes.get(s));
             }
         }
         return null;
@@ -481,7 +481,7 @@ public class Automate {
     public List<Objet> getSuggestionsType(String input) {
         for (String s : mapSuggestionsTypes.keySet()) {
             if (s.equals(input)) {
-                return mapSuggestionsTypes.get(s);
+                return new ArrayList<>(mapSuggestionsTypes.get(s));
             }
         }
         return null;

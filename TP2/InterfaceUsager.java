@@ -10,7 +10,7 @@ public class InterfaceUsager {
 
     public void initialiserProgramme(){
         Automate automate = new Automate();
-        automate.lireFichier();
+        automate.lireFichier("inventaire.txt");
         liste = automate.getListeObjets();
 
         commande = new Commande(liste);

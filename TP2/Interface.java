@@ -21,6 +21,8 @@ public class Interface {
     JTextField textField_panier = new JTextField();
     JTextField pathFichier = new JTextField("No file selected");
 
+    List<Objet> listeObjets = new ArrayList<>();
+
     Interface(){
         //Layout general
         frame.setSize(800,600);//400 width and 500 height
@@ -38,8 +40,8 @@ public class Interface {
         label_panier.setBounds(650, 150,100, 40);
         frame.add(label_panier);
 
-        textField_panier.setBounds(550, 190, 200, 300);
-        frame.add(textField_panier);
+//        textField_panier.setBounds(550, 190, 200, 300);
+//        frame.add(textField_panier);
 
         //textField_name.addFocusListener();
 
@@ -95,17 +97,47 @@ public class Interface {
         frame.add(boutonInitialiserProgramme);
         boutonInitialiserProgramme.setVisible(true);
         boutonInitialiserProgramme.setBounds(650,25,100, 40);
+        boutonInitialiserProgramme.addActionListener(e -> {
+            initialiser(pathFichier.getText());
+        });
 
         //test panier
 
         String commandePanier = "";
-        Automate automate = new Automate();
-        automate.lireFichier();
-        List<Objet> liste = automate.getListeObjets();
-        for (Objet o : liste) {
-            commandePanier += o.getNom() + " " + o.getCode() + " " + o.getType() + "\n";
+
+//        Automate automate = new Automate();
+//        automate.lireFichier("inventaire.txt");
+//        List<Objet> liste = automate.getListeObjets();
+//        DefaultListModel<String> listePanier = new DefaultListModel<>();
+//        for (Objet o : liste) {
+//            //commandePanier += o.getNom() + " " + o.getCode() + " " + o.getType() + "\n";
+//            listePanier.addElement(o.getNom() + " " + o.getCode() + " " + o.getType());
+//        }
+        DefaultListModel listModel = new DefaultListModel();
+        for (Objet o : listeObjets) {
+            listModel.addElement(o.getNom() + " " + o.getCode() + " " + o.getType());
         }
-        textField_panier.setText(commandePanier);
+
+//        JList test = new JList();
+//        test.setBounds(550, 190, 200, 300);
+//        frame.add(test);
+
+        //DefaultListModel listModel = new DefaultListModel();6t cxddxc
+//        listModel.addElement("Jasmine Mehra");
+//        listModel.addElement("Ankit Mishra");
+//        listModel.addElement("Madhuri Sanghvi");
+//        listModel.addElement("Alok Kumar");
+//        listModel.addElement("Rohit Bothra");
+//        listModel.addElement("Rahul Aggarwal");
+
+        //Create the list and put it in a scroll pane.
+        JList list = new JList(listModel);
+        frame.add(list);
+        list.setBounds(550, 190, 200, 300);
+
+//        test.setModel(listePanier);
+//        test.setVisible(true);
+//        frame.add(test);
     }
 
 
@@ -135,6 +167,16 @@ public class Interface {
             return "No file selected";
         }
 
+    }
+
+    public void initialiser(String fichier) {
+        Automate automate = new Automate();
+        automate.lireFichier(fichier);
+        listeObjets = automate.getListeObjets();
+    }
+
+    public List<Objet> getListeSuggestions() {
+        return listeObjets;
     }
 
 }

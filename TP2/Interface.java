@@ -20,12 +20,14 @@ public class Interface {
     JLabel label_type = new JLabel("Type");
     JLabel label_panier = new JLabel("Panier");
     JLabel label_nbElements = new JLabel("(poids maximal de 25 kg)");
+    JLabel lblPoidsDeLobject = new JLabel("<html>Poids de l'objet<br>  sélectionné (kg) : </html>");
 
     JTextField textField_name = new JTextField();
     JTextField textField_code = new JTextField();
     JTextField textField_type = new JTextField();
     JTextField textField_panier = new JTextField();
     JTextField textField_poids = new JTextField();
+    JTextField textField_poidsSelection = new JTextField();
     JTextField pathFichier = new JTextField("Sélectionner un fichier en écrivant son path ou sinon à l'aide du bouton Browse");
 
     JButton button_add = new JButton("Ajouter");
@@ -143,32 +145,27 @@ public class Interface {
         frame.getContentPane().add(button_add);
         button_add.setBounds(185, 510, 100, 40);
         button_add.addMouseListener(new MouseAdapter() {
-            @Override
+            int poids = 0;
             public void mouseClicked(MouseEvent e) {
                 List<Objet> listeSuggestions = trouverSuggestions();
 
                 listPanierModel.addElement(liste.getSelectedValue());
                 liste_panier.setModel(listPanierModel);
-                listeObjets.remove(trouverObjet(liste.getSelectedValue().toString()));
+
+                Objet addedObject = trouverObjet(liste.getSelectedValue().toString());
+
+                listeObjets.remove(addedObject);
                 liste.setModel(getListModel());
 
-
-//                textField_poids.setText(t);
-
-//                listPanierModel.removeElement(liste.getSelectedIndex());
-//                liste_panier.setModel(listPanierModel);
-
-
-                //TODO ajouter les éléments de la liste dans listModel--Impossible de remove puisque size = 0
-//                listModel.removeElementAt(liste.getSelectedIndex());
-//                liste.setModel(listModel);
+                poids += addedObject.getPoids();
+                textField_poids.setText(String.valueOf(poids));
             }
         });
 
         frame.getContentPane().add(button_remove);
         button_remove.setBounds(582, 487, 120, 40);
         button_remove.addMouseListener(new MouseAdapter() {
-            @Override
+            int poids = 0;
             public void mouseClicked(MouseEvent e) {
                 //TODO ajouter update pour liste -- mettre un élément dans la liste efface tout
                 listeObjets.add(creerObjet(liste_panier.getSelectedValue().toString()));
@@ -177,6 +174,8 @@ public class Interface {
 
                 listPanierModel.removeElementAt(liste_panier.getSelectedIndex());
                 liste_panier.setModel(listPanierModel);
+
+                textField_poids.setText(String.valueOf(poids));
 
             }
         });
@@ -244,15 +243,26 @@ public class Interface {
             initialiser(pathFichier.getText());
         });
 
-        JLabel lblPoids = new JLabel("Poids actuel :");
-        lblPoids.setBounds(582, 548, 100, 30);
+        JLabel lblPoids = new JLabel("Poids actuel (kg) :");
+        lblPoids.setBounds(582, 548, 129, 30);
         frame.getContentPane().add(lblPoids);
+        textField_poids.setBackground(Color.WHITE);
 
-        textField_poids.setText("     ---");
+        textField_poids.setText("         ---");
         textField_poids.setEditable(false);
-        textField_poids.setBounds(686, 553, 70, 30);
+        textField_poids.setBounds(700, 548, 70, 30);
         frame.getContentPane().add(textField_poids);
         textField_poids.setColumns(10);
+        lblPoidsDeLobject.setBounds(27, 191, 155, 40);
+
+        frame.getContentPane().add(lblPoidsDeLobject);
+
+        textField_poidsSelection = new JTextField();
+        textField_poidsSelection.setText("         ---");
+        textField_poidsSelection.setBounds(37, 235, 70, 26);
+        frame.getContentPane().add(textField_poidsSelection);
+        textField_poidsSelection.setColumns(10);
+        textField_poidsSelection.setEditable(false);
 
         frame.setVisible(true);
 

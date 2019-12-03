@@ -1,13 +1,15 @@
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 
 public class Automate {
 
     private List<Objet> listeObjets = new ArrayList<>();
-//    private String fichier = "inventaire.txt";
+    //    private String fichier = "inventaire.txt";
     private List<Etat> listeEtats = new ArrayList<>();
     private List<Etat> listeEtatsCodes = new ArrayList<>();
     private List<Etat> listeEtatsTypes = new ArrayList<>();
@@ -33,11 +35,11 @@ public class Automate {
 
         String texteFichier = "";
 
-        //lire le fichier texte et tout store dans un string, ligne par ligne
+//        //lire le fichier texte et tout store dans un string, ligne par ligne
         try {
             Scanner scan = new Scanner(file).useDelimiter("[\r\n]");
-            while (scan.hasNext()) {
-                texteFichier += scan.next() + ",";
+            while (scan.hasNextLine()) {
+                texteFichier += scan.nextLine() + "\n";
             }
         }
         catch (FileNotFoundException e) {
@@ -45,7 +47,7 @@ public class Automate {
         }
 
         //store les lignes separement dans un array de string
-        String[] lignesObjets = texteFichier.split(",,");
+        String[] lignesObjets = texteFichier.split("\n");
 
         //separer les strings grace a l'espace entre chaque element
         for (String s : lignesObjets) {
@@ -235,7 +237,7 @@ public class Automate {
 
             if (courant.aPlusieursVoisins()) {
                 for (Arc a : courant.getListeArcs()) {
-                        parcourirEtats(a.getVoisin(), listeTerminaux, listeSuggestions);
+                    parcourirEtats(a.getVoisin(), listeTerminaux, listeSuggestions);
                 }
             }
             courant = courant.getListeArcs().get(0).getVoisin();

@@ -11,17 +11,25 @@ import java.util.List;
 
 public class Interface {
     JFrame frame = new JFrame("Interface de commandes");
+
     JLabel label_search = new JLabel("Recherche ");
     JLabel label_title = new JLabel("Interface de commandes");
     JLabel label_name = new JLabel("Nom");
     JLabel label_code = new JLabel("Code");
     JLabel label_type = new JLabel("Type");
     JLabel label_panier = new JLabel("Panier");
+    JLabel label_nbElements = new JLabel("(max. 25 éléments)");
+
     JTextField textField_name = new JTextField();
     JTextField textField_code = new JTextField();
     JTextField textField_type = new JTextField();
     JTextField textField_panier = new JTextField();
     JTextField pathFichier = new JTextField("No file selected");
+
+    JButton button_add = new JButton("Ajouter");
+    JButton button_remove = new JButton("Retirer");
+    JButton button_order = new JButton("Commander");
+    JButton button_clear = new JButton("Vider");
 
     List<Objet> listeObjets = new ArrayList<>();
 
@@ -29,7 +37,7 @@ public class Interface {
 
     Interface() {
         //Layout general
-        frame.setSize(800, 600);//400 width and 500 height
+        frame.setSize(800, 800);//400 width and 500 height
         frame.setLayout(null);//using no layout managers
         frame.setVisible(true);//making the frame visible
         frame.setLocationRelativeTo(null);
@@ -41,25 +49,30 @@ public class Interface {
         label_search.setBounds(50, 150, 100, 40);    //TODO
         frame.add(label_search);
 
-        label_panier.setBounds(650, 150, 100, 40);
+        label_panier.setBounds(600, 150, 100, 40);
         frame.add(label_panier);
+
+        label_nbElements.setBounds(600, 170, 200, 40);
+        frame.add(label_nbElements);
 
 //        textField_panier.setBounds(550, 190, 200, 300);
 //        frame.add(textField_panier);
-
-        //textField_name.addFocusListener();
 
         label_name.setBounds(160, 120, 110, 30);
         frame.add(label_name);
         textField_name.setBounds(160, 150, 110, 30);   //TODO
         frame.add(textField_name);
 
+
         DefaultListModel listModel = new DefaultListModel();
         JList liste = new JList(listModel);
         frame.add(liste);
-        liste.setBounds(150, 200, 250, 300);
+        liste.setBounds(150, 200, 300, 300);
 
-
+        DefaultListModel listPanierModel = new DefaultListModel();
+        JList liste_panier = new JList(listPanierModel);
+        frame.add(liste_panier);
+        liste_panier.setBounds(550, 200, 200, 300);
 
         textField_name.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -92,6 +105,8 @@ public class Interface {
             }
         });
 
+        label_code.setBounds(280, 120, 110, 30);
+        frame.add(label_code);
         textField_code.setBounds(280, 150, 110, 30);   //TODO
         frame.add(textField_code);
         textField_code.getDocument().addDocumentListener(new DocumentListener() {
@@ -125,6 +140,8 @@ public class Interface {
             }
         });
 
+        label_type.setBounds(400, 120, 110, 30);
+        frame.add(label_type);
         textField_type.setBounds(400, 150, 110, 30);   //TODO
         frame.add(textField_type);
         textField_type.getDocument().addDocumentListener(new DocumentListener() {
@@ -155,6 +172,68 @@ public class Interface {
             @Override
             public void changedUpdate(DocumentEvent e) {
                 System.out.print("changedUpdate");
+            }
+        });
+
+        frame.add(button_add);
+        button_add.setBounds(410, 510, 100, 40);
+        button_add.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                listPanierModel.addElement(liste.getSelectedValue());
+                liste_panier.setModel(listPanierModel);
+
+                //TODO ajouter les éléments de la liste dans listModel--Impossible de remove puisque size = 0
+//                listModel.removeElementAt(liste.getSelectedIndex());
+//                liste.setModel(listModel);
+            }
+        });
+
+        frame.add(button_remove);
+        button_remove.setBounds(550, 510, 120, 40);
+        button_remove.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                //TODO ajouter update pour liste -- mettre un élément dans la liste efface tout
+                listModel.addElement(liste_panier.getSelectedValue());
+                liste.setModel(listModel);
+
+                listPanierModel.removeElementAt(liste_panier.getSelectedIndex());
+                liste_panier.setModel(listPanierModel);
+            }
+        });
+
+        frame.add(button_order);
+        button_order.setBounds(550, 560, 120, 40);
+        button_order.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(liste_panier.getModel().getSize() <= 25){
+                    JOptionPane.showMessageDialog(frame,
+                            "La commande a été passée.",
+                            "Commande passée",
+                            JOptionPane.PLAIN_MESSAGE);
+                }
+                else {
+                    JOptionPane.showMessageDialog(frame,
+                            "Vous avez trop d'éléments dans votre panier",
+                            "Erreur",
+                            JOptionPane.PLAIN_MESSAGE);
+                }
+            }
+        });
+
+        frame.add(button_clear);
+        button_clear.setBounds(550, 610, 120, 40);
+        button_clear.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                //TODO Oof...
+                listModel.addElement(liste_panier);
+                liste.setModel(listModel);
+
+                listPanierModel.removeAllElements();
+                liste_panier.setModel(listPanierModel);
             }
         });
 

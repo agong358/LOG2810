@@ -1,19 +1,36 @@
 import javax.swing.*;
+import javax.swing.JLabel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import javax.swing.JLabel;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import java.util.*;
 import java.util.List;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 public class Interface {
+
     private JFrame frame = new JFrame("Interface de commandes");
 
     private JLabel label_search = new JLabel("Recherche ");
@@ -26,7 +43,12 @@ public class Interface {
     private JLabel label_errorClickNoSelectionAdd = new JLabel("<html><font color='#E73F1A'>Veuillez sélectionner un objet à<br>ajouter dans le panier</font></html>");
     private JLabel label_errorClickNoSelectionRemove = new JLabel("<html><font color='#E73F1A'>Veuillez s\u00E9lectionner un objet \u00E0<br>enlever du panier</font></html>");
 
-    private JTextField textField_name = new JTextField();
+    private JTextField textField_name = new JTextField(){
+        public void addNotify(){
+            super.addNotify();
+            requestFocus();
+        }
+    };
     private JTextField textField_code = new JTextField();
     private JTextField textField_type = new JTextField();
     private JTextField textField_panier = new JTextField();
@@ -279,17 +301,16 @@ public class Interface {
         pathFichier.setBounds(185, 30, 500, 30);
         frame.getContentPane().add(pathFichier);
         // offre le choix à l'utilisateur d'écrire le path de son fichier
-        pathFichier.addMouseListener(new MouseAdapter() {
-            //            @Override
-            public void mouseClicked(MouseEvent e) {
-                pathFichier.setText("");
-            }
-        });
+//        pathFichier.addMouseListener(new MouseAdapter() {
+//            //            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                pathFichier.setText("");
+//            }
+//        });
 
         JButton browseButton = new JButton("Browse");
         frame.getContentPane().add(browseButton);
         browseButton.setBounds(700, 25, 100, 40);
-
         browseButton.addActionListener(e -> {
             pathFichier.setText(selectFile());
         });
@@ -309,6 +330,7 @@ public class Interface {
         lblPoids.setBounds(582, 548, 129, 30);
         frame.getContentPane().add(lblPoids);
         textField_poids.setBackground(Color.WHITE);
+
 
         textField_poids.setText("         ---");
         textField_poids.setEditable(false);
@@ -339,7 +361,8 @@ public class Interface {
         frame.setVisible(true);
 
         //test panier
-//        String commandePanier = "";
+        String commandePanier = "";
+
     }
 
     public List<Objet> trouverSuggestionsNoms() {
@@ -523,4 +546,53 @@ public class Interface {
     public List<Objet> getListeSuggestions() {
         return listeObjets;
     }
+
+
+
+
+
+    public class HintTextField extends JTextField {
+
+        Font gainFont = new Font("Tahoma", Font.PLAIN, 11);
+        Font lostFont = new Font("Tahoma", Font.ITALIC, 11);
+
+        public HintTextField(final String hint) {
+
+            setText(hint);
+            setFont(lostFont);
+            setForeground(Color.GRAY);
+
+            this.addFocusListener(new FocusAdapter() {
+
+                @Override
+                public void focusGained(FocusEvent e) {
+                    if (getText().equals(hint)) {
+                        setText("");
+                        setFont(gainFont);
+                    } else {
+                        setText(getText());
+                        setFont(gainFont);
+                    }
+                }
+
+                @Override
+                public void focusLost(FocusEvent e) {
+                    if (getText().equals(hint)|| getText().length()==0) {
+                        setText(hint);
+                        setFont(lostFont);
+                        setForeground(Color.GRAY);
+                    } else {
+                        setText(getText());
+                        setFont(gainFont);
+                        setForeground(Color.BLACK);
+                    }
+                }
+            });
+
+        }
+    }
+
+
 }
+
+

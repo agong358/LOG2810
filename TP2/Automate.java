@@ -35,9 +35,8 @@ public class Automate {
 
         String texteFichier = "";
 
-//        //lire le fichier texte et tout store dans un string, ligne par ligne
         try {
-            Scanner scan = new Scanner(file).useDelimiter("[\r\n]");
+            Scanner scan = new Scanner(file);
             while (scan.hasNextLine()) {
                 texteFichier += scan.nextLine() + "\n";
             }
@@ -49,6 +48,7 @@ public class Automate {
 
         //store les lignes separement dans un array de string
         String[] lignesObjets = texteFichier.split("\n");
+
 
         //separer les strings grace a l'espace entre chaque element
         for (String s : lignesObjets) {

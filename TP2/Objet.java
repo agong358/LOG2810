@@ -48,7 +48,7 @@ public class Objet {
     }
 
     public int getPoids() {
-        if (type.equals("A") || type.equals("A,"))
+        if (type.equals("A"))
             poids = poidsA;
         else if (type.equals("B"))
             poids = poidsB;
@@ -68,7 +68,6 @@ public class Objet {
     public void setType(String type) {
         this.type = type;
     }
-
 
     public Objet(String nom, String code, String type) {
         this.nom = nom;

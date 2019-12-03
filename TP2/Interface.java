@@ -14,38 +14,40 @@ import java.util.*;
 import java.util.List;
 
 public class Interface {
-    int poids = 0;
+    private JFrame frame = new JFrame("Interface de commandes");
 
-    JFrame frame = new JFrame("Interface de commandes");
+    private JLabel label_search = new JLabel("Recherche ");
+    private JLabel label_name = new JLabel("Nom");
+    private JLabel label_code = new JLabel("Code");
+    private JLabel label_type = new JLabel("Type");
+    private JLabel label_panier = new JLabel("Panier");
+    private JLabel label_nbElements = new JLabel("(poids maximal de 25 kg)");
+    private JLabel lblPoidsDeLobject = new JLabel("<html>Poids de l'objet<br>  sélectionné (kg) : </html>");
+    private JLabel label_errorClickNoSelectionAdd = new JLabel("<html><font color='#E73F1A'>Veuillez sélectionner un objet à<br>ajouter dans le panier</font></html>");
+    private JLabel label_errorClickNoSelectionRemove = new JLabel("<html><font color='#E73F1A'>Veuillez s\u00E9lectionner un objet \u00E0<br>enlever du panier</font></html>");
 
-    JLabel label_search = new JLabel("Recherche ");
-    JLabel label_name = new JLabel("Nom");
-    JLabel label_code = new JLabel("Code");
-    JLabel label_type = new JLabel("Type");
-    JLabel label_panier = new JLabel("Panier");
-    JLabel label_nbElements = new JLabel("(poids maximal de 25 kg)");
-    JLabel lblPoidsDeLobject = new JLabel("<html>Poids de l'objet<br>sélectionné (kg) : </html>");
-    JLabel label_errorClickNoSelectionAdd = new JLabel("<html><font color='#E73F1A'>Veuillez sélectionner un objet à<br>ajouter dans le panier</font></html>");
-    JLabel label_errorClickNoSelectionRemove = new JLabel("<html><font color='#E73F1A'>Veuillez s\u00E9lectionner un objet \u00E0<br>enlever du panier</font></html>");
+    private JTextField textField_name = new JTextField();
+    private JTextField textField_code = new JTextField();
+    private JTextField textField_type = new JTextField();
+    private JTextField textField_panier = new JTextField();
+    private JTextField textField_poids = new JTextField();
+    private JTextField textField_poidsSelection = new JTextField();
+    private JTextField pathFichier = new JTextField("Sélectionner un fichier en écrivant son path ou sinon à l'aide du bouton Browse");
 
+    private JButton button_add = new JButton("Ajouter");
+    private JButton button_remove = new JButton("Retirer");
+    private JButton button_order = new JButton("Commander");
+    private JButton button_clear = new JButton("Vider");
 
-    JTextField textField_name = new JTextField();
-    JTextField textField_code = new JTextField();
-    JTextField textField_type = new JTextField();
-    JTextField textField_panier = new JTextField();
-    JTextField textField_poids = new JTextField();
-    JTextField textField_poidsSelection = new JTextField();
-    JTextField pathFichier = new JTextField("Sélectionner un fichier en écrivant son path ou sinon à l'aide du bouton Browse");
+    private List<Objet> listeObjets = new ArrayList<>();
 
-    JButton button_add = new JButton("Ajouter");
-    JButton button_remove = new JButton("Retirer");
-    JButton button_order = new JButton("Commander");
-    JButton button_clear = new JButton("Vider");
+    private Automate automate = new Automate();
 
-    List<Objet> listeObjets = new ArrayList<>();
+    private int poids_panier = 0;
+    private int poids_selection = 0;
 
-    Automate automate = new Automate();
-    private JTextField textFieldBitch;
+    private int poids = 0;
+
     @SuppressWarnings({ "unchecked", "rawtypes" })
     Interface() {
         // layout general
@@ -78,8 +80,6 @@ public class Interface {
         frame.getContentPane().add(liste_panier);
         liste_panier.setBounds(582, 171, 254, 272);
 
-
-
         liste.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -89,7 +89,6 @@ public class Interface {
                 } catch(NullPointerException e1) {
                     textField_poidsSelection.setText("         ---");
                 }
-
             }
         });
 
@@ -97,7 +96,6 @@ public class Interface {
         pathFichier.setForeground(new Color(0, 0, 0));
         pathFichier.setBackground(Color.WHITE);
 //        pathFichier.setEditable(false);
-
 
         // autosuggestion lorsque l'utilisateur ecrit dans le textField sous "Nom"
         textField_name.getDocument().addDocumentListener(new DocumentListener() {
@@ -168,14 +166,11 @@ public class Interface {
         button_add.setBounds(185, 510, 100, 40);
         button_add.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-//                List<Objet> listeSuggestions = trouverSuggestions();
-
                 if(liste.isSelectionEmpty()) {
                     label_errorClickNoSelectionAdd.setVisible(true);
                     label_errorClickNoSelectionAdd.revalidate();
                     label_errorClickNoSelectionAdd.repaint();
                 }
-
                 else {
                     label_errorClickNoSelectionAdd.setVisible(false);
 
@@ -187,15 +182,9 @@ public class Interface {
                     listeObjets.remove(addedObject);
                     liste.setModel(getListModel());
 
-                    poids += addedObject.getPoids();
-                    textField_poids.setText(String.valueOf(poids));
+                    poids_panier += addedObject.getPoids();
+                    textField_poids.setText(String.valueOf(poids_panier));
                 }
-//            	try {
-//
-//            } catch (NullPointerException e1) {
-//            	//
-//
-//            	}
             }
         });
 
@@ -207,28 +196,25 @@ public class Interface {
                     JOptionPane.showMessageDialog(null,"Le panier est vide!");
 
                 }
-
                 else {
                     if(liste_panier.isSelectionEmpty()) {
                         label_errorClickNoSelectionRemove.setVisible(true);
                         label_errorClickNoSelectionRemove.revalidate();
                         label_errorClickNoSelectionRemove.repaint();
                     }
-
                     else {
                         label_errorClickNoSelectionRemove.setVisible(false);
 
-                        listeObjets.add(creerObjet(liste_panier.getSelectedValue().toString()));
-                        getListModel();
-                        liste.setModel(getListModel());
-                        Objet removeObject = trouverObjet(liste_panier.getSelectedValue().toString());
+                        Objet removedObject = creerObjet(liste_panier.getSelectedValue().toString());
 
-                        poids -= removeObject.getPoids();
-                        textField_poids.setText(String.valueOf(poids));
+                        listeObjets.add(removedObject);
+                        liste.setModel(getListModel());
 
                         listPanierModel.removeElementAt(liste_panier.getSelectedIndex());
                         liste_panier.setModel(listPanierModel);
-                        label_errorClickNoSelectionAdd.setVisible(false);
+
+                        poids_panier -= removedObject.getPoids();
+                        textField_poids.setText(String.valueOf(poids_panier));
                     }
                 }
             }
@@ -249,8 +235,12 @@ public class Interface {
                             "La commande a été passée.",
                             "Commande passée",
                             JOptionPane.PLAIN_MESSAGE);
+                    listPanierModel.removeAllElements();
+                    liste_panier.setModel(listPanierModel);
+                    poids_panier = 0;
+                    //textField_poids.setText(String.valueOf(poids_panier));
+                    textField_poids.setText("         ---");
                 }
-
                 else {
                     JOptionPane.showMessageDialog(frame,
                             "Vous avez trop d'éléments dans votre panier",
@@ -259,44 +249,16 @@ public class Interface {
                 }
             }
         });
-//            	try {
-//            		 if(liste_panier.getModel().getSize() <= 25){
-//                        JOptionPane.showMessageDialog(frame,
-//                                "La commande a été passée.",
-//                                "Commande passée",
-//                                JOptionPane.PLAIN_MESSAGE);
-//                    }
-//                    else {
-//                        JOptionPane.showMessageDialog(frame,
-//                                "Vous avez trop d'éléments dans votre panier",
-//                                "Erreur",
-//                                JOptionPane.PLAIN_MESSAGE);
-//                    }
-//            	               } catch (NullPointerException e1) {
-//            	            	   if(liste_panier.getSelectedValue().equals(null)) {
-//            	                     	 JOptionPane.showMessageDialog(null,"Le panier est vide!");
-//            	                  	}
-//
-//               }
-//
-//
-//
-//            	}
-
 
         frame.getContentPane().add(button_clear);
         button_clear.setBounds(717, 487, 120, 40);
         button_clear.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                //TODO Oof...
-                if(liste_panier.getModel().getSize() == 0) {
-                    JOptionPane.showMessageDialog(null,"Le panier est vide!");
+                if (liste_panier.getModel().getSize() == 0) {
+                    JOptionPane.showMessageDialog(null, "Le panier est vide!");
 
-                }
-                else {
-                    label_errorClickNoSelectionRemove.setVisible(false);
-
+                } else {
                     for (int i = 0; i < liste_panier.getModel().getSize(); i++) {
                         listeObjets.add(creerObjet(liste_panier.getModel().getElementAt(i).toString()));
                     }
@@ -308,6 +270,8 @@ public class Interface {
                     listPanierModel.removeAllElements();
                     liste_panier.setModel(listPanierModel);
 
+                    poids_panier = 0;
+                    //textField_poids.setText(String.valueOf(poids_panier));
                 }
             }
         });
@@ -431,8 +395,17 @@ public class Interface {
 
     public List<Objet> trouverSuggestions() {
         List<Objet> suggestionsNom = automate.getSuggestionsNom(textField_name.getText());
+        if (!textField_name.getText().isEmpty() && suggestionsNom == null)
+            return null;
+
         List<Objet> suggestionsCode = automate.getSuggestionsCode(textField_code.getText());
+        if (!textField_code.getText().isEmpty() && suggestionsCode == null)
+            return null;
+
         List<Objet> suggestionsType = automate.getSuggestionsType(textField_type.getText());
+        if (!textField_type.getText().isEmpty() && suggestionsType == null)
+            return null;
+
         if (suggestionsNom != null) {
             if (suggestionsCode != null) {
                 if (suggestionsType != null) {
@@ -456,7 +429,6 @@ public class Interface {
                 suggestionsCode.retainAll(suggestionsType);
             return suggestionsCode;
         }
-
         else if (suggestionsType != null) {
             if (suggestionsCode != null) {
                 if (suggestionsNom != null) {
@@ -468,8 +440,7 @@ public class Interface {
                 suggestionsType.retainAll(suggestionsNom);
             return suggestionsType;
         }
-        else
-            return null;
+        return null;
     }
 
 
@@ -553,5 +524,3 @@ public class Interface {
         return listeObjets;
     }
 }
-
-

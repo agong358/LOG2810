@@ -1,15 +1,31 @@
 import javax.swing.*;
+import javax.swing.JLabel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import javax.swing.JLabel;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import java.util.*;
 import java.util.List;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 public class Interface {
     JFrame frame = new JFrame("Interface de commandes");
@@ -22,13 +38,18 @@ public class Interface {
     JLabel label_nbElements = new JLabel("(poids maximal de 25 kg)");
     JLabel lblPoidsDeLobject = new JLabel("<html>Poids de l'objet<br>  sélectionné (kg) : </html>");
 
-    JTextField textField_name = new JTextField();
+    JTextField textField_name = new JTextField(){
+        public void addNotify(){
+            super.addNotify();
+            requestFocus();
+        }
+    };
     JTextField textField_code = new JTextField();
     JTextField textField_type = new JTextField();
     JTextField textField_panier = new JTextField();
     JTextField textField_poids = new JTextField();
     JTextField textField_poidsSelection = new JTextField();
-    JTextField pathFichier = new JTextField("Sélectionner un fichier en écrivant son path ou sinon à l'aide du bouton Browse");
+    HintTextField pathFichier = new HintTextField("Sélectionner un fichier en écrivant son path ou sinon à l'aide du bouton Browse");
 
     JButton button_add = new JButton("Ajouter");
     JButton button_remove = new JButton("Retirer");
@@ -75,7 +96,6 @@ public class Interface {
         pathFichier.setForeground(new Color(0, 0, 0));
         pathFichier.setBackground(Color.WHITE);
 //        pathFichier.setEditable(false);
-
 
         // autosuggestion lorsque l'utilisateur ecrit dans le textField sous "Nom"
         textField_name.getDocument().addDocumentListener(new DocumentListener() {
@@ -219,17 +239,16 @@ public class Interface {
         pathFichier.setBounds(185, 30, 500, 30);
         frame.getContentPane().add(pathFichier);
         // offre le choix à l'utilisateur d'écrire le path de son fichier
-        pathFichier.addMouseListener(new MouseAdapter() {
-            //            @Override
-            public void mouseClicked(MouseEvent e) {
-                pathFichier.setText("");
-            }
-        });
+//        pathFichier.addMouseListener(new MouseAdapter() {
+//            //            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                pathFichier.setText("");
+//            }
+//        });
 
         JButton browseButton = new JButton("Browse");
         frame.getContentPane().add(browseButton);
         browseButton.setBounds(700, 25, 100, 40);
-
         browseButton.addActionListener(e -> {
             pathFichier.setText(selectFile());
         });
@@ -249,6 +268,7 @@ public class Interface {
         lblPoids.setBounds(582, 548, 129, 30);
         frame.getContentPane().add(lblPoids);
         textField_poids.setBackground(Color.WHITE);
+
 
         textField_poids.setText("         ---");
         textField_poids.setEditable(false);
@@ -270,6 +290,7 @@ public class Interface {
 
         //test panier
         String commandePanier = "";
+
     }
 
     public List<Objet> trouverSuggestionsNoms() {
@@ -445,6 +466,54 @@ public class Interface {
     public List<Objet> getListeSuggestions() {
         return listeObjets;
     }
+
+
+
+
+
+
+    public class HintTextField extends JTextField {
+
+        Font gainFont = new Font("Tahoma", Font.PLAIN, 11);
+        Font lostFont = new Font("Tahoma", Font.ITALIC, 11);
+
+        public HintTextField(final String hint) {
+
+            setText(hint);
+            setFont(lostFont);
+            setForeground(Color.GRAY);
+
+            this.addFocusListener(new FocusAdapter() {
+
+                @Override
+                public void focusGained(FocusEvent e) {
+                    if (getText().equals(hint)) {
+                        setText("");
+                        setFont(gainFont);
+                    } else {
+                        setText(getText());
+                        setFont(gainFont);
+                    }
+                }
+
+                @Override
+                public void focusLost(FocusEvent e) {
+                    if (getText().equals(hint)|| getText().length()==0) {
+                        setText(hint);
+                        setFont(lostFont);
+                        setForeground(Color.GRAY);
+                    } else {
+                        setText(getText());
+                        setFont(gainFont);
+                        setForeground(Color.BLACK);
+                    }
+                }
+            });
+
+        }
+    }
+
+
 }
 
 

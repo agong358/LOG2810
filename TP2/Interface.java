@@ -206,8 +206,10 @@ public class Interface {
             @Override
             public void mouseClicked(MouseEvent e) {
                 //TODO Oof...
-                listModel.addElement(liste_panier);
-                liste.setModel(listModel);
+                for (int i = 0; i < liste_panier.getModel().getSize(); i++) {
+                    listeObjets.add(creerObjet(liste_panier.getModel().getElementAt(i).toString()));
+                }
+                liste.setModel(getListModel());
 
                 listPanierModel.removeAllElements();
                 liste_panier.setModel(listPanierModel);

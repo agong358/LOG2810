@@ -5,28 +5,25 @@
  * @auteure: Nu Chan Nhien Ton
  * @auteure: Kai Sen Trieu
  */
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.*;
 
 public class Automate {
+
     // listes contentant tous les états, les noms, les codes, et les types
     // de chaque objet dans un fichier texte
     private List<Objet> listeObjets = new ArrayList<>();
-    private List<Etat> listeEtats = new ArrayList<>();
+
+    private List<Etat> listeEtatsNoms = new ArrayList<>();
     private List<Etat> listeEtatsCodes = new ArrayList<>();
     private List<Etat> listeEtatsTypes = new ArrayList<>();
-    private List<Etat> listeEtatsTerminaux = new ArrayList<>();
+
+    private List<Etat> listeEtatsTerminauxNoms = new ArrayList<>();
     private List<Etat> listeEtatsTerminauxCodes = new ArrayList<>();
     private List<Etat> listeEtatsTerminauxTypes = new ArrayList<>();
 
-    // collections contenant les suggestions pour les noms, codes ou types
-    private List<Objet> suggestion = new ArrayList<>();
-    private List<Objet> suggestionCodes = new ArrayList<>();
-    private List<Objet> suggestionTypes = new ArrayList<>();
+    // hashmap contenant les suggestions pour les noms, codes ou types
     private Map<String, List<Objet>> mapSuggestionsNoms = new HashMap<>();
     private Map<String, List<Objet>> mapSuggestionsCodes = new HashMap<>();
     private Map<String, List<Objet>> mapSuggestionsTypes = new HashMap<>();
@@ -35,20 +32,6 @@ public class Automate {
      *  Constructeur par défaut
      */
     public Automate() {
-        listeObjets = null;
-        listeEtats = null;
-        listeEtatsCodes = null;
-        listeEtatsTypes = null;
-        listeEtatsTerminaux = null;
-        listeEtatsTerminauxCodes = null;
-        listeEtatsTerminauxTypes = null;
-
-        suggestion = null;
-        suggestionCodes = null;
-        suggestionTypes = null;
-        mapSuggestionsNoms = null;
-        mapSuggestionsCodes = null;
-        mapSuggestionsTypes = null;
     }
 
     /**
@@ -105,17 +88,16 @@ public class Automate {
      *
      * @param input Liste de caractères rentrés en paramètres
      */
-    public List<Objet> suggestion(String input) {
-        resetListeEtats(listeEtatsTerminaux);
+    public List<Objet> suggestionsNom(String input) {
+        resetListeEtats(listeEtatsTerminauxNoms);
         resetListeObjets();
         List<Objet> listeSuggestions = new ArrayList<>();
 
-        for (Etat e : listeEtats) {
+        for (Etat e : listeEtatsNoms) {
             if (e.getNom().equals(input)) {
-                parcourirEtats(e, listeEtatsTerminaux, listeSuggestions);
+                parcourirEtatsNoms(e, listeEtatsTerminauxNoms, listeSuggestions);
             }
         }
-
         sortSuggestions(listeSuggestions);
         return listeSuggestions;
     }
@@ -169,28 +151,27 @@ public class Automate {
      * @param listeTerminaux Liste d'états terminaux
      * @param listeSuggestions Liste de suggestions à remplir
      */
-    public void parcourirEtats(Etat e, List<Etat> listeTerminaux, List<Objet> listeSuggestions) {
+    public void parcourirEtatsNoms(Etat e, List<Etat> listeTerminaux, List<Objet> listeSuggestions) {
         Etat courant = e;
         while (courant.hasNext()) {
             for (Etat etat : listeTerminaux) {
                 if (etat.getNom().equals(courant.getNom()) && !etat.isEstTraite()) {
                     etat.setEstTraite(true);
-                    ajouterObjetsSuggestion(courant, listeSuggestions);
+                    ajouterObjetsSuggestionNoms(courant, listeSuggestions);
                 }
             }
 
             if (courant.aPlusieursVoisins()) {
                 for (Arc a : courant.getListeArcs()) {
-                    parcourirEtats(a.getVoisin(), listeTerminaux, listeSuggestions);
+                    parcourirEtatsNoms(a.getVoisin(), listeTerminaux, listeSuggestions);
                 }
             }
             courant = courant.getListeArcs().get(0).getVoisin();
         }
-
         for (Etat etat : listeTerminaux) {
             if (etat.getNom().equals(courant.getNom()) && !etat.isEstTraite()) {
                 etat.setEstTraite(true);
-                ajouterObjetsSuggestion(courant, listeSuggestions);
+                ajouterObjetsSuggestionNoms(courant, listeSuggestions);
             }
         }
     }
@@ -210,7 +191,7 @@ public class Automate {
             for (Etat etat : listeTerminaux) {
                 if (etat.getNom().equals(courant.getNom()) && !etat.isEstTraite()) {
                     etat.setEstTraite(true);
-                    ajouterObjetsSuggestion(courant, listeSuggestions);
+                    ajouterObjetsSuggestionNoms(courant, listeSuggestions);
                 }
             }
 
@@ -244,7 +225,7 @@ public class Automate {
             for (Etat etat : listeTerminaux) {
                 if (etat.getNom().equals(courant.getNom()) && !etat.isEstTraite()) {
                     etat.setEstTraite(true);
-                    ajouterObjetsSuggestion(courant, listeSuggestions);
+                    ajouterObjetsSuggestionNoms(courant, listeSuggestions);
                 }
             }
             if (courant.aPlusieursVoisins()) {
@@ -271,7 +252,7 @@ public class Automate {
      * @param etat État de départ
      * @param listeSuggestions Liste de suggestions à remplir
      */
-    public void ajouterObjetsSuggestion(Etat etat, List<Objet> listeSuggestions) {
+    public void ajouterObjetsSuggestionNoms(Etat etat, List<Objet> listeSuggestions) {
         for (Objet o : getListeObjets()) {
             if (etat.getNom().equals(o.getNom()) && !o.isEstTraite() && listeSuggestions.size() < 10) {
                 listeSuggestions.add(o);
@@ -326,7 +307,6 @@ public class Automate {
         liste.clear();
         List<String> listeNoms = getNomsSuggestions(temp);
 
-        // trie la liste des noms en ordre alphabétique
         java.util.Collections.sort(listeNoms);
         for (String s : listeNoms) {
             for (Objet o : temp) {
@@ -359,15 +339,6 @@ public class Automate {
             o.setEstTraite(false);
             o.setSortedNom(false);
         }
-    }
-
-    /**
-     *  Réinitialise une liste quelconque
-     *
-     * @param liste Liste à réinitialiser
-     */
-    public void resetSuggestions(List<Objet> liste) {
-        liste.clear();
     }
 
     // getters et setters
@@ -433,14 +404,14 @@ public class Automate {
             Etat courant = new Etat();
             while (i < o.getNom().length()) {
                 chara += String.valueOf(o.getNom().charAt(i++));
-                if (!contientEtat(chara, listeEtats)) {
+                if (!contientEtat(chara, listeEtatsNoms)) {
                     Etat prochain = new Etat(chara);
-                    listeEtats.add(prochain);
+                    listeEtatsNoms.add(prochain);
                     courant.addArc(new Arc(prochain, chara));
                     courant = prochain;
                 }
                 else {
-                    courant = getEtatContenu(chara, listeEtats);
+                    courant = getEtatContenu(chara, listeEtatsNoms);
                 }
             }
         }
@@ -495,7 +466,7 @@ public class Automate {
     public void setEtatsTerminauxNoms() {
         for (Objet o : listeObjets) {
             Etat terminal = new Etat(o.getNom());
-            listeEtatsTerminaux.add(terminal);
+            listeEtatsTerminauxNoms.add(terminal);
         }
     }
 
@@ -520,8 +491,8 @@ public class Automate {
     }
 
     public void setMapSuggestionsNom() {
-        for (Etat e : listeEtats) {
-            mapSuggestionsNoms.put(e.getNom(), suggestion(e.getNom()));
+        for (Etat e : listeEtatsNoms) {
+            mapSuggestionsNoms.put(e.getNom(), suggestionsNom(e.getNom()));
         }
     }
 

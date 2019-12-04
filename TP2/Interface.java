@@ -42,7 +42,7 @@ public class Interface {
     private JLabel label_errorClickNoSelectionRemove = new JLabel("<html><font color='#E73F1A'>Veuillez s\u00E9lectionner un objet \u00E0<br>enlever du panier</font></html>");
     private final JLabel label_poidsSelectionPanier = new JLabel("<html>Poids de l'objet<br>  s\u00E9lectionn\u00E9 <br> dans le panier (kg) : </html>");
     private JLabel label_loading1 = new JLabel("Veuillez attendre patiemment. ");
-    private  JLabel label_loading2 = new JLabel("Cela pourrait prendre entre 2 et 3 minutes.");
+    private  JLabel label_loading2 = new JLabel("Cela pourrait prendre jusqu'à cinq minutes.");
 
     private JTextField textField_name = new JTextField(){
         public void addNotify(){
@@ -90,6 +90,8 @@ public class Interface {
         frame.setSize(950, 650);// taille de la fenêtre 950 x 650
         frame.getContentPane().setLayout(null);// aucun layout managers n'est utilisé
         frame.setLocationRelativeTo(null);
+
+        frame_loading.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         label_search.setBounds(44, 118, 100, 40);

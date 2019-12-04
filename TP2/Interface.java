@@ -1,3 +1,10 @@
+/**
+ * Représente l'interface créé pour ce travail.
+ *
+ * @auteure: Alice Gong
+ * @auteure: Nu Chan Nhien Ton
+ * @auteure: Kai Sen Trieu
+ */
 import javax.swing.*;
 import javax.swing.JLabel;
 import javax.swing.event.DocumentEvent;
@@ -43,6 +50,7 @@ public class Interface {
             requestFocus();
         }
     };
+
     private JTextField textField_code = new JTextField();
     private JTextField textField_type = new JTextField();
     private JTextField textField_poids = new JTextField();
@@ -76,13 +84,11 @@ public class Interface {
     private int poids_panier = 0;
     private final JPanel panel = new JPanel();
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({ "unchecked" })
     Interface() {
-        textField_poidsPanier.setBounds(794, 236, 100, 26);
-        textField_poidsPanier.setColumns(10);
-        // layout general
-        frame.setSize(950, 650);// taille de la fenetre 950 x 650
-        frame.getContentPane().setLayout(null);// aucun layout managers n'est utilise
+        // layout général
+        frame.setSize(950, 650);// taille de la fenêtre 950 x 650
+        frame.getContentPane().setLayout(null);// aucun layout managers n'est utilisé
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -100,15 +106,15 @@ public class Interface {
         textField_name.setBounds(159, 123, 140, 30);
         frame.getContentPane().add(textField_name);
 
-        //initialisation de la liste contenant les suggestions
+        // initialisation de la liste contenant les suggestions
         frame.getContentPane().add(liste);
         liste.setBounds(160, 171, 350, 329);
 
-        //initialisation de la liste contenant les objets du panier
+        // initialisation de la liste contenant les objets du panier
         frame.getContentPane().add(liste_panier);
         liste_panier.setBounds(544, 171, 235, 272);
 
-        //lorsqu'une suggestion est selectionnee, afficher le poids associe a cet objet
+        // lorsqu'une suggestion est selectionnee, afficher le poids associe a cet objet
         liste.addListSelectionListener(e -> {
             try {
                 Objet objetSelectionne = trouverObjet(liste.getSelectedValue().toString());
@@ -118,7 +124,7 @@ public class Interface {
             }
         });
 
-        //lorsqu'un objet du panier est selectionne, afficher le poids associe a cet objet
+        // lorsqu'un objet du panier est selectionné, afficher le poids associé à cet objet
         liste_panier.addListSelectionListener(e3 -> {
             try {
                 Objet objetSelectionne = trouverObjetPanier(liste_panier.getSelectedValue().toString());
@@ -128,7 +134,7 @@ public class Interface {
             }
         });
 
-        // autosuggestion lorsque l'utilisateur ecrit dans le textField sous "Nom"
+        // autosuggestion lorsque l'utilisateur écrit dans le textField sous "Nom"
         textField_name.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -145,13 +151,13 @@ public class Interface {
             }
         });
 
-        //initialisation du text_field ou entrer le code
+        // initialisation du text_field ou entrer le code
         label_code.setBounds(314, 98, 110, 30);
         frame.getContentPane().add(label_code);
         textField_code.setBounds(314, 123, 110, 30);
         frame.getContentPane().add(textField_code);
 
-        // autosuggestion lorsque l'utilisateur ecrit dans le textField sous "Code"
+        // autosuggestion lorsque l'utilisateur écrit dans le textField sous "Code"
         textField_code.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -169,13 +175,13 @@ public class Interface {
             }
         });
 
-        //initialisation du text_field ou entrer le type
+        // initialisation du text_field ou entrer le type
         label_type.setBounds(439, 98, 110, 30);
         frame.getContentPane().add(label_type);
         textField_type.setBounds(439, 123, 70, 30);
         frame.getContentPane().add(textField_type);
 
-        // autosuggestion lorsque l'utilisateur ecrit dans le textField sous "Type"
+        // autosuggestion lorsque l'utilisateur écrit dans le textField sous "Type"
         textField_type.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -193,7 +199,7 @@ public class Interface {
             }
         });
 
-        //initialisation du bouton ajouter
+        // initialisation du bouton ajouter
         frame.getContentPane().add(button_add);
         button_add.setBounds(160, 510, 100, 40);
         button_add.addMouseListener(new MouseAdapter() {
@@ -206,25 +212,25 @@ public class Interface {
                 else {
                     label_errorClickNoSelectionAdd.setVisible(false);
 
-                    //enleve l'objet de la listeObjets et la rajoute dans la listeObjetsPanier
+                    // enlève l'objet de la listeObjets et la rajoute dans la listeObjetsPanier
                     listPanierModel.addElement(liste.getSelectedValue());
                     liste_panier.setModel(listPanierModel);
 
                     Objet addedObject = trouverObjet(liste.getSelectedValue().toString());
 
-                    //reaffiche les nouvelles suggestions maintenant que la listeObjets est modifiee
+                    // réaffiche les nouvelles suggestions maintenant que la listeObjets est modifiée
                     listeObjets.remove(addedObject);
                     listeObjetsPanier.add(addedObject);
                     liste.setModel(getListModel());
 
-                    //met a jour la valeur du poids du panier
+                    // met a jour la valeur du poids du panier
                     poids_panier += addedObject.getPoids();
                     textField_poids.setText(String.valueOf(poids_panier));
                 }
             }
         });
 
-        //initialisation du bouton retirer
+        // initialisation du bouton retirer
         frame.getContentPane().add(button_remove);
         button_remove.setBounds(557, 487, 120, 40);
         button_remove.addMouseListener(new MouseAdapter() {
@@ -242,18 +248,18 @@ public class Interface {
                     else {
                         label_errorClickNoSelectionRemove.setVisible(false);
 
-                        //enleve l'objet de la listeObjetPaniers et la rajoute dans listeObjets
+                        // enlève l'objet de la listeObjetPaniers et la rajoute dans listeObjets
                         Objet removedObject = creerObjet(liste_panier.getSelectedValue().toString());
 
                         listeObjets.add(removedObject);
                         listeObjetsPanier.remove(removedObject);
                         liste.setModel(getListModel());
 
-                        //reaffiche les nouvelles suggestions maintenant que la listeObjets est modifiee
+                        // réaffiche les nouvelles suggestions maintenant que la listeObjets est modifiée
                         listPanierModel.removeElementAt(liste_panier.getSelectedIndex());
                         liste_panier.setModel(listPanierModel);
 
-                        //met a jour la valeur du poids du panier
+                        // met a jour la valeur du poids du panier
                         poids_panier -= removedObject.getPoids();
                         textField_poids.setText(String.valueOf(poids_panier));
                     }
@@ -261,19 +267,19 @@ public class Interface {
             }
         });
 
-        //initialiser bouton commander
+        // initialiser bouton commander
         frame.getContentPane().add(button_order);
         button_order.setBounds(793, 543, 120, 40);
         button_order.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                //message d'erreur lorsque le panier est vide et que l'usager tente de passer une commande
+                // message d'erreur lorsque le panier est vide et que l'usager tente de passer une commande
                 if(liste_panier.getModel().getSize() == 0) {
                     JOptionPane.showMessageDialog(null,"Le panier est vide!");
 
                 }
 
-                //s'assure que le poids du panier respecte le poids maximal
+                // s'assure que le poids du panier respecte le poids maximal
                 else if(poids_panier <= 25){
                     JOptionPane.showMessageDialog(frame,
                             "La commande a été passée.",
@@ -283,11 +289,10 @@ public class Interface {
                     liste_panier.setModel(listPanierModel);
                     listeObjetsPanier.clear();
                     poids_panier = 0;
-                    //textField_poids.setText(String.valueOf(poids_panier));
                     textField_poids.setText("         ---");
                 }
 
-                //message d'erreur si le poids du panier depasse le poids maximal
+                // message d'erreur si le poids du panier dépasse le poids maximal
                 else {
                     JOptionPane.showMessageDialog(frame,
                             "Vous avez trop d'éléments dans votre panier",
@@ -298,20 +303,20 @@ public class Interface {
         });
 
 
-        //initialisation bouton vider
+        // initialisation bouton vider
         frame.getContentPane().add(button_clear);
         button_clear.setBounds(692, 487, 120, 40);
         button_clear.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
 
-                //message d'erreur si le panier est vide et que l'usager tente de vider le panier
+                // message d'erreur si le panier est vide et que l'usager tente de vider le panier
                 if (liste_panier.getModel().getSize() == 0) {
                     JOptionPane.showMessageDialog(null, "Le panier est vide!");
 
                 } else {
 
-                    //rajoute chaque objet du panier dans listeObjets
+                    // rajoute chaque objet du panier dans listeObjets
                     for (int i = 0; i < liste_panier.getModel().getSize(); i++) {
                         listeObjets.add(creerObjet(liste_panier.getModel().getElementAt(i).toString()));
                     }
@@ -319,38 +324,38 @@ public class Interface {
 
                     textField_poids.setText("         ---");
 
-                    //reaffiche les nouvelles suggestions maintenant que listeObjets est modifiee
+                    // réaffiche les nouvelles suggestions maintenant que listeObjets est modifiée
                     liste.setModel(getListModel());
 
-                    //retire tous les elements du panier
+                    // retire tous les elements du panier
                     listPanierModel.removeAllElements();
                     liste_panier.setModel(listPanierModel);
 
-                    //met a jour le poids du panier
+                    // met a jour le poids du panier
                     poids_panier = 0;
                 }
             }
         });
 
-        //initialisation du text_field ou entrer le path du fichier.txt contenant le lexique
+        // initialisation du text_field ou entrer le path du fichier.txt contenant le lexique
         pathFichier.setBounds(185, 30, 500, 30);
         pathFichier.setForeground(new Color(0, 0, 0));
         pathFichier.setBackground(Color.WHITE);
         frame.getContentPane().add(pathFichier);
 
-        //initialisation du bouton naviguer permettant de selectionner un fichier dans nos dossiers
+        // initialisation du bouton naviguer permettant de selectionner un fichier dans nos dossiers
         frame.getContentPane().add(browseButton);
         browseButton.setBounds(700, 25, 100, 40);
         browseButton.addActionListener(e -> {
             pathFichier.setText(selectFile());
         });
 
-        //initialisation du bouton initialiser permettant d'initialiser et de creer l'automate
+        // initialisation du bouton initialiser permettant d'initialiser et de créer l'automate
         JButton boutonInitialiserProgramme = new JButton("Initialiser");
         frame.getContentPane().add(boutonInitialiserProgramme);
         boutonInitialiserProgramme.setBounds(815, 25, 100, 40);
 
-        //Initialisation de la fenetre d'attente
+        // initialisation de la fenêtre d'attente
         loadingBar.setIndeterminate(true);
         frame_loading.setSize(300, 110);
         loadingBar.setForeground(Color.green);
@@ -359,7 +364,7 @@ public class Interface {
         panel_loading.add(label_loading2);
         frame_loading.getContentPane().add(panel_loading);
 
-        //initialisation de la fenetre affichant le fichier a selectionner
+        // initialisation de la fenêtre affichant le fichier à sélectionner
         JLabel lblSlectionnerUnFichier = new JLabel("S\u00E9lectionner un fichier");
         lblSlectionnerUnFichier.setBounds(15, 35, 183, 20);
         frame.getContentPane().add(lblSlectionnerUnFichier);
@@ -373,7 +378,7 @@ public class Interface {
             },500);
         });
 
-        //initialisation du Jlabel permettant d'afficher le poids du panier
+        // initialisation du Jlabel permettant d'afficher le poids du panier
         JLabel lblPoids = new JLabel("Poids actuel (kg) :");
         lblPoids.setBounds(582, 548, 129, 30);
         frame.getContentPane().add(lblPoids);
@@ -384,9 +389,16 @@ public class Interface {
         textField_poids.setBounds(700, 548, 70, 30);
         frame.getContentPane().add(textField_poids);
         textField_poids.setColumns(10);
+
         lblPoidsDeLobject.setBounds(15, 192, 155, 40);
 
         frame.getContentPane().add(lblPoidsDeLobject);
+
+        textField_poidsPanier.setBackground(Color.WHITE);
+        textField_poidsPanier.setEditable(false);
+        textField_poidsPanier.setText("         ---");
+        textField_poidsPanier.setBounds(794, 236, 100, 26);
+        textField_poidsPanier.setColumns(10);
 
         textField_poidsSelection = new JTextField();
         textField_poidsSelection.setText("         ---");
@@ -416,8 +428,8 @@ public class Interface {
 
     }
 
-    //permet de trouver la liste de suggestions a afficher, en prenant en compte quels criteres comportent un input
-    //et si des suggestions existent ou non pour ces inputs
+    // permet de trouver la liste de suggestions à afficher, en prenant en compte quels critères comportent un input
+    // et si des suggestions existent ou non pour ces inputs
     public List<Objet> trouverSuggestions() {
         List<Objet> suggestionsNom = automate.getSuggestionsNom(textField_name.getText());
         if (!textField_name.getText().isEmpty() && suggestionsNom == null)
@@ -469,36 +481,33 @@ public class Interface {
     }
 
 
-    //permet de choisir le fichier.txt pour recuperer son path
+    // permet de choisir le fichier.txt pour récupérer son path
     public String selectFile(){
-        /**** Select lexicon's path ****/
         JFileChooser chooser = new JFileChooser();
 
-        // filtre le fichier que l'usager peut selectionner
+        // filtre le fichier que l'usager peut sélectionner
         FileNameExtensionFilter fileAllowed = new FileNameExtensionFilter("Text files", "txt", "text");
         chooser.setFileFilter(fileAllowed);
 
         // pour rendre l'option All Files non disponible
         chooser.setAcceptAllFileFilterUsed(false);
 
-        // la fenetre pour saisir le fichier s'ouvre au directoire ou l'usager se retrouve a l'instant
+        // la fenêtre pour saisir le fichier s'ouvre au directoire ou l'usager se retrouve a l'instant
         chooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
 
         int result = chooser.showOpenDialog(new JFrame());
 
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = chooser.getSelectedFile();
-            //System.out.println("Selected file: " + selectedFile.getAbsolutePath());
             return selectedFile.getAbsolutePath();
         }
         else {
-            //System.out.println("No file selected");
             return "Aucun fichier n'a été sélectionné";
         }
 
     }
 
-    //initialise le tout, cree l'automate
+    // initialise le tout, crée l'automate
     public void initialiser(String fichier) {
         try {
             listeObjets.clear();
@@ -519,7 +528,7 @@ public class Interface {
         }
     }
 
-    //permet de trouver un Objet appartenant a la listeObjets a l'aide d'un String
+    // permet de trouver un Objet appartenant à la listeObjets à l'aide d'un String
     public Objet trouverObjet(String input) {
         String[] array = input.split(" ");
         for (Objet o : listeObjets) {
@@ -529,7 +538,7 @@ public class Interface {
         return null;
     }
 
-    //permet de trouver un Objet appartenant a la listeObjetsPanier a l'aide d'un String
+    // permet de trouver un Objet appartenant à la listeObjetsPanier à l'aide d'un String
     public Objet trouverObjetPanier(String input) {
         String[] array = input.split(" ");
         for (Objet o : listeObjetsPanier) {
@@ -539,13 +548,12 @@ public class Interface {
         return null;
     }
 
-    //permet de creer un Objet a l'aide d'un String
+    // permet de créer un Objet à l'aide d'un String
     public Objet creerObjet(String input) {
         String[] array = input.split(" ");
         return new Objet(array[0], array[1], array[2]);
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     public DefaultListModel getListModel() {
         DefaultListModel listModel = new DefaultListModel();
         List<Objet> listeSuggestions = trouverSuggestions();
@@ -560,7 +568,7 @@ public class Interface {
         return listModel;
     }
 
-    //pour afficher le message dans le text_field du path
+    // pour afficher le message dans le text_field du path
     public class HintTextField extends JTextField {
 
         Font gainFont = new Font("Tahoma", Font.PLAIN, 11);

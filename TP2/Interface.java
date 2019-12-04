@@ -22,7 +22,7 @@ import java.util.List;
 public class Interface {
 
     private JFrame frame = new JFrame("Interface de commandes");
-//    private JFrame frameLoading = new JFrame("En cours d'exécution...");
+    private JFrame frame_loading = new JFrame("En cours d'exécution...");
 
     private JLabel label_search = new JLabel("Recherche ");
     private JLabel label_name = new JLabel("Nom");
@@ -34,6 +34,8 @@ public class Interface {
     private JLabel label_errorClickNoSelectionAdd = new JLabel("<html><font color='#E73F1A'>Veuillez sélectionner un objet à<br>ajouter dans le panier</font></html>");
     private JLabel label_errorClickNoSelectionRemove = new JLabel("<html><font color='#E73F1A'>Veuillez s\u00E9lectionner un objet \u00E0<br>enlever du panier</font></html>");
     private final JLabel label_poidsSelectionPanier = new JLabel("<html>Poids de l'objet<br>  s\u00E9lectionn\u00E9 <br> dans le panier (kg) : </html>");
+    private JLabel label_loading1 = new JLabel("Veuillez attendre patiemment. ");
+    private  JLabel label_loading2 = new JLabel("Cela pourrait prendre entre 2 et 3 minutes.");
 
     private JTextField textField_name = new JTextField(){
         public void addNotify(){
@@ -52,49 +54,30 @@ public class Interface {
     private JButton button_remove = new JButton("Retirer");
     private JButton button_order = new JButton("Commander");
     private JButton button_clear = new JButton("Vider");
+    private JButton browseButton = new JButton("Naviguer");
 
+    private Timer timer = new Timer();
+
+    private JPanel panel_loading = new JPanel();
+
+    private JProgressBar loadingBar = new JProgressBar(JProgressBar.HORIZONTAL);
 
     private List<Objet> listeObjets = new ArrayList<>();
     private List<Objet> listeObjetsPanier = new ArrayList<>();
 
-    // sections pour le progress bar
-    private JFrame frame_loading = new JFrame("En cours d'exécution...");
-    private JProgressBar loadingBar = new JProgressBar(JProgressBar.HORIZONTAL);
-    private JPanel panel_loading = new JPanel();
-    private JLabel label_loading1 = new JLabel("Veuillez attendre patiemment. ");
-    private  JLabel label_loading2 = new JLabel("Cela pourrait prendre entre 2 et 3 minutes.");
+    private DefaultListModel listModel = new DefaultListModel();
+    private DefaultListModel listPanierModel = new DefaultListModel();
 
+    private JList liste = new JList(listModel);
+    private JList liste_panier = new JList(listPanierModel);
 
     private Automate automate = new Automate();
 
     private int poids_panier = 0;
     private final JPanel panel = new JPanel();
 
-
     @SuppressWarnings({ "unchecked", "rawtypes" })
     Interface() {
-//    	frameLoading.setVisible(true);
-
-        // partie loading
-        loadingBar.setIndeterminate(true);
-        frame_loading.setSize(300, 110);
-        loadingBar.setForeground(Color.green);
-        panel_loading.add(loadingBar);
-        panel_loading.add(label_loading1);
-        panel_loading.add(label_loading2);
-        frame_loading.getContentPane().add(panel_loading);
-
-        Timer timer = new Timer();
-
-
-
-        //
-//        progressBar.setIndeterminate(true);
-//        downloadingDialog.setLayout(new FlowLayout(FlowLayout.LEFT));
-//        downloadingDialog.add(progressBar);
-//        downloadingDialog.setSize(300, 100);
-//        downloadingDialog.setVisible(true);
-
         textField_poidsPanier.setBounds(794, 236, 100, 26);
         textField_poidsPanier.setColumns(10);
         // layout general
@@ -118,14 +101,10 @@ public class Interface {
         frame.getContentPane().add(textField_name);
 
         //initialisation de la liste contenant les suggestions
-        DefaultListModel listModel = new DefaultListModel();
-        JList liste = new JList(listModel);
         frame.getContentPane().add(liste);
         liste.setBounds(160, 171, 350, 329);
 
         //initialisation de la liste contenant les objets du panier
-        DefaultListModel listPanierModel = new DefaultListModel();
-        JList liste_panier = new JList(listPanierModel);
         frame.getContentPane().add(liste_panier);
         liste_panier.setBounds(544, 171, 235, 272);
 
@@ -360,7 +339,6 @@ public class Interface {
         frame.getContentPane().add(pathFichier);
 
         //initialisation du bouton naviguer permettant de selectionner un fichier dans nos dossiers
-        JButton browseButton = new JButton("Naviguer");
         frame.getContentPane().add(browseButton);
         browseButton.setBounds(700, 25, 100, 40);
         browseButton.addActionListener(e -> {
@@ -371,6 +349,15 @@ public class Interface {
         JButton boutonInitialiserProgramme = new JButton("Initialiser");
         frame.getContentPane().add(boutonInitialiserProgramme);
         boutonInitialiserProgramme.setBounds(815, 25, 100, 40);
+
+        //Initialisation de la fenetre d'attente
+        loadingBar.setIndeterminate(true);
+        frame_loading.setSize(300, 110);
+        loadingBar.setForeground(Color.green);
+        panel_loading.add(loadingBar);
+        panel_loading.add(label_loading1);
+        panel_loading.add(label_loading2);
+        frame_loading.getContentPane().add(panel_loading);
 
         //initialisation de la fenetre affichant le fichier a selectionner
         JLabel lblSlectionnerUnFichier = new JLabel("S\u00E9lectionner un fichier");

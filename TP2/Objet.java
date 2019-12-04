@@ -1,7 +1,10 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
+/**
+ * Représente les objets d'un fichier texte.
+ *
+ * @auteure: Alice Gong
+ * @auteure: Nu Chan Nhien Ton
+ * @auteure: Kai Sen Trieu
+ */
 public class Objet {
     private String nom;
     private String code;
@@ -11,38 +14,48 @@ public class Objet {
     static private int poidsB = 3;
     static private int poidsC = 5;
 
-    //TODO test
     private boolean estTraite = false;
     private boolean sortedNom = false;
 
+    /**
+     *  Constructeur par parametres
+     *
+     * @param nom Nom de l'objet
+     * @param code Code de l'objet
+     * @param type Type de l'objet
+     */
+    public Objet(String nom, String code, String type) {
+        this.nom = nom;
+        this.code = code;
+        this.type = type;
+    }
 
-    //TODO test
+    /**
+     *  Vérifie si un objet à été
+     *  trié
+     *
+     *  Utile lorsqu'une méthode de triage
+     *  est appelée
+     */
     public boolean isSortedNom() {
         return sortedNom;
     }
 
-    public void setSortedNom(boolean sortedNom) {
-        this.sortedNom = sortedNom;
-    }
-
+    /**
+     *  Vérifie si un objet à été
+     *  traité
+     */
     public boolean isEstTraite() {
         return estTraite;
     }
-
-    public void setEstTraite(boolean estTraite) {
-        this.estTraite = estTraite;
-    }
-
 
     //getters et setters
     public String getNom() {
         return nom;
     }
-
     public String getCode() {
         return code;
     }
-
     public String getType() {
         return type;
     }
@@ -57,21 +70,9 @@ public class Objet {
         return poids;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Objet(String nom, String code, String type) {
-        this.nom = nom;
-        this.code = code;
-        this.type = type;
-    }
+    public void setSortedNom(boolean sortedNom) { this.sortedNom = sortedNom; }
+    public void setEstTraite(boolean estTraite) { this.estTraite = estTraite; }
+    public void setNom(String nom) { this.nom = nom; }
+    public void setCode(String code) { this.code = code; }
+    public void setType(String type) { this.type = type; }
 }

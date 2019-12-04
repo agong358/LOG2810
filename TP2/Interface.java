@@ -436,10 +436,20 @@ public class Interface {
                 if (suggestionsType != null) {
                     suggestionsNom.retainAll(suggestionsType);
                     suggestionsNom.retainAll(suggestionsCode);
-                } else
+                    if (suggestionsNom.size() > 10)
+                        suggestionsNom = suggestionsNom.subList(0, 9);
+                } else {
                     suggestionsNom.retainAll(suggestionsCode);
-            } else if (suggestionsType != null)
+                    if (suggestionsNom.size() > 10)
+                        suggestionsNom = suggestionsNom.subList(0, 9);
+                }
+            } else if (suggestionsType != null) {
                 suggestionsNom.retainAll(suggestionsType);
+                if (suggestionsNom.size() > 10)
+                    suggestionsNom = suggestionsNom.subList(0, 9);
+            }
+            if (suggestionsNom.size() > 10)
+                suggestionsNom = suggestionsNom.subList(0, 9);
             return suggestionsNom;
         }
 
@@ -448,10 +458,20 @@ public class Interface {
                 if (suggestionsType != null) {
                     suggestionsCode.retainAll(suggestionsType);
                     suggestionsCode.retainAll(suggestionsNom);
-                } else
+                    if (suggestionsCode.size() > 10)
+                        suggestionsCode = suggestionsCode.subList(0, 9);
+                } else {
                     suggestionsCode.retainAll(suggestionsNom);
-            } else if (suggestionsType != null)
+                    if (suggestionsCode.size() > 10)
+                        suggestionsCode = suggestionsCode.subList(0, 9);
+                }
+            } else if (suggestionsType != null) {
                 suggestionsCode.retainAll(suggestionsType);
+                if (suggestionsCode.size() > 10)
+                    suggestionsCode = suggestionsCode.subList(0, 9);
+            }
+            if (suggestionsCode.size() > 10)
+                suggestionsCode = suggestionsCode.subList(0, 9);
             return suggestionsCode;
         }
         else if (suggestionsType != null) {
@@ -459,10 +479,20 @@ public class Interface {
                 if (suggestionsNom != null) {
                     suggestionsType.retainAll(suggestionsNom);
                     suggestionsType.retainAll(suggestionsCode);
-                } else
+                    if (suggestionsType.size() > 10)
+                        suggestionsType = suggestionsType.subList(0,9);
+                } else {
                     suggestionsType.retainAll(suggestionsCode);
-            } else if (suggestionsNom != null)
+                    if (suggestionsType.size() > 10)
+                        suggestionsType = suggestionsType.subList(0,9);
+                }
+            } else if (suggestionsNom != null) {
                 suggestionsType.retainAll(suggestionsNom);
+                if (suggestionsType.size() > 10)
+                    suggestionsType = suggestionsType.subList(0,9);
+            }
+            if (suggestionsType.size() > 10)
+                suggestionsType = suggestionsType.subList(0,9);
             return suggestionsType;
         }
         return null;

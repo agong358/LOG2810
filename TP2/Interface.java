@@ -42,7 +42,6 @@ public class Interface {
     };
     private JTextField textField_code = new JTextField();
     private JTextField textField_type = new JTextField();
-    //    private JTextField textField_panier = new JTextField();
     private JTextField textField_poids = new JTextField();
     private JTextField textField_poidsSelection = new JTextField();
     private HintTextField pathFichier = new HintTextField("Sélectionner un fichier en écrivant son path ou sinon à l'aide du bouton Browse");
@@ -66,9 +65,6 @@ public class Interface {
 
     private int poids_panier = 0;
     private final JPanel panel = new JPanel();
-//    private int poids_selection = 0;
-
-//    private int poids = 0;
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -345,19 +341,11 @@ public class Interface {
             }
         });
 
-
         //initialisation du text_field ou entrer le path du fichier.txt contenant le lexique
         pathFichier.setBounds(185, 30, 500, 30);
         pathFichier.setForeground(new Color(0, 0, 0));
         pathFichier.setBackground(Color.WHITE);
         frame.getContentPane().add(pathFichier);
-        // offre le choix à l'utilisateur d'écrire le path de son fichier
-//        pathFichier.addMouseListener(new MouseAdapter() {
-//            //            @Override
-//            public void mouseClicked(MouseEvent e) {
-//                pathFichier.setText("");
-//            }
-//        });
 
         //initialisation du bouton naviguer permettant de selectionner un fichier dans nos dossiers
         JButton browseButton = new JButton("Browse");
@@ -422,9 +410,6 @@ public class Interface {
         label_errorClickNoSelectionRemove.setVisible(false);
 
         frame.setVisible(true);
-
-        //test panier
-//        String commandePanier = "";
 
     }
 

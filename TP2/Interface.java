@@ -428,8 +428,11 @@ public class Interface {
 
     }
 
-    // permet de trouver la liste de suggestions à afficher, en prenant en compte quels critères comportent un input
-    // et si des suggestions existent ou non pour ces inputs
+    /**
+     *  Permet de trouver la liste de suggestions à afficher,
+     *  en prenant en compte quels critères comportent un input
+     *  et si des suggestions existent ou non pour ces inputs
+     */
     public List<Objet> trouverSuggestions() {
         List<Objet> suggestionsNom = automate.getSuggestionsNom(textField_name.getText());
         if (!textField_name.getText().isEmpty() && suggestionsNom == null)
@@ -510,8 +513,9 @@ public class Interface {
         return null;
     }
 
-
-    // permet de choisir le fichier.txt pour récupérer son path
+    /**
+     *  Permet de choisir le fichier.txt pour récupérer son path
+     */
     public String selectFile(){
         JFileChooser chooser = new JFileChooser();
 
@@ -537,7 +541,9 @@ public class Interface {
 
     }
 
-    // initialise le tout, crée l'automate
+    /**
+     *  Initialise le tout, crée l'automate
+     */
     public void initialiser(String fichier) {
         try {
             listeObjets.clear();
@@ -568,7 +574,10 @@ public class Interface {
         return null;
     }
 
-    // permet de trouver un Objet appartenant à la listeObjetsPanier à l'aide d'un String
+    /**
+     *  Permet de trouver un Objet appartenant à la
+     *  listeObjetsPanier à l'aide d'un String
+     */
     public Objet trouverObjetPanier(String input) {
         String[] array = input.split(" ");
         for (Objet o : listeObjetsPanier) {
@@ -577,8 +586,12 @@ public class Interface {
         }
         return null;
     }
-
-    // permet de créer un Objet à l'aide d'un String
+    
+    /**
+     *  Créer un objet à partir du input
+     *
+     *  @param input String à partir duquel un objet va être créé
+     */
     public Objet creerObjet(String input) {
         String[] array = input.split(" ");
         return new Objet(array[0], array[1], array[2]);

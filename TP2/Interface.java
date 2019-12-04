@@ -131,7 +131,7 @@ public class Interface {
 
         liste_panier.addListSelectionListener(e3 -> {
             try {
-                Objet objetSelectionne = trouverObjet(liste_panier.getSelectedValue().toString());
+                Objet objetSelectionne = trouverObjetPanier(liste_panier.getSelectedValue().toString());
                 textField_poidsPanier.setText(String.valueOf(objetSelectionne.getPoids()));;
             } catch(NullPointerException e4) {
                 textField_poidsPanier.setText("         ---");
@@ -224,6 +224,7 @@ public class Interface {
                     Objet addedObject = trouverObjet(liste.getSelectedValue().toString());
 
                     listeObjets.remove(addedObject);
+                    listeObjetsPanier.add(addedObject);
                     liste.setModel(getListModel());
 
                     poids_panier += addedObject.getPoids();
@@ -252,6 +253,7 @@ public class Interface {
                         Objet removedObject = creerObjet(liste_panier.getSelectedValue().toString());
 
                         listeObjets.add(removedObject);
+                        listeObjetsPanier.remove(removedObject);
                         liste.setModel(getListModel());
 
                         listPanierModel.removeElementAt(liste_panier.getSelectedIndex());
@@ -281,6 +283,7 @@ public class Interface {
                             JOptionPane.PLAIN_MESSAGE);
                     listPanierModel.removeAllElements();
                     liste_panier.setModel(listPanierModel);
+                    listeObjetsPanier.clear();
                     poids_panier = 0;
                     //textField_poids.setText(String.valueOf(poids_panier));
                     textField_poids.setText("         ---");
@@ -306,6 +309,7 @@ public class Interface {
                     for (int i = 0; i < liste_panier.getModel().getSize(); i++) {
                         listeObjets.add(creerObjet(liste_panier.getModel().getElementAt(i).toString()));
                     }
+                    listeObjetsPanier.clear();
 
                     textField_poids.setText("         ---");
 
@@ -547,6 +551,15 @@ public class Interface {
     public Objet trouverObjet(String input) {
         String[] array = input.split(" ");
         for (Objet o : listeObjets) {
+            if (o.getNom().equals(array[0]) && o.getCode().equals(array[1]) && o.getType().equals(array[2]))
+                return o;
+        }
+        return null;
+    }
+
+    public Objet trouverObjetPanier(String input) {
+        String[] array = input.split(" ");
+        for (Objet o : listeObjetsPanier) {
             if (o.getNom().equals(array[0]) && o.getCode().equals(array[1]) && o.getType().equals(array[2]))
                 return o;
         }

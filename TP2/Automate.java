@@ -254,7 +254,7 @@ public class Automate {
      */
     public void ajouterObjetsSuggestionNoms(Etat etat, List<Objet> listeSuggestions) {
         for (Objet o : getListeObjets()) {
-            if (etat.getNom().equals(o.getNom()) && !o.isEstTraite() && listeSuggestions.size() < 10) {
+            if (etat.getNom().equals(o.getNom()) && !o.isEstTraite()) {
                 listeSuggestions.add(o);
                 o.setEstTraite(true);
             }
@@ -272,7 +272,7 @@ public class Automate {
      */
     public void ajouterObjetsSuggestionCodes(Etat etat, List<Objet> listeSuggestions) {
         for (Objet o : getListeObjets()) {
-            if (etat.getNom().equals(o.getCode()) && !o.isEstTraite() && listeSuggestions.size() < 10) {
+            if (etat.getNom().equals(o.getCode()) && !o.isEstTraite()) {
                 listeSuggestions.add(o);
                 o.setEstTraite(true);
             }
@@ -290,7 +290,7 @@ public class Automate {
      */
     public void ajouterObjetsSuggestionTypes(Etat etat, List<Objet> listeSuggestions) {
         for (Objet o : getListeObjets()) {
-            if (etat.getNom().equals(o.getType()) && !o.isEstTraite() && listeSuggestions.size() < 10) {
+            if (etat.getNom().equals(o.getType()) && !o.isEstTraite()) {
                 listeSuggestions.add(o);
                 o.setEstTraite(true);
             }

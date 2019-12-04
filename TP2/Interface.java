@@ -58,11 +58,11 @@ public class Interface {
     private List<Objet> listeObjetsPanier = new ArrayList<>();
 
     // sections pour le progress bar
-    private JFrame frame_loading = new JFrame("En cours d'exéuction..");
+    private JFrame frame_loading = new JFrame("En cours d'exécution...");
     private JProgressBar loadingBar = new JProgressBar(JProgressBar.HORIZONTAL);
-    private JButton button_cancel = new JButton("Cancel");
     private JPanel panel_loading = new JPanel();
-    private JLabel label_loading = new JLabel("Cela peut prendre entre 2 et 3 minutes.");
+    private JLabel label_loading1 = new JLabel("Veuillez attendre patiemment. ");
+    private  JLabel label_loading2 = new JLabel("Cela pourrait prendre entre 2 et 3 minutes.");
 
 
     private Automate automate = new Automate();
@@ -77,11 +77,11 @@ public class Interface {
 
         // partie loading
         loadingBar.setIndeterminate(true);
-        frame_loading.setSize(400, 100);
+        frame_loading.setSize(300, 110);
         loadingBar.setForeground(Color.green);
         panel_loading.add(loadingBar);
-        panel_loading.add(button_cancel);
-        panel_loading.add(label_loading);
+        panel_loading.add(label_loading1);
+        panel_loading.add(label_loading2);
         frame_loading.getContentPane().add(panel_loading);
 
         Timer timer = new Timer();
@@ -358,7 +358,7 @@ public class Interface {
         pathFichier.setForeground(new Color(0, 0, 0));
         pathFichier.setBackground(Color.WHITE);
         frame.getContentPane().add(pathFichier);
-        
+
         //initialisation du bouton naviguer permettant de selectionner un fichier dans nos dossiers
         JButton browseButton = new JButton("Naviguer");
         frame.getContentPane().add(browseButton);
@@ -611,7 +611,6 @@ public class Interface {
                     }
                 }
             });
-
         }
     }
 }

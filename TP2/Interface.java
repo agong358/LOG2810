@@ -92,16 +92,19 @@ public class Interface {
         textField_name.setBounds(185, 120, 140, 30);
         frame.getContentPane().add(textField_name);
 
+        //initialisation de la liste contenant les suggestions
         DefaultListModel listModel = new DefaultListModel();
         JList liste = new JList(listModel);
         frame.getContentPane().add(liste);
         liste.setBounds(185, 171, 350, 329);
 
+        //initialisation de la liste contenant les objets du panier
         DefaultListModel listPanierModel = new DefaultListModel();
         JList liste_panier = new JList(listPanierModel);
         frame.getContentPane().add(liste_panier);
         liste_panier.setBounds(582, 171, 254, 272);
 
+        //lorsqu'une suggestion est selectionnee, afficher le poids associe a cet objet
         liste.addListSelectionListener(e -> {
             try {
                 Objet objetSelectionne = trouverObjet(liste.getSelectedValue().toString());
@@ -111,6 +114,7 @@ public class Interface {
             }
         });
 
+        //lorsqu'un objet du panier est selectionne, afficher le poids associe a cet objet
         liste_panier.addListSelectionListener(e -> {
             try {
                 Objet objetSelectionne = trouverObjet(liste.getSelectedValue().toString());
@@ -119,10 +123,6 @@ public class Interface {
                 textField_poidsSelection.setText("         ---");
             }
         });
-
-        pathFichier.setForeground(new Color(0, 0, 0));
-        pathFichier.setBackground(Color.WHITE);
-//        pathFichier.setEditable(false);
 
         // autosuggestion lorsque l'utilisateur ecrit dans le textField sous "Nom"
         textField_name.getDocument().addDocumentListener(new DocumentListener() {
@@ -138,10 +138,10 @@ public class Interface {
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                System.out.print("changedUpdate");
             }
         });
 
+        //initialisation du text_field ou entrer le code
         label_code.setBounds(340, 95, 110, 30);
         frame.getContentPane().add(label_code);
         textField_code.setBounds(340, 120, 110, 30);
@@ -165,6 +165,7 @@ public class Interface {
             }
         });
 
+        //initialisation du text_field ou entrer le type
         label_type.setBounds(465, 95, 110, 30);
         frame.getContentPane().add(label_type);
         textField_type.setBounds(465, 120, 70, 30);
@@ -188,6 +189,7 @@ public class Interface {
             }
         });
 
+        //initialisation du bouton ajouter
         frame.getContentPane().add(button_add);
         button_add.setBounds(185, 510, 100, 40);
         button_add.addMouseListener(new MouseAdapter() {
@@ -200,20 +202,24 @@ public class Interface {
                 else {
                     label_errorClickNoSelectionAdd.setVisible(false);
 
+                    //enleve l'objet de la listeObjets et la rajoute dans la listeObjetsPanier
                     listPanierModel.addElement(liste.getSelectedValue());
                     liste_panier.setModel(listPanierModel);
 
                     Objet addedObject = trouverObjet(liste.getSelectedValue().toString());
 
+                    //reaffiche les nouvelles suggestions maintenant que la listeObjets est modifiee
                     listeObjets.remove(addedObject);
                     liste.setModel(getListModel());
 
+                    //met a jour la valeur du poids du panier
                     poids_panier += addedObject.getPoids();
                     textField_poids.setText(String.valueOf(poids_panier));
                 }
             }
         });
 
+        //initialisation du bouton retirer
         frame.getContentPane().add(button_remove);
         button_remove.setBounds(582, 487, 120, 40);
         button_remove.addMouseListener(new MouseAdapter() {
@@ -231,14 +237,17 @@ public class Interface {
                     else {
                         label_errorClickNoSelectionRemove.setVisible(false);
 
+                        //enleve l'objet de la listeObjetPaniers et la rajoute dans listeObjets
                         Objet removedObject = creerObjet(liste_panier.getSelectedValue().toString());
 
                         listeObjets.add(removedObject);
                         liste.setModel(getListModel());
 
+                        //reaffiche les nouvelles suggestions maintenant que la listeObjets est modifiee
                         listPanierModel.removeElementAt(liste_panier.getSelectedIndex());
                         liste_panier.setModel(listPanierModel);
 
+                        //met a jour la valeur du poids du panier
                         poids_panier -= removedObject.getPoids();
                         textField_poids.setText(String.valueOf(poids_panier));
                     }
@@ -246,16 +255,19 @@ public class Interface {
             }
         });
 
+        //initialiser bouton commander
         frame.getContentPane().add(button_order);
         button_order.setBounds(793, 543, 120, 40);
         button_order.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                //message d'erreur lorsque le panier est vide et que l'usager tente de passer une commande
                 if(liste_panier.getModel().getSize() == 0) {
                     JOptionPane.showMessageDialog(null,"Le panier est vide!");
 
                 }
 
+                //s'assure que le poids du panier respecte le poids maximal
                 else if(poids_panier <= 25){
                     JOptionPane.showMessageDialog(frame,
                             "La commande a été passée.",
@@ -267,6 +279,8 @@ public class Interface {
                     //textField_poids.setText(String.valueOf(poids_panier));
                     textField_poids.setText("         ---");
                 }
+
+                //message d'erreur si le poids du panier depasse le poids maximal
                 else {
                     JOptionPane.showMessageDialog(frame,
                             "Vous avez trop d'éléments dans votre panier",
@@ -276,33 +290,45 @@ public class Interface {
             }
         });
 
+
+        //initialisation bouton vider
         frame.getContentPane().add(button_clear);
         button_clear.setBounds(717, 487, 120, 40);
         button_clear.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+
+                //message d'erreur si le panier est vide et que l'usager tente de vider le panier
                 if (liste_panier.getModel().getSize() == 0) {
                     JOptionPane.showMessageDialog(null, "Le panier est vide!");
 
                 } else {
+
+                    //rajoute chaque objet du panier dans listeObjets
                     for (int i = 0; i < liste_panier.getModel().getSize(); i++) {
                         listeObjets.add(creerObjet(liste_panier.getModel().getElementAt(i).toString()));
                     }
 
                     textField_poids.setText("         ---");
 
+                    //reaffiche les nouvelles suggestions maintenant que listeObjets est modifiee
                     liste.setModel(getListModel());
 
+                    //retire tous les elements du panier
                     listPanierModel.removeAllElements();
                     liste_panier.setModel(listPanierModel);
 
+                    //met a jour le poids du panier
                     poids_panier = 0;
-                    //textField_poids.setText(String.valueOf(poids_panier));
                 }
             }
         });
 
+
+        //initialisation du text_field ou entrer le path du fichier.txt contenant le lexique
         pathFichier.setBounds(185, 30, 500, 30);
+        pathFichier.setForeground(new Color(0, 0, 0));
+        pathFichier.setBackground(Color.WHITE);
         frame.getContentPane().add(pathFichier);
         // offre le choix à l'utilisateur d'écrire le path de son fichier
 //        pathFichier.addMouseListener(new MouseAdapter() {
@@ -312,6 +338,7 @@ public class Interface {
 //            }
 //        });
 
+        //initialisation du bouton naviguer permettant de selectionner un fichier dans nos dossiers
         JButton browseButton = new JButton("Browse");
         frame.getContentPane().add(browseButton);
         browseButton.setBounds(700, 25, 100, 40);
@@ -319,10 +346,12 @@ public class Interface {
             pathFichier.setText(selectFile());
         });
 
+        //initialisation du bouton initialiser permettant d'initialiser et de creer l'automate
         JButton boutonInitialiserProgramme = new JButton("Initialiser");
         frame.getContentPane().add(boutonInitialiserProgramme);
         boutonInitialiserProgramme.setBounds(815, 25, 100, 40);
 
+        //initialisation de la fenetre affichant le fichier a selectionner
         JLabel lblSlectionnerUnFichier = new JLabel("S\u00E9lectionner un fichier");
         lblSlectionnerUnFichier.setBounds(15, 35, 183, 20);
         frame.getContentPane().add(lblSlectionnerUnFichier);
@@ -330,6 +359,7 @@ public class Interface {
             initialiser(pathFichier.getText());
         });
 
+        //initialisation du Jlabel permettant d'afficher le poids du panier
         JLabel lblPoids = new JLabel("Poids actuel (kg) :");
         lblPoids.setBounds(582, 548, 129, 30);
         frame.getContentPane().add(lblPoids);
@@ -369,57 +399,8 @@ public class Interface {
 
     }
 
-    public List<Objet> trouverSuggestionsNoms() {
-        List<Objet> suggestionsNom = automate.getSuggestionsNom(textField_name.getText());
-        List<Objet> suggestionsCode = automate.getSuggestionsCode(textField_code.getText());
-        List<Objet> suggestionsType = automate.getSuggestionsType(textField_type.getText());
-        if (suggestionsNom != null) {
-            if (suggestionsCode != null) {
-                if (suggestionsType != null) {
-                    suggestionsNom.retainAll(suggestionsType);
-                    suggestionsNom.retainAll(suggestionsCode);
-                } else
-                    suggestionsNom.retainAll(suggestionsCode);
-            } else if (suggestionsType != null)
-                suggestionsNom.retainAll(suggestionsType);
-        }
-        return suggestionsNom;
-    }
-
-    public List<Objet> trouverSuggestionsCodes() {
-        List<Objet> suggestionsCode = automate.getSuggestionsCode(textField_code.getText());
-        List<Objet> suggestionsNom = automate.getSuggestionsNom(textField_name.getText());
-        List<Objet> suggestionsType = automate.getSuggestionsType(textField_type.getText());
-        if (suggestionsCode != null) {
-            if (suggestionsNom != null) {
-                if (suggestionsType != null) {
-                    suggestionsCode.retainAll(suggestionsType);
-                    suggestionsCode.retainAll(suggestionsNom);
-                } else
-                    suggestionsCode.retainAll(suggestionsNom);
-            } else if (suggestionsType != null)
-                suggestionsCode.retainAll(suggestionsType);
-        }
-        return suggestionsCode;
-    }
-
-    public List<Objet> trouverSuggestionsType() {
-        List<Objet> suggestionsType = automate.getSuggestionsType(textField_type.getText());
-        List<Objet> suggestionsNom = automate.getSuggestionsNom(textField_name.getText());
-        List<Objet> suggestionsCode = automate.getSuggestionsCode(textField_code.getText());
-        if (suggestionsType != null) {
-            if (suggestionsCode != null) {
-                if (suggestionsNom != null) {
-                    suggestionsType.retainAll(suggestionsNom);
-                    suggestionsType.retainAll(suggestionsCode);
-                } else
-                    suggestionsType.retainAll(suggestionsCode);
-            } else if (suggestionsNom != null)
-                suggestionsType.retainAll(suggestionsNom);
-        }
-        return suggestionsType;
-    }
-
+    //permet de trouver la liste de suggestions a afficher, en prenant en compte quels criteres comportent un input
+    //et si des suggestions existent ou non pour ces inputs
     public List<Objet> trouverSuggestions() {
         List<Objet> suggestionsNom = automate.getSuggestionsNom(textField_name.getText());
         if (!textField_name.getText().isEmpty() && suggestionsNom == null)
@@ -471,6 +452,7 @@ public class Interface {
     }
 
 
+    //permet de choisir le fichier.txt pour recuperer son path
     public String selectFile(){
         /**** Select lexicon's path ****/
         JFileChooser chooser = new JFileChooser();
@@ -499,15 +481,14 @@ public class Interface {
 
     }
 
+    //initialise le tout, cree l'automate
     public void initialiser(String fichier) {
         try {
             listeObjets.clear();
             automate.lireFichier(fichier);
             listeObjets = automate.getListeObjets();
             automate.setEtatsTerminaux();
-            automate.setEtatsNoms();
-            automate.setEtatsCodes();
-            automate.setEtatsTypes();
+            automate.setEtats();
             automate.setMapSuggestions();
 
             JOptionPane.showMessageDialog(null,"Initialisation terminée" + "\n" + "Vous pouvez procéder à la commande" );
@@ -517,6 +498,7 @@ public class Interface {
         }
     }
 
+    //permet de trouver un Objet appartenant a la listeObjets a l'aide d'un String
     public Objet trouverObjet(String input) {
         String[] array = input.split(" ");
         for (Objet o : listeObjets) {
@@ -526,6 +508,7 @@ public class Interface {
         return null;
     }
 
+    //permet de creer un Objet a l'aide d'un String
     public Objet creerObjet(String input) {
         String[] array = input.split(" ");
         return new Objet(array[0], array[1], array[2]);
@@ -546,15 +529,7 @@ public class Interface {
         return listModel;
     }
 
-
-    public List<Objet> getListeSuggestions() {
-        return listeObjets;
-    }
-
-
-
-
-
+    //pour afficher le message dans le text_field du path
     public class HintTextField extends JTextField {
 
         Font gainFont = new Font("Tahoma", Font.PLAIN, 11);

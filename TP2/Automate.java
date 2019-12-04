@@ -9,16 +9,15 @@ import java.util.*;
 public class Automate {
 
     private List<Objet> listeObjets = new ArrayList<>();
-    //    private String fichier = "inventaire.txt";
-    private List<Etat> listeEtats = new ArrayList<>();
+
+    private List<Etat> listeEtatsNoms = new ArrayList<>();
     private List<Etat> listeEtatsCodes = new ArrayList<>();
     private List<Etat> listeEtatsTypes = new ArrayList<>();
-    private List<Etat> listeEtatsTerminaux = new ArrayList<>();
+
+    private List<Etat> listeEtatsTerminauxNoms = new ArrayList<>();
     private List<Etat> listeEtatsTerminauxCodes = new ArrayList<>();
     private List<Etat> listeEtatsTerminauxTypes = new ArrayList<>();
-    private List<Objet> suggestion = new ArrayList<>();
-    private List<Objet> suggestionCodes = new ArrayList<>();
-    private List<Objet> suggestionTypes = new ArrayList<>();
+
     private Map<String, List<Objet>> mapSuggestionsNoms = new HashMap<>();
     private Map<String, List<Objet>> mapSuggestionsCodes = new HashMap<>();
     private Map<String, List<Objet>> mapSuggestionsTypes = new HashMap<>();
@@ -54,11 +53,6 @@ public class Automate {
             String[] tempArray = s.split(" ");
             listeObjets.add(new Objet(tempArray[0], tempArray[1], tempArray[2]));
         }
-
-        //test pour print
-//        for (Objet o : listeObjets) {
-//            System.out.println(o.getNom() + " " + o.getCode() + " " + o.getType());
-//        }
     }
 
     public void setEtats() {
@@ -74,14 +68,14 @@ public class Automate {
             Etat courant = new Etat();
             while (i < o.getNom().length()) {
                 chara += String.valueOf(o.getNom().charAt(i++));
-                if (!contientEtat(chara, listeEtats)) {
+                if (!contientEtat(chara, listeEtatsNoms)) {
                     Etat prochain = new Etat(chara);
-                    listeEtats.add(prochain);
+                    listeEtatsNoms.add(prochain);
                     courant.addArc(new Arc(prochain, chara));
                     courant = prochain;
                 }
                 else {
-                    courant = getEtatContenu(chara, listeEtats);
+                    courant = getEtatContenu(chara, listeEtatsNoms);
                 }
             }
         }
@@ -156,7 +150,7 @@ public class Automate {
     public void setEtatsTerminauxNoms() {
         for (Objet o : listeObjets) {
             Etat terminal = new Etat(o.getNom());
-            listeEtatsTerminaux.add(terminal);
+            listeEtatsTerminauxNoms.add(terminal);
         }
     }
 
@@ -175,18 +169,14 @@ public class Automate {
     }
 
 
-    public List<Objet> suggestion(String input) {
-        resetListeEtats(listeEtatsTerminaux);
+    public List<Objet> suggestionsNom(String input) {
+        resetListeEtats(listeEtatsTerminauxNoms);
         resetListeObjets();
         List<Objet> listeSuggestions = new ArrayList<>();
-//        for (Etat e : listeEtatsTerminaux) {
-//            if (e.getNom().startsWith(input))
-//                System.out.println(e.getNom());
-//        } //methode non automate
 
-        for (Etat e : listeEtats) {
+        for (Etat e : listeEtatsNoms) {
             if (e.getNom().equals(input)) {
-                parcourirEtats(e, listeEtatsTerminaux, listeSuggestions);
+                parcourirEtatsNoms(e, listeEtatsTerminauxNoms, listeSuggestions);
             }
         }
         sortSuggestions(listeSuggestions);
@@ -204,10 +194,6 @@ public class Automate {
         }
         sortSuggestions(listeSuggestions);
         return listeSuggestions;
-//        suggestionCodes.retainAll(suggestion);
-//        for (Objet o : suggestionCodes) {
-//            System.out.println(o.getNom() + " " + o.getCode() + " " + o.getType());
-//        }
     }
 
     public List<Objet> suggestionsType(String input) {
@@ -225,19 +211,19 @@ public class Automate {
 
 
 
-    public void parcourirEtats(Etat e, List<Etat> listeTerminaux, List<Objet> listeSuggestions) {
+    public void parcourirEtatsNoms(Etat e, List<Etat> listeTerminaux, List<Objet> listeSuggestions) {
         Etat courant = e;
         while (courant.hasNext()) {
             for (Etat etat : listeTerminaux) {
                 if (etat.getNom().equals(courant.getNom()) && !etat.isEstTraite()) {
                     etat.setEstTraite(true);
-                    ajouterObjetsSuggestion(courant, listeSuggestions);
+                    ajouterObjetsSuggestionNoms(courant, listeSuggestions);
                 }
             }
 
             if (courant.aPlusieursVoisins()) {
                 for (Arc a : courant.getListeArcs()) {
-                    parcourirEtats(a.getVoisin(), listeTerminaux, listeSuggestions);
+                    parcourirEtatsNoms(a.getVoisin(), listeTerminaux, listeSuggestions);
                 }
             }
             courant = courant.getListeArcs().get(0).getVoisin();
@@ -245,7 +231,7 @@ public class Automate {
         for (Etat etat : listeTerminaux) {
             if (etat.getNom().equals(courant.getNom()) && !etat.isEstTraite()) {
                 etat.setEstTraite(true);
-                ajouterObjetsSuggestion(courant, listeSuggestions);
+                ajouterObjetsSuggestionNoms(courant, listeSuggestions);
             }
         }
     }
@@ -256,7 +242,7 @@ public class Automate {
             for (Etat etat : listeTerminaux) {
                 if (etat.getNom().equals(courant.getNom()) && !etat.isEstTraite()) {
                     etat.setEstTraite(true);
-                    ajouterObjetsSuggestion(courant, listeSuggestions);
+                    ajouterObjetsSuggestionNoms(courant, listeSuggestions);
                 }
             }
 
@@ -281,7 +267,7 @@ public class Automate {
             for (Etat etat : listeTerminaux) {
                 if (etat.getNom().equals(courant.getNom()) && !etat.isEstTraite()) {
                     etat.setEstTraite(true);
-                    ajouterObjetsSuggestion(courant, listeSuggestions);
+                    ajouterObjetsSuggestionNoms(courant, listeSuggestions);
                 }
             }
             if (courant.aPlusieursVoisins()) {
@@ -299,7 +285,7 @@ public class Automate {
         }
     }
 
-    public void ajouterObjetsSuggestion(Etat etat, List<Objet> listeSuggestions) {
+    public void ajouterObjetsSuggestionNoms(Etat etat, List<Objet> listeSuggestions) {
         for (Objet o : getListeObjets()) {
             if (etat.getNom().equals(o.getNom()) && !o.isEstTraite() && listeSuggestions.size() < 10) {
                 listeSuggestions.add(o);
@@ -329,7 +315,6 @@ public class Automate {
     public void sortSuggestions(List<Objet> liste) {
         List<Objet> temp = new ArrayList<>(liste);
         liste.clear();
-//        System.out.println("SUGGE");
         List<String> listeNoms = getNomsSuggestions(temp);
 
         java.util.Collections.sort(listeNoms);
@@ -341,47 +326,7 @@ public class Automate {
                 }
             }
         }
-//        for (Objet o : liste)
-//            System.out.println(o.getNom() + " " + o.getCode() + " " + o.getType());
     }
-
-//    public void sortSuggestionsCodes(List<Objet> liste) {
-//        List<Objet> temp = new ArrayList<>(liste);
-//        liste.clear();
-//        System.out.println("SUGGE COdes");
-//        List<String> listeCodes = getCodesSuggestions(temp);
-//
-//        java.util.Collections.sort(listeCodes);
-//        for (String s : listeCodes) {
-//            for (Objet o : temp) {
-//                if (o.getCode().equals(s) && !o.isSortedNom()) {
-//                    liste.add(o);
-//                    o.setSortedNom(true);
-//                }
-//            }
-//        }
-//        for (Objet o : liste)
-//            System.out.println(o.getNom() + " " + o.getCode() + " " + o.getType());
-//    }
-//
-//    public void sortSuggestionsTypes(List<Objet> liste) {
-//        List<Objet> temp = new ArrayList<>(liste);
-//        liste.clear();
-//        System.out.println("SUGGE ytypedes");
-//        List<String> listeTypes = getTypesSuggestions(temp);
-//
-//        java.util.Collections.sort(listeTypes);
-//        for (String s : listeTypes) {
-//            for (Objet o : temp) {
-//                if (o.getType().equals(s) && !o.isSortedNom()) {
-//                    liste.add(o);
-//                    o.setSortedNom(true);
-//                }
-//            }
-//        }
-//        for (Objet o : liste)
-//            System.out.println(o.getNom() + " " + o.getCode() + " " + o.getType());
-//    }
 
 
     public List<String> getNomsSuggestions(List<Objet> liste) {
@@ -391,22 +336,6 @@ public class Automate {
         }
         return listeTemp;
     }
-
-//    public List<String> getCodesSuggestions(List<Objet> liste) {
-//        List<String> listeTemp = new ArrayList<>();
-//        for (Objet o : liste) {
-//            listeTemp.add(o.getCode());
-//        }
-//        return listeTemp;
-//    }
-//
-//    public List<String> getTypesSuggestions(List<Objet> liste) {
-//        List<String> listeTemp = new ArrayList<>();
-//        for (Objet o : liste) {
-//            listeTemp.add(o.getType());
-//        }
-//        return listeTemp;
-//    }
 
     // Getters et setters
 
@@ -424,10 +353,6 @@ public class Automate {
         }
     }
 
-    public void resetSuggestions(List<Objet> liste) {
-        liste.clear();
-    }
-
     public List<Objet> getListeObjets() {
         return listeObjets;
     }
@@ -439,15 +364,9 @@ public class Automate {
     }
 
     public void setMapSuggestionsNom() {
-        for (Etat e : listeEtats) {
-            mapSuggestionsNoms.put(e.getNom(), suggestion(e.getNom()));
+        for (Etat e : listeEtatsNoms) {
+            mapSuggestionsNoms.put(e.getNom(), suggestionsNom(e.getNom()));
         }
-//        System.out.println("TEST MAP   AAPAPA");
-//        for (String s : mapSuggestions.keySet()) {
-//            System.out.print(s + ": ");
-//            for (Objet o : mapSuggestions.get(s))
-//                System.out.println(o.getNom());
-//        }
     }
 
     public void setMapSuggestionsCode() {

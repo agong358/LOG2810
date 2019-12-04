@@ -7,9 +7,9 @@ public class Objet {
     private String code;
     private String type;
     private int poids;
-    private int poidsA = 1;
-    private int poidsB = 3;
-    private int poidsC = 5;
+    static private int poidsA = 1;
+    static private int poidsB = 3;
+    static private int poidsC = 5;
 
     //TODO test
     private boolean estTraite = false;

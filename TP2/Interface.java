@@ -397,7 +397,7 @@ public class Interface {
         textField_poidsPanier.setBackground(Color.WHITE);
         textField_poidsPanier.setEditable(false);
         textField_poidsPanier.setText("         ---");
-        textField_poidsPanier.setBounds(794, 236, 100, 26);
+        textField_poidsPanier.setBounds(815, 236, 70, 26);
         textField_poidsPanier.setColumns(10);
 
         textField_poidsSelection = new JTextField();
@@ -428,11 +428,8 @@ public class Interface {
 
     }
 
-    /**
-     *  Permet de trouver la liste de suggestions à afficher,
-     *  en prenant en compte quels critères comportent un input
-     *  et si des suggestions existent ou non pour ces inputs
-     */
+    // permet de trouver la liste de suggestions à afficher, en prenant en compte quels critères comportent un input
+    // et si des suggestions existent ou non pour ces inputs
     public List<Objet> trouverSuggestions() {
         List<Objet> suggestionsNom = automate.getSuggestionsNom(textField_name.getText());
         if (!textField_name.getText().isEmpty() && suggestionsNom == null)
@@ -451,20 +448,10 @@ public class Interface {
                 if (suggestionsType != null) {
                     suggestionsNom.retainAll(suggestionsType);
                     suggestionsNom.retainAll(suggestionsCode);
-                    if (suggestionsNom.size() > 10)
-                        suggestionsNom = suggestionsNom.subList(0, 9);
-                } else {
+                } else
                     suggestionsNom.retainAll(suggestionsCode);
-                    if (suggestionsNom.size() > 10)
-                        suggestionsNom = suggestionsNom.subList(0, 9);
-                }
-            } else if (suggestionsType != null) {
+            } else if (suggestionsType != null)
                 suggestionsNom.retainAll(suggestionsType);
-                if (suggestionsNom.size() > 10)
-                    suggestionsNom = suggestionsNom.subList(0, 9);
-            }
-            if (suggestionsNom.size() > 10)
-                suggestionsNom = suggestionsNom.subList(0, 9);
             return suggestionsNom;
         }
 
@@ -473,20 +460,10 @@ public class Interface {
                 if (suggestionsType != null) {
                     suggestionsCode.retainAll(suggestionsType);
                     suggestionsCode.retainAll(suggestionsNom);
-                    if (suggestionsCode.size() > 10)
-                        suggestionsCode = suggestionsCode.subList(0, 9);
-                } else {
+                } else
                     suggestionsCode.retainAll(suggestionsNom);
-                    if (suggestionsCode.size() > 10)
-                        suggestionsCode = suggestionsCode.subList(0, 9);
-                }
-            } else if (suggestionsType != null) {
+            } else if (suggestionsType != null)
                 suggestionsCode.retainAll(suggestionsType);
-                if (suggestionsCode.size() > 10)
-                    suggestionsCode = suggestionsCode.subList(0, 9);
-            }
-            if (suggestionsCode.size() > 10)
-                suggestionsCode = suggestionsCode.subList(0, 9);
             return suggestionsCode;
         }
         else if (suggestionsType != null) {
@@ -494,28 +471,17 @@ public class Interface {
                 if (suggestionsNom != null) {
                     suggestionsType.retainAll(suggestionsNom);
                     suggestionsType.retainAll(suggestionsCode);
-                    if (suggestionsType.size() > 10)
-                        suggestionsType = suggestionsType.subList(0,9);
-                } else {
+                } else
                     suggestionsType.retainAll(suggestionsCode);
-                    if (suggestionsType.size() > 10)
-                        suggestionsType = suggestionsType.subList(0,9);
-                }
-            } else if (suggestionsNom != null) {
+            } else if (suggestionsNom != null)
                 suggestionsType.retainAll(suggestionsNom);
-                if (suggestionsType.size() > 10)
-                    suggestionsType = suggestionsType.subList(0,9);
-            }
-            if (suggestionsType.size() > 10)
-                suggestionsType = suggestionsType.subList(0,9);
             return suggestionsType;
         }
         return null;
     }
 
-    /**
-     *  Permet de choisir le fichier.txt pour récupérer son path
-     */
+
+    // permet de choisir le fichier.txt pour récupérer son path
     public String selectFile(){
         JFileChooser chooser = new JFileChooser();
 
@@ -541,9 +507,7 @@ public class Interface {
 
     }
 
-    /**
-     *  Initialise le tout, crée l'automate
-     */
+    // initialise le tout, crée l'automate
     public void initialiser(String fichier) {
         try {
             listeObjets.clear();
@@ -574,10 +538,7 @@ public class Interface {
         return null;
     }
 
-    /**
-     *  Permet de trouver un Objet appartenant à la
-     *  listeObjetsPanier à l'aide d'un String
-     */
+    // permet de trouver un Objet appartenant à la listeObjetsPanier à l'aide d'un String
     public Objet trouverObjetPanier(String input) {
         String[] array = input.split(" ");
         for (Objet o : listeObjetsPanier) {
@@ -586,12 +547,8 @@ public class Interface {
         }
         return null;
     }
-    
-    /**
-     *  Créer un objet à partir du input
-     *
-     *  @param input String à partir duquel un objet va être créé
-     */
+
+    // permet de créer un Objet à l'aide d'un String
     public Objet creerObjet(String input) {
         String[] array = input.split(" ");
         return new Objet(array[0], array[1], array[2]);

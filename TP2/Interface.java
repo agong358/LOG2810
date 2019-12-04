@@ -6,6 +6,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
+import java.util.Timer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -45,7 +46,7 @@ public class Interface {
     //    private JTextField textField_panier = new JTextField();
     private JTextField textField_poids = new JTextField();
     private JTextField textField_poidsSelection = new JTextField();
-    private HintTextField pathFichier = new HintTextField("Sélectionner un fichier en écrivant son path ou sinon à l'aide du bouton Browse");
+    private HintTextField pathFichier = new HintTextField("Sélectionner un fichier en écrivant son path ou sinon à l'aide du bouton Naviguer");
     private final JTextField textField_poidsPanier = new JTextField();
 
     private JButton button_add = new JButton("Ajouter");
@@ -58,9 +59,12 @@ public class Interface {
     private List<Objet> listeObjetsPanier = new ArrayList<>();
 
     // sections pour le progress bar
-    JDialog loading = new JDialog((JFrame)null ,"En cours d'exéuction..");
-    JProgressBar loadingBar = new JProgressBar(JProgressBar.HORIZONTAL);
-    private JButton cancel = new JButton("Cancel");
+    private JFrame frame_loading = new JFrame("En cours d'exéuction..");
+    private JProgressBar loadingBar = new JProgressBar(JProgressBar.HORIZONTAL);
+    private JButton button_cancel = new JButton("Cancel");
+    private JPanel panel_loading = new JPanel();
+    private JLabel label_loading = new JLabel("Cela peut prendre entre 2 et 3 minutes.");
+
 
     private Automate automate = new Automate();
 
@@ -75,11 +79,19 @@ public class Interface {
     Interface() {
 //    	frameLoading.setVisible(true);
 
-        // partie loadin
+        // partie loading
         loadingBar.setIndeterminate(true);
-        loading.getContentPane().add(loadingBar);
-        loading.setBounds(275, 222, 520, 272);
-        loading.getContentPane().add(cancel);
+        frame_loading.setSize(400, 100);
+        loadingBar.setForeground(Color.green);
+        panel_loading.add(loadingBar);
+        panel_loading.add(button_cancel);
+        panel_loading.add(label_loading);
+        frame_loading.getContentPane().add(panel_loading);
+
+        Timer timer = new Timer();
+
+
+
         //
 //        progressBar.setIndeterminate(true);
 //        downloadingDialog.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -330,7 +342,7 @@ public class Interface {
 //            }
 //        });
 
-        JButton browseButton = new JButton("Browse");
+        JButton browseButton = new JButton("Naviguer");
         frame.getContentPane().add(browseButton);
         browseButton.setBounds(700, 25, 100, 40);
         browseButton.addActionListener(e -> {
@@ -345,15 +357,19 @@ public class Interface {
         lblSlectionnerUnFichier.setBounds(15, 35, 183, 20);
         frame.getContentPane().add(lblSlectionnerUnFichier);
         boutonInitialiserProgramme.addActionListener(e -> {
-            initialiser(pathFichier.getText());
-            loading.setVisible(true);
+            frame_loading.setVisible(true);
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    initialiser(pathFichier.getText());
+                }
+            },500);
         });
 
         JLabel lblPoids = new JLabel("Poids actuel (kg) :");
         lblPoids.setBounds(582, 548, 129, 30);
         frame.getContentPane().add(lblPoids);
         textField_poids.setBackground(Color.WHITE);
-
 
         textField_poids.setText("         ---");
         textField_poids.setEditable(false);
@@ -537,9 +553,12 @@ public class Interface {
             automate.setEtatsTypes();
             automate.setMapSuggestions();
 
+            frame_loading.setVisible(false);
             JOptionPane.showMessageDialog(null,"Initialisation terminée" + "\n" + "Vous pouvez procéder à la commande" );
 
+
         } catch(FileNotFoundException e) {
+            frame_loading.setVisible(false);
             JOptionPane.showMessageDialog(null,"Veuillez sélectionner un fichier");
         }
     }
